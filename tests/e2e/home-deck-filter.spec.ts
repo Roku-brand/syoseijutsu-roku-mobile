@@ -12,8 +12,63 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
 });
 
+test('上スワイプは振動とともに表紙へ戻り、矢印は選んだ人物像や理論テーマを開く', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'vibrate', {
+      configurable: true,
+      value: (duration: number) => { sessionStorage.setItem('deck-vibration', String(duration)); return true; },
+    });
+  });
+  await page.goto('/');
+  await ready(page);
+  await expect(page.getByText('思いがけない知識との出会いを。', { exact: true })).toHaveCount(0);
+  await page.getByTestId('home-deck-filter').click();
+  await expect(page.getByRole('heading', { name: 'デッキを選ぶ' })).toBeVisible();
+  await page.getByTestId('home-deck-filter-interpersonal').click();
+  await turnDeck(page);
+  await expectDeckCursor(page, 1);
+  const before = await read(page);
+  const card = page.getByTestId('home-recommendation-card');
+  const box = (await card.boundingBox())!;
+  const x = box.x + box.width / 2;
+  const y = box.y + box.height * 0.75;
+  const cdp = await context.newCDPSession(page);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let step = 1; step <= 8; step++) {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 18 }] });
+  }
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expectDeckCursor(page, 0);
+  const after = await read(page);
+  expect(after.round).toBe(before.round + 1);
+  expect(after.groupId).not.toBe(before.groupId);
+  expect(await page.evaluate(() => Number(sessionStorage.getItem('deck-vibration')))).toBeGreaterThan(0);
+  expect(await page.getByTestId('home-scroll').evaluate(node => node.scrollTop)).toBe(0);
+  await expect(page.getByTestId('home-deck-cover')).toBeVisible();
+  await expect(page.getByTestId('home-deck-save')).toHaveCount(0);
+  const [, category, persona] = JSON.parse(after.groupId);
+  await page.waitForTimeout(360);
+  await page.getByTestId('home-deck-read-arrow').click();
+  await expect.poll(() => decodeURIComponent(new URL(page.url()).pathname)).toBe(`/subcategory/${category}/${persona}`);
+  await page.goBack();
+  await ready(page);
+  await page.getByTestId('home-deck-filter').click();
+  await page.getByTestId('home-deck-filter-theory').click();
+  await ready(page);
+  await expect(page.getByTestId('home-deck-title')).toHaveAttribute('aria-label', /^.+（.+） 5選$/);
+  const [, theoryCategory, subcategory] = JSON.parse((await read(page)).groupId);
+  await page.getByTestId('home-deck-read-arrow').click();
+  await expect.poll(() => {
+    const url = new URL(page.url());
+    return [url.pathname, url.searchParams.get('category'), url.searchParams.get('subcategory')];
+  }).toEqual(['/theories', theoryCategory, subcategory]);
+});
+
 for (const width of [375, 1440]) {
-  test(`種類選択で7枚の構成を変更し、同じ種類で全交換する (${width}px)`, async ({ page }) => {
+  test(`種類を選び、同じ人物像またはテーマから5枚を引く (${width}px)`, async ({ page }) => {
     // Five types, 25 card moves and five reloads can exceed a minute on
     // Windows/WebKit; individual UI assertions retain their five-second limit.
     test.setTimeout(120_000);
@@ -36,21 +91,28 @@ for (const width of [375, 1440]) {
       await expect(trigger).toHaveText(new RegExp(name));
       await expect.poll(async () => (await read(page)).filter).toBe(key);
       const original = (await read(page)).order as string[];
-      expect(original).toHaveLength(7);
-      expect(new Set(original).size).toBe(7);
-      const kinds = new Set<string>();
-      for (let card = 0; card < 7; card++) {
+      expect(original).toHaveLength(5);
+      expect(new Set(original).size).toBe(5);
+      const group = JSON.parse((await read(page)).groupId) as [string, string, string];
+      await expect(page.getByTestId('home-deck-cover')).toBeVisible();
+      await expect(page.getByTestId('home-deck-title')).toHaveAttribute('aria-label', / 5選$/);
+      await turnDeck(page);
+      await ready(page);
+      const contexts = new Set<string>();
+      for (let card = 0; card < 5; card++) {
         const active = page.getByTestId('home-recommendation-card');
         if (key !== 'all') await expect(active.getByText(name, { exact: true })).toBeVisible();
         const context = active.getByTestId('home-deck-context');
         const contextLabel = await context.getAttribute('aria-label');
         expect(contextLabel).toMatch(/^(人物像|理論分類)：.+/);
         await expect(context).not.toHaveText(/PRACTICE|THEORY/);
-        kinds.add(contextLabel!.startsWith('理論分類：') ? 'theory' : 'technique');
+        contexts.add(contextLabel!);
         await turnDeck(page);
         await ready(page);
       }
-      if (key === 'all') expect(kinds.size).toBe(2);
+      expect(contexts.size).toBe(1);
+      if (group[0] === 'persona') expect([...contexts]).toEqual([`人物像：${group[2]}`]);
+      await expect(page.getByTestId('home-deck-cover')).toBeVisible();
       await shuffle.click();
       await ready(page);
       await expect.poll(async () => (await read(page)).order).not.toEqual(original);
@@ -146,7 +208,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await ready(page);
   await expect(page.getByTestId('home-recommendation-card')).not.toHaveAttribute('aria-label', first!);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (let i = 0; i < 6; i++) { await turnDeck(page); await ready(page); }
+  for (let i = 0; i < 5; i++) { await turnDeck(page); await ready(page); }
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
   await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -169,7 +231,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   let publicReads = 0;
   const rows = Array.from({ length: 12 }, (_, index) => ({
     id: `cms-deck-restore-${index}`, title: `CMSから追加された知識 ${index}`, essence: '公開後に追加されたカードの復元を検証する。', explanation: 'テスト用の公開コンテンツ。',
-    category: 'interpersonal', persona_id: null, status: 'published', access_tier: 'free', display_order: index,
+    category: 'interpersonal', persona_id: '復元を検証する人', status: 'published', access_tier: 'free', display_order: index,
   }));
   await page.route('**/rest/v1/**', async route => {
     if (offline) { await route.fulfill({ status: 503, json: {} }); return; }
@@ -178,13 +240,15 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
       publicReads++;
       await new Promise(resolve => { setTimeout(resolve, 700); });
       await route.fulfill({ json: rows });
-    } else await route.fulfill({ json: table === 'content_revision' ? { revision: 'cms-restore-v1' } : [] });
+    } else await route.fulfill({ json: table === 'content_revision' ? { revision: 'cms-restore-v1' }
+      : table === 'content_categories' ? [{ kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 1 }]
+      : table === 'personas' ? [{ name: '復元を検証する人', category: 'interpersonal', status: 'published', access_tier: 'free' }] : [] });
   });
-  const order = rows.slice(0, 7).map(row => `technique:${row.id}`);
+  const order = rows.slice(0, 5).map(row => `technique:${row.id}`);
   await page.addInitScript(({ key, order }) => {
     if (localStorage.getItem(key)) return;
     const day = Math.floor((Date.now() + 9 * 60 * 60 * 1000) / 86400000);
-    localStorage.setItem(key, JSON.stringify({ day, round: 7, order, cursor: 2, offset: 5, seen: order, filter: 'interpersonal' }));
+    localStorage.setItem(key, JSON.stringify({ day, round: 7, order, groupId: JSON.stringify(['persona', 'interpersonal', '復元を検証する人']), cursor: 3, offset: 6, filter: 'interpersonal' }));
   }, { key: storageKey, order });
   await page.goto('/');
   await ready(page);
@@ -192,12 +256,12 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   const state = await read(page);
   expect(state.order).toEqual(order);
   expect(state.round).toBe(7);
-  await expectDeckCursor(page, 2);
+  await expectDeckCursor(page, 3);
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', `${rows[2].title}を読む`);
   for (let i = 0; i < 2; i++) {
     await page.reload(); await ready(page);
     expect((await read(page)).order).toEqual(order);
-    expect((await read(page)).offset).toBe(5);
+    expect((await read(page)).offset).toBe(6);
   }
   offline = true;
   await page.reload();
@@ -205,14 +269,14 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   await expect(page.getByTestId('data-status-banner')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '更新を再試行', exact: true })).toHaveCount(0);
   expect((await read(page)).order).toEqual(order);
-  expect((await read(page)).cursor).toBe(2);
+  expect((await read(page)).cursor).toBe(3);
   offline = false;
   const readsBeforeRecovery = publicReads;
   await page.evaluate(() => window.dispatchEvent(new Event('online')));
   await expect.poll(() => publicReads).toBeGreaterThan(readsBeforeRecovery);
   await ready(page);
   expect((await read(page)).order).toEqual(order);
-  await expectDeckCursor(page, 2);
+  await expectDeckCursor(page, 3);
   expect(errors).toEqual([]);
 });
 

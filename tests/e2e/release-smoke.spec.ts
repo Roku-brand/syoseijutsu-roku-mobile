@@ -839,7 +839,7 @@ test('ホームはおすすめ・5導線・完全版・編集部の特集の順�
 
 test('ホームのデッキは一枚を主役にして前後へめくれる',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await startFreeHome(page);
- const card=page.getByTestId('home-recommendation-card');await expect(card).toHaveCount(1);await expect(page.getByTestId('home-deck-layer')).toHaveCount(6);
+ const card=page.getByTestId('home-recommendation-card');await expect(card).toHaveCount(1);await expect(page.getByTestId('home-deck-layer')).toHaveCount(5);
  const before=await card.getAttribute('aria-label');await turnDeck(page);await expect(card).not.toHaveAttribute('aria-label',before!);
  await turnDeck(page, -1);await expect(card).toHaveAttribute('aria-label',before!);
 });
@@ -889,15 +889,15 @@ test('カードデッキは前後操作で同じ一枚へ戻れる', async ({ pa
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', before!);
 });
 
-test('カードデッキの7枚は前後に循環する', async ({ page }) => {
+test('表紙と5枚のカードは前後に循環する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  for (let i=0; i<7; i++) await turnDeck(page);
+  for (let i=0; i<6; i++) await turnDeck(page);
   await expectDeckCursor(page, 0);
   await turnDeck(page, -1);
-  await expectDeckCursor(page, 6);
+  await expectDeckCursor(page, 5);
 });
 
 test('デッキカードは次へ進めても編集部の特集を横に探索できる', async ({ page }) => {

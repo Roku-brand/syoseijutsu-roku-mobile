@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { turnDeck } from './deck-helpers';
 const guestKey='@shoseijutsu-roku/state/v1';
 const nav=(page:Page,label:string)=>page.getByTestId('persistent-bottom-navigation').getByRole('link',{name:new RegExp('^'+label)});
 const scrollTop=(page:Page)=>page.evaluate(()=>Math.max(0,...Array.from(document.querySelectorAll('*')).filter(el=>el.clientHeight>200 && ['auto','scroll'].includes(getComputedStyle(el).overflowY)).map(el=>el.scrollTop)));
@@ -10,7 +11,11 @@ test.beforeEach(async({page})=>{
 
 test('reading retains its originating tab through history; direct links belong to discover',async({page})=>{
  await page.goto('/card/master336-001');await expect(nav(page,'探す')).toHaveAttribute('aria-current','page');
- await nav(page,'ホーム').click();await page.getByTestId('home-recommendation-card').click();
+ await nav(page,'ホーム').click();
+ await turnDeck(page);
+ await expect(page.getByTestId('home-deck-cover')).toHaveCount(0);
+ await page.waitForTimeout(360);
+ await page.getByTestId('home-recommendation-card').click();
  await expect(page).toHaveURL(/\/(card|theory)\//);await expect(nav(page,'ホーム')).toHaveAttribute('aria-current','page');
  const readerURL=page.url();
  await page.goBack();await expect(page).toHaveURL(/\/$/);await expect(nav(page,'ホーム')).toHaveAttribute('aria-current','page');

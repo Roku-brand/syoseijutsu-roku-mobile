@@ -39,7 +39,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   await page.mouse.move(box.x + 40, box.y + 100);
   await page.mouse.down();
   await page.mouse.move(box.x + 68, box.y + 102, { steps: 10 });
-  const bottomX = () => page.locator('#home-deck-slot-6').evaluate(node => new DOMMatrix(getComputedStyle(node).transform).m41);
+  const bottomX = () => page.locator('#home-deck-slot-5').evaluate(node => new DOMMatrix(getComputedStyle(node).transform).m41);
   await expect.poll(bottomX).toBeLessThan(7);
   await page.waitForTimeout(120);
   await page.mouse.up();
@@ -47,7 +47,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   expect((await state(page)).cursor).toBe(0);
 
   await swipe(page, true);
-  await expect.poll(async () => (await state(page)).cursor).toBe(6);
+  await expect.poll(async () => (await state(page)).cursor).toBe(5);
   const last = await card.getAttribute('aria-label');
   expect(last).not.toBe(first);
   expect((await state(page)).order).toEqual(initial.order);
@@ -55,7 +55,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   await page.reload();
   await ready(page);
   await expect(card).toHaveAttribute('aria-label', last!);
-  for (const cursor of [5, 4, 3, 2, 1, 0]) {
+  for (const cursor of [4, 3, 2, 1, 0]) {
     await swipe(page, true);
     await expect.poll(async () => (await state(page)).cursor).toBe(cursor);
     expect((await state(page)).offset).toBeGreaterThanOrEqual(0);
@@ -71,7 +71,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   const shuffled = await state(page);
   expect(shuffled.cursor).toBe(0);
   await swipe(page, true);
-  await expect.poll(async () => (await state(page)).cursor).toBe(6);
+  await expect.poll(async () => (await state(page)).cursor).toBe(5);
   expect((await state(page)).order).toEqual(shuffled.order);
 
   await page.getByTestId('home-deck-filter').click();
@@ -80,7 +80,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   await expect.poll(async () => (await state(page)).filter).toBe('life');
   await expect.poll(async () => (await state(page)).cursor).toBe(0);
   await swipe(page, true);
-  await expect.poll(async () => (await state(page)).cursor).toBe(6);
+  await expect.poll(async () => (await state(page)).cursor).toBe(5);
   await expect(card.getByText('人生術', { exact: true })).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
 });
@@ -93,12 +93,12 @@ test('desktop buttons and keyboard wrap from the first card with reduced motion'
   const first = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await turnDeck(page, -1);
   await ready(page);
-  await expect.poll(async () => (await state(page)).cursor).toBe(6);
+  await expect.poll(async () => (await state(page)).cursor).toBe(5);
   await turnDeck(page);
   await ready(page);
   await expect.poll(async () => (await state(page)).cursor).toBe(0);
   await page.getByTestId('home-recommendation-deck').focus();
-  for (const cursor of [6, 5, 4, 3, 2, 1, 0, 6]) {
+  for (const cursor of [5, 4, 3, 2, 1, 0, 5]) {
     await page.keyboard.press('ArrowLeft');
     await ready(page);
     await expect.poll(async () => (await state(page)).cursor).toBe(cursor);

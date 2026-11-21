@@ -58,6 +58,7 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
 }
 
 test('theme follows selection immediately; shuffle excludes the old hand and rejects repeated input', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
@@ -102,6 +103,8 @@ test('Reduced Motion interrupts a shuffle once, and saving and detail navigation
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await ready(page);
   expect((await state(page)).round).toBe(old.round + 1);
+  await turnDeck(page);
+  await ready(page);
   const save = page.getByTestId('home-deck-save');
   const selected = await save.getAttribute('aria-pressed');
   await save.click();
@@ -114,8 +117,8 @@ test('Reduced Motion interrupts a shuffle once, and saving and detail navigation
   await expect(page).toHaveURL(/\/(card|theory)\//);
   await page.goBack();
   await ready(page);
-  await expectDeckCursor(page, 0);
-  for (const cursor of [1, 2, 3, 4, 5, 6, 0]) {
+  await expectDeckCursor(page, 1);
+  for (const cursor of [2, 3, 4, 5, 0, 1]) {
     await turnDeck(page);
     await ready(page);
     await expectDeckCursor(page, cursor);
