@@ -50,6 +50,7 @@ for (const [path, id] of pages) test(`画面下は引っ張ったときだけ伸
 
 test('末尾の手前から指を動かし続けると、そのまま下端が伸びる', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.goto('/');
   await expect(page.getByTestId('home-deck-cover')).toBeVisible();
   const scroll = page.getByTestId('home-scroll');
@@ -64,6 +65,29 @@ test('末尾の手前から指を動かし続けると、そのまま下端が�
   }
   await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeLessThan(-40);
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeCloseTo(0, 0);
+});
+
+test('操作中にホームの表示項目が差し替わっても下端が戻る', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium', 'The Touch constructor is Chromium specific');
+  await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
+  await page.goto('/');
+  await expect(page.getByTestId('home-deck-cover')).toBeVisible();
+  const scroll = page.getByTestId('home-scroll');
+  const offset = await scroll.evaluate(node => {
+    const content = node.firstElementChild as HTMLElement;
+    const target = document.createElement('span');
+    content.append(target);
+    node.scrollTop = node.scrollHeight;
+    const finger = (clientY: number) => new Touch({ identifier: 1, target, clientX: 25, clientY });
+    target.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [finger(350)] }));
+    target.dispatchEvent(new TouchEvent('touchmove', { bubbles: true, cancelable: true, touches: [finger(175)] }));
+    const during = Number.parseFloat(content.style.translate.split(' ')[1]);
+    target.remove();
+    target.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [], changedTouches: [finger(175)] }));
+    return during;
+  });
+  expect(offset).toBeLessThan(-40);
   await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeCloseTo(0, 0);
 });
 

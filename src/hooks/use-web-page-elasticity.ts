@@ -51,6 +51,7 @@ export function useWebPageElasticity(
     if (!scroll || !content) return;
     const indicator = indicatorRef.current as unknown as HTMLElement | null;
     let touch: TouchDrag | null = null;
+    let touchTarget: Node | null = null;
     let fling: Fling | undefined;
     let flingFrame: number | undefined;
     let distance = 0;
@@ -81,6 +82,17 @@ export function useWebPageElasticity(
         });
       }
       movePage(0);
+    };
+    const observer = new MutationObserver(() => {
+      // A replaced touch target can no longer bubble the end event to the window.
+      if (!touchTarget || scroll.contains(touchTarget)) return;
+      clearTouch();
+      settle();
+    });
+    const clearTouch = () => {
+      touch = null;
+      touchTarget = null;
+      observer.disconnect();
     };
     const advanceFling = (now: number) => {
       flingFrame = undefined;
@@ -114,12 +126,15 @@ export function useWebPageElasticity(
     };
     const start = (event: TouchEvent) => {
       stopSpring();
+      clearTouch();
       const first = event.touches[0];
       const target = event.target;
       if (event.touches.length !== 1 || refreshing || (target instanceof Element && target.closest('input, textarea, select, [contenteditable="true"]'))) {
-        touch = null;
         if (!refreshing) settle();
         return;
+      }
+      for (let node = target instanceof HTMLElement ? target : null; node && node !== scroll; node = node.parentElement) {
+        if (node.scrollHeight > node.clientHeight + 1 && /^(auto|scroll)$/.test(getComputedStyle(node).overflowY)) return;
       }
       touch = {
         id: first.identifier,
@@ -132,11 +147,9 @@ export function useWebPageElasticity(
         lastMove: event.timeStamp,
         velocity: 0,
       };
-      for (let node = target instanceof HTMLElement ? target : null; node && node !== scroll; node = node.parentElement) {
-        if (node.scrollHeight > node.clientHeight + 1 && /^(auto|scroll)$/.test(getComputedStyle(node).overflowY)) {
-          touch = null;
-          return;
-        }
+      if (target instanceof Node && target !== scroll) {
+        touchTarget = target;
+        observer.observe(scroll, { childList: true, subtree: true });
       }
       distance = 0;
     };
@@ -146,7 +159,7 @@ export function useWebPageElasticity(
       const dy = finger.clientY - touch.y;
       const dx = finger.clientX - touch.x;
       if (!touch.edge) {
-        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { touch = null; return; }
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { clearTouch(); return; }
         if (Math.abs(dy) < 4 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
       }
       const elapsed = event.timeStamp - touch.lastMove;
@@ -181,7 +194,7 @@ export function useWebPageElasticity(
       const finished = touch;
       if (!finished || Array.from(event.touches).some(finger => finger.identifier === finished.id)) return;
       const shouldRefresh = event.type === 'touchend' && finished.edge === 1 && distance >= REFRESH_THRESHOLD && refresh;
-      touch = null;
+      clearTouch();
       if (refreshing) return;
       if (!shouldRefresh) {
         const velocity = event.type === 'touchend' && event.timeStamp - finished.lastMove < FLING_RELEASE_WINDOW
@@ -221,6 +234,7 @@ export function useWebPageElasticity(
     window.addEventListener('touchcancel', end, true);
     return () => {
       active = false;
+      clearTouch();
       stopSpring();
       movePage(0);
       scroll.removeEventListener('touchstart', start);
