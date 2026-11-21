@@ -3,7 +3,7 @@ import type { ScrollView, View } from 'react-native';
 
 const INSET = 6;
 const MIN_THUMB_HEIGHT = 26;
-const HIDE_DELAY = 1100;
+const HIDE_DELAY = 1600;
 const TOUCH_HOLD_DELAY = 350;
 const TOUCH_HOLD_SLOP = 10;
 
