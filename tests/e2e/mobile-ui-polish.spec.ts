@@ -16,11 +16,11 @@ for (const width of [320, 390]) {
     await expect(page.getByTestId('home-premium-banner')).toBeVisible();
     await page.screenshot({ path: test.info().outputPath(`home-${width}.png`) });
     await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
-    const popup = page.getByTestId('header-search-popup');
-    const input = popup.getByRole('textbox');
+    await expect(page).toHaveURL(/\/discover$/);
+    const input = page.getByTestId('discover-search-input');
     await expect(input).toBeFocused();
     expect(await input.evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(16);
-    await expect(popup.getByRole('tab')).toHaveCount(3);
+    await expect(input).toBeInViewport();
     expect(await page.locator('meta[name="viewport"]').getAttribute('content')).not.toMatch(/maximum-scale|user-scalable=no/);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: test.info().outputPath(`search-${width}.png`) });

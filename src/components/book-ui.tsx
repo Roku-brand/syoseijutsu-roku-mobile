@@ -1,6 +1,6 @@
 import { BookPopup } from './book-popup';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import {
   Image,
   Platform,
@@ -89,7 +89,6 @@ export function BookScreen({
 }
 
 export function BookHeader() {
-  const headerRef = useRef<View>(null);
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const pathname = usePathname();
@@ -129,7 +128,7 @@ export function BookHeader() {
   };
 
   return (
-    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, primaryTabHeader && styles.homeHeader, spaciousHeader && styles.headerSpacious]}>
+    <View testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, primaryTabHeader && styles.homeHeader, spaciousHeader && styles.headerSpacious]}>
       {showBack ? (
         <View style={styles.brandGroup}>
           <HeaderBackButton testID="book-header-back" onPress={handleBack} />
@@ -165,14 +164,14 @@ export function BookHeader() {
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <View style={[homeHeader && styles.homeSearchFrame, spaciousHeader && styles.searchSpacious]}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={homeHeader ? 23 : compact ? 25 : 27} /></View>
+          <View style={[homeHeader && styles.homeSearchFrame, spaciousHeader && styles.searchSpacious]}><HeaderSearchAction initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={homeHeader ? 23 : compact ? 25 : 27} /></View>
           <MenuHeaderAction active={Boolean(user)} spacious={spaciousHeader} />
         </View>
       ) : detailHeader ? (
         detail ? <DetailHeaderActions detail={detail} /> : null
       ) : catalogueSearchMode ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <HeaderSearchAction anchorRef={headerRef} label={`${currentTitle}を検索`} initialMode={catalogueSearchMode} size={24} color={catalogueSearchMode === 'theories' ? colors.ink : colors.gold} />
+          <HeaderSearchAction label={`${currentTitle}を検索`} initialMode={catalogueSearchMode} size={24} color={catalogueSearchMode === 'theories' ? colors.ink : colors.gold} />
           <MenuHeaderAction active={Boolean(user)} />
         </View>
       ) : browsingHeader ? (

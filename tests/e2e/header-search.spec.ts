@@ -13,80 +13,64 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/functions/v1/**', route => route.fulfill({ status: 503, json: {} }));
 });
 
-test('ヘッダー検索は元のページを保ち、3種別を選べて閉じるとフォーカスが戻る', async ({ page }) => {
+test('ヘッダー検索は探すタブに切り替え、検索欄に入力できる', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
-  const trigger = page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true });
-  await trigger.click();
-  const popup = page.getByTestId('header-search-popup');
-  await expect(popup.getByRole('heading', { name: '検索', exact: true })).toHaveCount(0);
-  expect((await popup.boundingBox())!.height).toBeLessThanOrEqual(160);
-  await expect(popup).toBeVisible();
-  await expect(page).toHaveURL(/\/$/);
-  await expect(popup.getByRole('tab')).toHaveText(['処世術', '理論', '特集']);
-  const input = popup.getByRole('textbox', { name: 'キーワードを検索' });
+  await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
+  await expect(page).toHaveURL(/\/discover$/);
+  const input = page.getByTestId('discover-search-input');
   await expect(input).toBeFocused();
+  await expect(page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^探す/ })).toHaveAttribute('aria-current', 'page');
   await input.fill('  初頭効果  ');
-  await popup.getByRole('tab', { name: '理論', exact: true }).click();
-  await expect(page).toHaveURL(/\/$/);
-  await page.screenshot({ path: test.info().outputPath('header-search-desktop.png') });
-  await input.press('Escape');
-  await expect(popup).toHaveCount(0);
-  await expect(trigger).toBeFocused();
-  await trigger.click();
-  await expect(input).toHaveValue('  初頭効果  ');
-  await popup.getByRole('tab', { name: '理論', exact: true }).click();
   await input.press('Enter');
   await expect(page).toHaveURL(/\/search\?/);
   expect(new URL(page.url()).searchParams.get('q')).toBe('初頭効果');
-  expect(new URL(page.url()).searchParams.get('mode')).toBe('theories');
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByTestId('search-page-results')).toContainText('初頭効果');
   await expect(page.getByRole('tab')).toHaveCount(3);
-  await expect(page.getByRole('tab', { name: '人物像', exact: true })).toHaveCount(0);
 });
 
-test('320pxと390pxでも検索が画面内に収まり、空欄・閉じる・外側タップが機能する', async ({ page }) => {
-  for (const width of [320, 390]) {
-    await page.setViewportSize({ width, height: 844 });
-    await page.goto('/discover');
-    await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
-    const popup = page.getByTestId('header-search-popup');
-    await expect(popup).toBeVisible();
-    const box = await popup.boundingBox();
-    await expect(popup.getByRole('heading', { name: '検索', exact: true })).toHaveCount(0);
-    expect(box!.height).toBeLessThanOrEqual(150);
-    expect(box!.x).toBeGreaterThanOrEqual(0);
-    expect(box!.x + box!.width).toBeLessThanOrEqual(width);
-    await popup.getByRole('button', { name: '検索を実行' }).click();
-    await expect(page).toHaveURL(/\/discover$/);
-    await expect(popup).toBeVisible();
-    await page.screenshot({ path: test.info().outputPath(`header-search-${width}.png`) });
-    await popup.getByRole('button', { name: '検索を閉じる' }).click();
-    await expect(popup).toHaveCount(0);
-    await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
-    await page.getByTestId('header-search-backdrop').click({ position: { x: 8, y: 400 } });
-    await expect(popup).toHaveCount(0);
-  }
+for (const width of [320, 390]) test(`狭い画面で検索欄はズームせず、探すにいる場合は先頭に戻る (${width}px)`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 844 });
+  await page.goto('/discover');
+  const scroll = page.getByTestId('discover-scroll');
+  await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
+  const input = page.getByTestId('discover-search-input');
+  await expect(input).not.toBeFocused();
+  await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).tap();
+  await expect(input).toBeFocused();
+  await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(0);
+  expect(await input.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(16);
+  expect(await page.evaluate(() => [window.visualViewport?.scale, window.scrollY])).toEqual([1, 0]);
+  await page.setViewportSize({ width, height: 470 });
+  await expect(input).toBeFocused();
+  await expect(input).toBeInViewport();
+  await expect(page.getByTestId('persistent-bottom-navigation')).toBeInViewport();
+  await input.fill('聞き上手');
+  await input.press('Enter');
+  await expect(page.getByTestId('search-page-results')).toBeVisible();
 });
 
-test('理論一覧の検索はポップアップ内で理論を初期選択する', async ({ page }) => {
+test('理論一覧のヘッダーからも探すの検索欄に移り、理論を検索する', async ({ page }) => {
   await page.goto('/theories');
   await page.getByRole('button', { name: '理論一覧を検索', exact: true }).click();
-  const popup = page.getByTestId('header-search-popup');
-  await expect(popup.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
-  await expect(page).toHaveURL(/\/theories$/);
-  await popup.getByRole('textbox').fill('神経可塑性');
-  await popup.getByRole('button', { name: '検索を実行' }).click();
+  await expect(page).toHaveURL(/\/discover$/);
+  const input = page.getByTestId('discover-search-input');
+  await expect(input).toBeFocused();
+  await input.fill('神経可塑性');
+  await page.getByTestId('discover-search-submit').click();
+  await expect(page).toHaveURL(/mode=theories/);
   await expect(page.getByTestId('search-page-results')).toContainText('脳の可塑性');
 });
 
 test('特集は本文も検索し、下書きを除外し、再読込とURL復元に対応する', async ({ page }) => {
   await page.goto('/features');
   await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
-  const popup = page.getByTestId('header-search-popup');
-  await expect(popup.getByRole('tab', { name: '特集', exact: true })).toHaveAttribute('aria-selected', 'true');
-  await popup.getByRole('textbox').fill('本文だけの検証語');
-  await popup.getByRole('button', { name: '検索を実行' }).click();
+  await expect(page).toHaveURL(/\/discover$/);
+  const input = page.getByTestId('discover-search-input');
+  await expect(input).toBeFocused();
+  await input.fill('本文だけの検証語');
+  await page.getByTestId('discover-search-submit').click();
   const results = page.getByTestId('search-page-results');
   await expect(results.getByTestId('feature-card')).toHaveCount(1);
   await expect(results).toContainText('検索で見つかる特集');

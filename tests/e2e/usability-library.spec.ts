@@ -52,8 +52,8 @@ test('内部分類の選択はURL・分類切り替えに連動し、分類内�
   await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
   expect(new URL(page.url()).searchParams.get('subcategory')).toBeNull();
   await page.getByRole('button', { name: '理論一覧を検索', exact: true }).click();
-  await page.getByRole('textbox', { name: 'キーワードを検索' }).fill('ハロー効果');
-  await page.getByRole('button', { name: '検索を実行', exact: true }).click();
+  await page.getByTestId('discover-search-input').fill('ハロー効果');
+  await page.getByTestId('discover-search-submit').click();
   await expect(page.getByTestId('search-page-results')).toContainText('ハロー効果');
 });
 

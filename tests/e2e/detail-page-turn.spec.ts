@@ -19,6 +19,27 @@ test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
 });
 
+test('理論詳細のタイトルと分類は本文をスクロールしても同じ位置に表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 667 });
+  await page.goto('/theory/kb_001');
+  const title = page.getByTestId('theory-title');
+  const meta = page.getByTestId('theory-meta');
+  const scroll = page.getByTestId('theory-detail-scroll');
+  await page.getByRole('button', { name: '出典・理論情報', exact: true }).click();
+  await expect(page.getByTestId('theory-information')).toContainText('出典状態');
+  await scroll.evaluate(node => { node.scrollTop = 0; });
+  await expect(title).toBeInViewport();
+  await expect(meta).toBeInViewport();
+  const titleTop = (await title.boundingBox())!.y;
+  const metaTop = (await meta.boundingBox())!.y;
+  const summaryTop = (await page.getByTestId('theory-summary').boundingBox())!.y;
+  await scroll.evaluate(node => { node.scrollTop = 240; });
+  await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(100);
+  expect((await title.boundingBox())!.y).toBeCloseTo(titleTop, 0);
+  expect((await meta.boundingBox())!.y).toBeCloseTo(metaTop, 0);
+  expect((await page.getByTestId('theory-summary').boundingBox())!.y).toBeLessThan(summaryTop - 100);
+});
+
 for (const { from, to, title } of details) {
   test(`${title} は紙の下に移動先を表示し、短いドラッグでは元に戻る`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });

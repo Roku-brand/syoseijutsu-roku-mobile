@@ -276,8 +276,8 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
   }
   await page.getByTestId('book-header').getByRole('button', { name: '検索' }).click();
-  await expect(page.getByTestId('header-search-popup')).toBeVisible();
-  await expect(page).toHaveURL(/\/my-os$/);
+  await expect(page.getByTestId('discover-search-input')).toBeFocused();
+  await expect(page).toHaveURL(/\/discover$/);
 });
 
 test('ホームのカードデッキはキーボードで前後にめくれる', async ({ page }) => {
@@ -851,7 +851,7 @@ test('完全版バナーと特集一覧への入口を維持する',async({page}
   await expect(page.getByTestId('home-editorial-see-all')).toHaveAttribute('aria-label','特集をすべて見る');
 });
 
-test('理論一覧の検索は右上からポップアップを開く', async ({ page }) => {
+test('理論一覧の検索は探すの検索欄に移る', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
   await expect(page.getByText(`${scope.complete.theories}件`, { exact: true })).toBeVisible();
@@ -859,9 +859,9 @@ test('理論一覧の検索は右上からポップアップを開く', async ({
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: '理論一覧を検索' }).click();
-  await expect(page).toHaveURL(/\/theories$/);
-  await expect(page.getByTestId('header-search-popup').getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
-  const input = page.getByRole('textbox', { name: 'キーワードを検索' });
+  await expect(page).toHaveURL(/\/discover$/);
+  const input = page.getByTestId('discover-search-input');
+  await expect(input).toBeFocused();
   await input.fill('初頭');
   await input.press('Enter');
   await expect(page.getByTestId('search-page-results').getByText('初頭効果', { exact: true }).first()).toBeVisible();
