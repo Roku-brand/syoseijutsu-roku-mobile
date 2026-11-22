@@ -167,7 +167,9 @@ test('無料版の関連理論は完全版のタイトルも表示し、未収�
   const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
   await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');
   await expect(lockedTheoryLink.getByTestId('related-content-lock')).toBeVisible();
-  await expect(relatedTheories.getByRole('link', { name: '言語スタイル同調を開く' }).getByTestId('related-content-lock')).toHaveCount(0);
+  const freeTechniqueLink = page.getByTestId('related-techniques').getByRole('link', { name: '会話は内容よりテンポを開く' });
+  await expect(freeTechniqueLink).toHaveAttribute('href', '/card/master336-015');
+  await expect(freeTechniqueLink.getByTestId('related-content-lock')).toHaveCount(0);
   await lockedTheoryLink.click();
   await expect(page).toHaveURL(/\/upgrade\?source=discover_theory/);
 });
