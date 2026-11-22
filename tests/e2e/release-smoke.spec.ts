@@ -1055,7 +1055,15 @@ for (const category of publicTechniques.categories) {
     for (const persona of free) {
       await page.goto(`/subcategory/${category.key}/${persona.name}`);
       await expect(page.getByTestId('persona-page-title')).toContainText(persona.name);
-      await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(persona.items.filter((item) => item.status !== 'locked').length);
+      const list = page.getByTestId('persona-technique-list');
+      await expect(list.getByRole('link')).toHaveCount(persona.items.length);
+      const lockedCount = persona.items.filter((item) => item.status === 'locked').length;
+      const lockedLinks = list.getByRole('link', { name: '完全版の処世術を開く', exact: true });
+      await expect(lockedLinks).toHaveCount(lockedCount);
+      if (lockedCount) {
+        await lockedLinks.first().click();
+        await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
+      }
     }
 
     const locked = category.subcategories.find((persona) => !scope.free.personas.includes(persona.name))!;
