@@ -1,10 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const syncFixture = process.env.PLAYWRIGHT_PERSONAL_SYNC_FIXTURE === '1';
+const browserChannel = process.env.PLAYWRIGHT_BROWSER_CHANNEL;
 const port = Number(process.env.PLAYWRIGHT_PORT ?? 4173);
 
 export default defineConfig({
   testDir: './tests/e2e',
-  timeout: 30_000,
+  timeout: syncFixture ? 90_000 : 30_000,
   retries: 0,
   use: {
     baseURL: `http://127.0.0.1:${port}`,
@@ -14,11 +16,18 @@ export default defineConfig({
     trace: 'retain-on-failure',
     serviceWorkers: 'block',
     ...devices['Pixel 5'],
+    ...(browserChannel ? { channel: browserChannel } : {}),
   },
   webServer: {
-    command: 'node ./scripts/serve-dist.mjs',
-    env: { PORT: String(port) },
+    command: syncFixture ? 'node node_modules/expo/bin/cli start --web --offline --port ' + port : 'node ./scripts/serve-dist.mjs',
+    env: syncFixture ? {
+      CI: '1',
+      EXPO_NO_TELEMETRY: '1',
+      EXPO_PUBLIC_SUPABASE_URL: 'https://roku-sync-test.invalid',
+      EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_local_test',
+    } : { PORT: String(port) },
+    timeout: syncFixture ? 120_000 : 60_000,
     port,
-    reuseExistingServer: true,
+    reuseExistingServer: !syncFixture,
   },
 });

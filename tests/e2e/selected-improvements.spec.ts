@@ -50,14 +50,16 @@ test('a case automatically starts a fixed minute even with an old unlimited pref
  await page.getByRole('button',{name:/^B /}).click();await expect(page.getByText('正解！',{exact:true})).toBeVisible();
 });
 
-test('file import previews counts without changing records; export dates survive reload',async({page})=>{
+test('file import previews counts before applying records and keeps originals through reload',async({page})=>{
  await page.addInitScript(key=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({savedIds:['master336-001']}));},guestKey);
  await page.goto('/settings/data');await expect(page.getByTestId('personal-backup-status')).toContainText('お気に入り 1件');
  await page.screenshot({path:'release-evidence/selected-improvements/backup-status-mobile.png'});
+ await page.getByRole('button',{name:'ファイルの書き出し・読み込み',exact:true}).click();
  const event=page.waitForEvent('download');await page.getByRole('button',{name:'バックアップをダウンロード',exact:true}).click();
  const download=await event;const original=JSON.parse(await readFile((await download.path())!,'utf8'));
- await expect(page.getByTestId('personal-backup-status')).not.toContainText('端末への最終書き出し：まだありません');
- await page.reload();await expect(page.getByTestId('personal-backup-status')).not.toContainText('端末への最終書き出し：まだありません');
+ await page.reload();
+ await expect(page.getByTestId('personal-backup-status')).toContainText('お気に入り 1件');
+ await page.getByRole('button',{name:'ファイルの書き出し・読み込み',exact:true}).click();
  const incoming={...original,data:{...original.data,savedIds:['imported-id','second-id']}};
  const chooser=page.waitForEvent('filechooser');await page.getByRole('button',{name:'バックアップファイルを選ぶ',exact:true}).click();
  await (await chooser).setFiles({name:'記録.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(incoming))});
@@ -101,7 +103,7 @@ test('small learning rows wrap and settings remains distinct from MyPage',async(
  await nav(page,'ホーム').click();const settings=page.getByTestId('settings-header-action');await expect(settings).toHaveAccessibleName('設定を開く');
  await expect(settings).toContainText('\ue8b8');await settings.click();await expect(page).toHaveURL(/\/settings$/);
  await expect(nav(page,'マイページ')).toHaveAttribute('aria-current','page');
- await page.getByRole('button',{name:/記録のバックアップ・復元/}).click();await expect(page).toHaveURL(/\/settings\/data$/);
+ await page.getByRole('button',{name:/データの管理・削除/}).click();await expect(page).toHaveURL(/\/settings\/data$/);
  await nav(page,'マイページ').click();await expect(page).toHaveURL(/\/my-os$/);
 });
 

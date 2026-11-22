@@ -1,16 +1,21 @@
 import { expect, test, type Page } from '@playwright/test';
 
+const supabaseUrl = process.env.PLAYWRIGHT_PERSONAL_SYNC_FIXTURE === '1'
+  ? 'https://roku-sync-test.invalid' : process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co';
+const deletedAccountKey = '@shoseijutsu-roku/state/v2/user/00000000-0000-4000-8000-000000000034';
+
 async function deletionAccount(page: Page, succeeds: boolean) {
   const user = { id: '00000000-0000-4000-8000-000000000034', aud: 'authenticated', role: 'authenticated', email: 'legal-test@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
   const payload = Buffer.from(JSON.stringify({ sub: user.id, role: 'authenticated', exp: 4102444800 })).toString('base64url');
   const session = { access_token: `eyJhbGciOiJIUzI1NiJ9.${payload}.test`, refresh_token: 'test-refresh', token_type: 'bearer', expires_at: 4102444800, expires_in: 3600, user };
-  const project = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co').hostname.split('.')[0];
-  await page.addInitScript(({ key, value }) => {
+  const project = new URL(supabaseUrl).hostname.split('.')[0];
+  await page.addInitScript(({ key, value, deletedAccountKey }) => {
     if (sessionStorage.getItem('delete-fixture')) return;
     sessionStorage.setItem('delete-fixture', 'ready');
     localStorage.setItem(key, JSON.stringify(value));
-    localStorage.setItem('@shoseijutsu-roku/state/v1', JSON.stringify({ personalPrinciple: '削除確認用の記録' }));
-  }, { key: `sb-${project}-auth-token`, value: session });
+    localStorage.setItem(deletedAccountKey, JSON.stringify({ personalPrinciple: '削除確認用の記録' }));
+    localStorage.setItem('@shoseijutsu-roku/state/v1', JSON.stringify({ personalPrinciple: '別のゲスト記録' }));
+  }, { key: `sb-${project}-auth-token`, value: session, deletedAccountKey });
   await page.route('**/auth/v1/**', route => route.fulfill({ json: user }));
   await page.route('**/rest/v1/**', route => route.fulfill({ json: { role: 'user', display_name: '検証用', avatar_url: null } }));
   let attempts = 0;
@@ -27,12 +32,13 @@ async function deletionAccount(page: Page, succeeds: boolean) {
 
 test('規約は両決済手段・未成年者の権利・提供義務を説明し、旧版も閲覧できる', async ({ page }) => {
   await page.goto('/legal/terms');
-  await expect(page.getByText(/バージョン3\.4/).first()).toBeVisible();
+  await expect(page.getByText(/バージョン3\.5/).first()).toBeVisible();
   await expect(page.getByText(/WebはStripe Checkout、iOSアプリ内はApple/)).toBeVisible();
   await expect(page.getByText(/未成年者取消しその他法令上の権利/)).toBeVisible();
   await expect(page.getByText(/有効期間内の契約どおりの提供・不具合への対応義務/)).toBeVisible();
   await page.getByRole('button', { name: '利用規約の履歴を見る' }).click();
   await expect(page).toHaveURL(/\/legal\/terms-history/);
+  await expect(page.getByText(/v3\.4/)).toBeVisible();
   await expect(page.getByText(/v3\.3/)).toBeVisible();
   await expect(page.getByText(/v3\.2/)).toBeVisible();
 });
@@ -42,7 +48,9 @@ test('プライバシーは画像・任意のイベント送信・国外取扱�
   await expect(page.getByText(/匿名情報とは扱いません/)).toBeVisible();
   await expect(page.getByText(/初期状態はオフ/)).toBeVisible();
   await expect(page.getByText(/国内リージョンだけを理由に国外での取扱いがないとは扱いません/)).toBeVisible();
-  await expect(page.getByText(/ログアウトだけでは個人用の端末内データは消去されません/)).toBeVisible();
+  await expect(page.getByText(/アカウントIDと紐づけて保存し/)).toBeVisible();
+  await expect(page.getByText(/利用状況の送信をオフにしても/)).toBeVisible();
+  await expect(page.getByText(/クラウド上の削除は、他の端末が次に同期/)).toBeVisible();
 });
 test('登録への同意は任意集計とは別で、同意するまで登録を送信しない', async ({ page }) => {
   await page.goto('/auth?mode=signup');
@@ -89,19 +97,20 @@ test('購入直前の確認に数量・期間・返金例外・訂正導線が�
 test('端末内データ消去は取消しでは保持し、確認後に実データを消去する', async ({ page }) => {
   const key = '@shoseijutsu-roku/state/v1';
   await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({ personalPrinciple: '消去検証用の座右の銘', savedIds: ['master336-001'] })), key);
-  await page.goto('/settings');
+  await page.goto('/settings/data');
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toContain('消去検証用');
-  page.once('dialog', dialog => dialog.dismiss());
-  await page.getByRole('button', { name: /端末内データをすべて消去/ }).click();
+  const erase = page.getByRole('button', { name: 'この端末の個人記録を消去' });
+  await erase.click();
+  await page.getByRole('button', { name: 'キャンセル', exact: true }).click();
   // Initial hydration may normalize legacy storage while the dialog is open.
   // Cancellation must preserve the user's data, regardless of serialization.
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '{}'), key)).toMatchObject({
     personalPrinciple: '消去検証用の座右の銘',
     savedIds: ['master336-001'],
   });
-  page.once('dialog', dialog => dialog.accept());
-  await page.getByRole('button', { name: /端末内データをすべて消去/ }).click();
-  await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).not.toContain('消去検証用');
+  await erase.click();
+  await page.getByRole('button', { name: '消去を確定する', exact: true }).click();
+  await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toBeNull();
 });
 
 test('アカウント削除の最終確認を取り消すとサーバーへ送信しない', async ({ page }) => {
@@ -110,7 +119,7 @@ test('アカウント削除の最終確認を取り消すとサーバーへ送�
   await expect(page.getByText('残りの完全版利用期間も失われます。この操作は取り消せません。')).toBeVisible();
   await page.getByRole('button', { name: 'キャンセル', exact: true }).click();
   expect(attempts()).toBe(0);
-  expect(await page.evaluate(() => localStorage.getItem('@shoseijutsu-roku/state/v1'))).toContain('削除確認用');
+  expect(await page.evaluate(key => localStorage.getItem(key), deletedAccountKey)).toContain('削除確認用');
 });
 test('削除が拒否されたときは端末の個人データを保持する', async ({ page }) => {
   const attempts = await deletionAccount(page, false);
@@ -118,7 +127,7 @@ test('削除が拒否されたときは端末の個人データを保持する',
   await page.getByRole('button', { name: '完全に削除', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('削除できませんでした');
   expect(attempts()).toBe(1);
-  expect(await page.evaluate(() => localStorage.getItem('@shoseijutsu-roku/state/v1'))).toContain('削除確認用');
+  expect(await page.evaluate(key => localStorage.getItem(key), deletedAccountKey)).toContain('削除確認用');
 });
 test('確認済み削除が成功した後はログアウトして端末データも消去する', async ({ page }) => {
   const attempts = await deletionAccount(page, true);
@@ -127,7 +136,8 @@ test('確認済み削除が成功した後はログアウトして端末デー�
   // The welcome route may immediately forward to the home screen.
   await expect(page).toHaveURL(/\/(?:welcome)?$/);
   expect(attempts()).toBe(1);
-  expect(await page.evaluate(() => localStorage.getItem('@shoseijutsu-roku/state/v1'))).not.toContain('削除確認用');
-  const project = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co').hostname.split('.')[0];
+  expect(await page.evaluate(key => localStorage.getItem(key), deletedAccountKey)).toBeNull();
+  expect(await page.evaluate(() => localStorage.getItem('@shoseijutsu-roku/state/v1'))).toContain('別のゲスト記録');
+  const project = new URL(supabaseUrl).hostname.split('.')[0];
   expect(await page.evaluate(key => localStorage.getItem(key), `sb-${project}-auth-token`)).toBeNull();
 });

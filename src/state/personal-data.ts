@@ -35,7 +35,7 @@ export function normalizePersonalData(raw: unknown, defaults: PersistedState): P
  };
 }
 export function hasPersonalRecords(data: PersistedState) {
- return Boolean(data.savedIds.length||data.savedTheoryIds.length||data.savedFeatureIds.length||data.personalMemos.length||data.personalMemoFolders.length||data.libraryFolders.length||Object.keys(data.notes).length||Object.keys(data.practiceRecords).length||Object.keys(data.learningRecords).length||data.historyIds.length||data.featureHistoryIds.length||data.reviewCaseIds.length||data.personalPrinciple!=='志は高く、腰は低く。');
+ return Boolean(data.savedIds.length||data.savedTheoryIds.length||data.savedFeatureIds.length||data.personalMemos.length||data.personalMemoFolders.length||data.libraryFolders.length||Object.keys(data.notes).length||Object.keys(data.practiceRecords).length||Object.keys(data.learningRecords).length||data.historyIds.length||data.featureHistoryIds.length||data.reviewCaseIds.length||data.learningUnlimited||data.interests.length!==3||data.personalPrinciple!=='志は高く、腰は低く。');
 }
 export function makePersonalBackup(data: PersistedState) {
  return JSON.stringify({format:'shoseijutsuroku-personal-data',version:1,exportedAt:new Date().toISOString(),data},null,2);
@@ -54,14 +54,23 @@ export function mergePersonalData(incoming: PersistedState,current: PersistedSta
  // Distinct imported entries may have the same ID on two devices. Keep both.
  const combine=<T extends {id:string}>(a:T[],b:T[])=>{
   const result=[...b],ids=new Set(b.map(x=>x.id)),remap=new Map<string,string>();
-  for(const item of a){const existing=b.find(x=>x.id===item.id);if(existing&&JSON.stringify(existing)===JSON.stringify(item))continue;
-   let id=item.id;while(ids.has(id))id+='-import';ids.add(id);remap.set(item.id,id);result.push({...item,id});}
+  const byId = new Map(b.map(item => [item.id, item]));
+  for (const item of a) {
+   let id = item.id;
+   while (ids.has(id) && JSON.stringify(byId.get(id)) !== JSON.stringify({ ...item, id })) id += '-import';
+   remap.set(item.id, id);
+   if (ids.has(id)) continue;
+   const imported = { ...item, id };
+   ids.add(id); byId.set(id, imported); result.push(imported);
+  }
   return {items:result,remap};
  };
  const memoFolders=combine(incoming.personalMemoFolders,current.personalMemoFolders),libraryFolders=combine(incoming.libraryFolders,current.libraryFolders);
  const memos=incoming.personalMemos.map(m=>({...m,folderId:m.folderId?(memoFolders.remap.get(m.folderId)??m.folderId):null}));
  const notes={...current.notes};for(const [id,text] of Object.entries(incoming.notes)){if(!notes[id])notes[id]=text;else if(notes[id]!==text&&!notes[id].includes(text))notes[id]+='\n\n【バックアップから追加】\n'+text;}
  return {...incoming,...current,
+  interests:current.interests.length===3?incoming.interests:current.interests,
+  learningUnlimited:current.learningUnlimited||incoming.learningUnlimited,
   savedIds:union(incoming.savedIds,current.savedIds),savedTheoryIds:union(incoming.savedTheoryIds,current.savedTheoryIds),savedFeatureIds:union(incoming.savedFeatureIds,current.savedFeatureIds),
   historyIds:union(incoming.historyIds,current.historyIds).slice(0,100),featureHistoryIds:union(incoming.featureHistoryIds,current.featureHistoryIds).slice(0,100),
   personalMemos:combine(memos,current.personalMemos).items,personalMemoFolders:memoFolders.items,

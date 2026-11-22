@@ -3,12 +3,11 @@ import { Image } from 'expo-image';
 import Constants from 'expo-constants';
 import { UsageSharingSetting } from '@/components/usage-sharing-setting';
 import { useRouter, type Href } from 'expo-router';
-import { Alert, Linking, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
 import { colors, fonts, layout } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
-import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
 import { APP_ROUTES } from '@/navigation/app-routes';
 import { useGuides } from '@/onboarding/guide-provider';
@@ -17,7 +16,6 @@ export default function SettingsScreen() {
   const { theme: backgroundTheme } = useHomeAppearance();
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
-  const { clearPersonalData } = useAppState();
   const { openGuide } = useGuides();
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
@@ -33,7 +31,11 @@ export default function SettingsScreen() {
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥320・自動更新なし'}
           href={APP_ROUTES.upgrade}
+          last
         />
+      </SettingsGroup>
+      <SettingsSection title="アプリの設定" />
+      <SettingsGroup>
         <SettingLink title="背景テーマ" detail={backgroundTheme.name} preview={<Image source={backgroundTheme.image} contentFit="cover" contentPosition="top" style={styles.themePreview} accessibilityElementsHidden aria-hidden />} href={'/settings/background' as Href} last />
       </SettingsGroup>
 
@@ -54,39 +56,23 @@ export default function SettingsScreen() {
         <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
       </SettingsGroup>
 
-      <SettingsSection title="記録の保存" />
+      <SettingsSection title="プライバシー・データ" />
       <SettingsGroup>
-        <SettingLink title="記録のバックアップ・復元" detail="保存状況を確認し、ファイルやアカウントへ保管できます" href={'/settings/data' as Href} last />
+        <UsageSharingSetting />
+        <SettingLink title="データの管理・削除" detail="保存状況、復旧履歴、個人記録の削除" href={'/settings/data' as Href} last />
       </SettingsGroup>
 
-      <View style={styles.quietSection}>
-        <SettingsSection title="規約・データ" subdued />
-        <SettingsGroup subdued>
-          <UsageSharingSetting />
-          <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
-          <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
-          <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
-          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
-          {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
-          <SettingLink
-            title="端末内データをすべて消去"
-            detail="保存したお気に入り、履歴、関心カテゴリなどを削除します"
-            onPress={() => Platform.OS === 'web' ? (
-              globalThis.confirm('この端末に保存されたお気に入り、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。消去しますか？') && void clearPersonalData()
-            ) : Alert.alert(
-              '端末内データをすべて消去',
-              'この端末に保存されたお気に入り、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
-              [
-                { text: 'キャンセル', style: 'cancel' },
-                { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },
-              ],
-            )}
-            danger
-            last
-          />
-        </SettingsGroup>
-      </View>
+      <SettingsSection title="規約・その他" subdued />
+      <SettingsGroup subdued>
+        <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
+        <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
+        <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
+        <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} last subdued />
+      </SettingsGroup>
 
+      {user ? <SettingsGroup subdued>
+        <SettingLink title="アカウントを削除" detail="アカウント・個人記録・完全版の利用権を削除します" href={'/settings/delete-account' as Href} danger last subdued />
+      </SettingsGroup> : null}
       <AppText style={styles.version}>バージョン {version}</AppText>
     </Screen>
   );
@@ -124,7 +110,6 @@ const styles = StyleSheet.create({
   sectionTitleSubdued: { color: colors.inkSoft },
   group: { overflow: 'hidden', paddingHorizontal: 18, backgroundColor: colors.surface },
   groupSubdued: { backgroundColor: colors.surface },
-  quietSection: { marginTop: 0, paddingTop: 0 },
   row: { minHeight: 64, paddingVertical: 16, paddingRight: 2, flexDirection: 'row', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E5E5E3' },
   rowLast: { borderBottomWidth: 0 },
   rowSubdued: { borderBottomColor: '#E5E5E3' },
