@@ -54,14 +54,23 @@ const MY_PAGE_PREFIXES = [
   '/library',
   '/history',
   '/my-techniques',
-  '/settings',
 ] as const;
 
-export function getMainSection(pathname: string): MainSection {
+export function getMainSection(pathname: string): MainSection | null {
+  if (pathname === '/settings' || pathname.startsWith('/settings/')) return null;
   if (DISCOVER_PREFIXES.some((prefix) => pathname.includes(prefix))) return 'discover';
   if (pathname.includes('/learn')) return 'learn';
   if (MY_PAGE_PREFIXES.some((prefix) => pathname.includes(prefix))) return 'my-os';
   return 'main';
+}
+
+export function isFocusedScreen(pathname: string) {
+  return pathname === '/upgrade'
+    || pathname === '/upgrade-preview'
+    || pathname === '/auth'
+    || pathname.startsWith('/owner/')
+    || pathname.startsWith('/legal/')
+    || pathname.startsWith('/about/');
 }
 
 export function signInRoute(): Href {

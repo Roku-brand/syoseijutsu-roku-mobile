@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import { MainSectionProvider } from '@/navigation/main-section-state';
+import { isFocusedScreen } from '@/navigation/app-routes';
 import { DiscoverSearchEntryProvider } from '@/navigation/discover-search-entry';
 import '@/lib/pwa-install';
 import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
@@ -77,15 +78,6 @@ function AppStack({ reducedMotion }: { reducedMotion: boolean }) {
       fullScreenGestureEnabled: !detail,
     };
   }} />;
-}
-
-function isFocusedScreen(pathname: string) {
-  return pathname === '/upgrade'
-    || pathname === '/upgrade-preview'
-    || pathname === '/auth'
-    || pathname.startsWith('/owner/')
-    || pathname.startsWith('/legal/')
-    || pathname.startsWith('/about/');
 }
 
 export default function RootLayout() {
