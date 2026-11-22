@@ -81,7 +81,7 @@ export default function TheoryIndexScreen() {
         </View> : null}
       </View>
 
-      <View style={[styles.resultHeading, category !== 'all' && styles.resultHeadingWithReel]}>
+      <View style={catalogIndexLayout.resultHeading}>
         <CatalogIndexCount label="収録理論" count={selectedTheories.length} testID="theory-index-count" />
         <Pagination framed page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={selectPage} />
       </View>
@@ -111,8 +111,6 @@ function TheoryListSkeleton() {
 
 const styles = StyleSheet.create({
   subcategoryFilters: { marginTop: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.line, paddingTop: 9 },
-  resultHeading: { minHeight: 32, marginTop: 12, marginBottom: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  resultHeadingWithReel: { marginTop: 12 },
   section: { width: '100%', gap: catalogIndexTheme.cardGap, marginBottom: 5 },
   subHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10, paddingTop: 4, paddingBottom: 2 },
   categoryLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 12, lineHeight: 22, paddingRight: 10, borderRightWidth: 1, borderRightColor: colors.line },
