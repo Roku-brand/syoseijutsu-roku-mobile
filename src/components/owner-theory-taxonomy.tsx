@@ -1,16 +1,41 @@
 import { useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { AppText, SecondaryButton } from './ui';
+import { CmsWheel } from './owner-cms-wheel';
 import type { TheoryCard } from '@/data/types';
 import { subcategoryChoices, saveTheorySubcategory } from '@/data/owner-theory-taxonomy';
 import type { TheorySubcategory } from '@/data/theory-taxonomy';
 import { colors } from '@/constants/theme';
 const input={minHeight:44,borderWidth:1,borderColor:colors.line,padding:10,color:colors.ink};
 export function TheorySubcategoryFields({value,onChange}:{value:Omit<TheoryCard,'status'>;onChange:(patch:Partial<TheoryCard>)=>void}) {
- return <View style={{gap:8}}><AppText variant="label">内部分類（必須）</AppText><View style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{subcategoryChoices(value.categoryId).map(s=><Pressable key={s.id} accessibilityRole="button" accessibilityLabel={`内部分類：${s.title}`} aria-pressed={value.subcategoryId===s.id} accessibilityState={{selected:value.subcategoryId===s.id}} onPress={()=>onChange({subcategoryId:s.id,subcategoryTitle:s.title,sortOrder:1})} style={[input,value.subcategoryId===s.id && {backgroundColor:colors.paperDeep}]}><AppText>{s.title}</AppText></Pressable>)}</View><AppText variant="label">内部分類内の並び順</AppText><TextInput accessibilityLabel="内部分類内の並び順" keyboardType="number-pad" style={input} value={String(value.sortOrder??1)} onChangeText={s=>onChange({sortOrder:Number(s)})} /></View>;
+ const choices = subcategoryChoices(value.categoryId);
+ return <CmsWheel label="内部分類" value={value.subcategoryId ?? ''} options={choices.map(({ id, title }) => [id, title])}
+   onChange={(id) => onChange({ subcategoryId: id, subcategoryTitle: choices.find((item) => item.id === id)?.title, sortOrder: undefined })} />;
 }
 export function TheorySubcategoryManager({categoryId,onSaved}:{categoryId:string;onSaved:()=>Promise<void>}) {
  const [open,setOpen]=useState(false);const [draft,setDraft]=useState<TheorySubcategory|null>(null);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
  const run=async(task:()=>Promise<void>)=>{setBusy(true);setError('');try{await task();await onSaved();setDraft(null);}catch(e){setError(e instanceof Error?e.message:String(e));}finally{setBusy(false);}};
- return <View style={{gap:6,padding:8}}><SecondaryButton disabled={busy} onPress={()=>setOpen(!open)}>内部分類を管理</SecondaryButton>{open?<><View style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{subcategoryChoices(categoryId).map(s=><SecondaryButton key={s.id} disabled={busy} onPress={()=>setDraft({...s})}>{s.title}</SecondaryButton>)}</View>{draft?<><TextInput accessibilityLabel="内部分類名" value={draft.title} onChangeText={title=>setDraft({...draft,title})} style={input} /><TextInput accessibilityLabel="内部分類の並び順" value={String(draft.displayOrder)} onChangeText={s=>setDraft({...draft,displayOrder:Number(s)})} style={input} keyboardType="number-pad" /><SecondaryButton disabled={busy || !draft.title.trim()} onPress={()=>void run(()=>saveTheorySubcategory(draft))}>保存</SecondaryButton></>:null}</>:null}{error?<AppText>{error}</AppText>:null}</View>;
+ const choices = subcategoryChoices(categoryId);
+ const index = choices.findIndex((item) => item.id === draft?.id);
+ const move = (offset: -1 | 1) => {
+   const item = choices[index];
+   if (item && choices[index + offset]) void run(() => saveTheorySubcategory({ ...item, displayOrder: index + offset + 1 }));
+ };
+ return <View style={{ gap: 6, padding: 8 }}>
+   <SecondaryButton disabled={busy} onPress={() => setOpen(!open)}>内部分類を管理</SecondaryButton>
+   {open ? <>
+     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+       {choices.map((item) => <SecondaryButton key={item.id} disabled={busy} onPress={() => setDraft({ ...item })}>{item.title}</SecondaryButton>)}
+     </View>
+     {draft ? <>
+       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+         <SecondaryButton disabled={busy || index <= 0} onPress={() => move(-1)}>上へ移動</SecondaryButton>
+         <SecondaryButton disabled={busy || index >= choices.length - 1} onPress={() => move(1)}>下へ移動</SecondaryButton>
+       </View>
+       <TextInput accessibilityLabel="内部分類名" value={draft.title} onChangeText={(title) => setDraft({ ...draft, title })} style={input} />
+       <SecondaryButton disabled={busy || !draft.title.trim()} onPress={() => void run(() => saveTheorySubcategory(draft))}>保存</SecondaryButton>
+     </> : null}
+   </> : null}
+   {error ? <AppText>{error}</AppText> : null}
+ </View>;
 }

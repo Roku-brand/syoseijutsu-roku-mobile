@@ -1,6 +1,6 @@
 import { BookPopup } from './book-popup';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
-import { useMemo, type ComponentProps } from 'react';
+import { useContext, useMemo, type ComponentProps } from 'react';
 import {
   Platform,
   Pressable,
@@ -30,6 +30,7 @@ import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
 import { HeaderSearchAction } from './header-search-action';
 import { HeaderBackButton } from './header-back-button';
+import { HeaderBackAction } from '@/navigation/header-back-action';
 import { SaveDiamond } from './save-diamond';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 import { PageScroll } from './page-scroll';
@@ -89,6 +90,7 @@ export function BookScreen({
 
 export function BookHeader() {
   const router = useRouter();
+  const localBack = useContext(HeaderBackAction);
   const { backWithinSection } = useMainSectionNavigation();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const pathname = usePathname();
@@ -120,6 +122,10 @@ export function BookHeader() {
   const titleInset = primaryTabHeader ? (spaciousHeader ? 148 : 103)
     : Math.max(84, actionCount * (detail ? DETAIL_ACTION_WIDTH : 44) + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
+    if (pathname === '/owner/content' && localBack?.current) {
+      localBack.current();
+      return;
+    }
     if (backWithinSection()) return;
     if (router.canGoBack()) {
       router.back();

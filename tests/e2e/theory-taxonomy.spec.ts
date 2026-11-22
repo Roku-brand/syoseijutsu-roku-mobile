@@ -111,8 +111,12 @@ test('CMSが内部分類で絞り込み、選択・順番・分類管理を編�
  await expect(page.getByText(`${rows.filter((t:any)=>t.subcategoryId==='behavioral-science-d').length}件`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
  await expect(page.getByRole('textbox',{name:'理論名',exact:true})).toHaveValue('プロスペクト理論');
- await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveValue(String(rows.find((t:any)=>t.title==='プロスペクト理論').sortOrder));
- await expect(page.getByRole('button',{name:'内部分類：意思決定・選択',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveCount(0);
+ const wheel = page.getByRole('button', { name: '内部分類', exact: true });
+ await expect(wheel).toHaveText('意思決定・選択⌄');
+ await wheel.click();
+ await expect(page.getByRole('dialog', { name: '内部分類' }).getByRole('button', { name: '意思決定・選択', exact: true })).toHaveAttribute('aria-pressed', 'true');
+ await page.getByRole('button', { name: 'キャンセル', exact: true }).click();
  await page.getByRole('button',{name:/一覧へ戻る/}).click();
  await page.getByRole('button',{name:'‹ 戻る',exact:true}).click();
  await page.getByRole('button',{name:'内部分類を管理',exact:true}).click();
@@ -187,4 +191,80 @@ test('人物像の副題を基本情報から編集して公開できる', async
   await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
   await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
   await expect(page.getByRole('button', { name: '人気ランキング', exact: true })).toBeVisible();
+});
+
+test('処世術の親一覧での並べ替え、戻る位置、編集段階の保存と件数がつながる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 740 });
+  await mockOwner(page);
+  const category = { kind: 'technique', id: 'interpersonal', title: '人間関係', display_order: 1 };
+  const persona = { id: 'persona-test', name: '印象がいい人', subtitle: '', image_path: null, category: category.id, status: 'published', access_tier: 'free', display_order: 1, draft_technique_ids: [], updated_at: '2026-11-22T00:00:00Z' };
+  const techniques = Array.from({ length: 38 }, (_, i) => ({
+    id: `technique-${i + 1}`, title: `処世術 ${i + 1}`, persona_id: persona.name, category: category.id,
+    status: 'published', access_tier: 'free', display_order: i + 1, updated_at: '2026-11-22T00:00:00Z',
+    editorial_stage: i === 14 ? 'title_only' : 'publishable', examples: ['旧データの具体例'],
+  }));
+  await page.route('**/rest/v1/content_categories?*', route => route.fulfill({ json: [category, ...categories] }));
+  await page.route('**/rest/v1/personas?*', route => route.fulfill({ json: [persona] }));
+  await page.route('**/rest/v1/techniques?*', route => route.fulfill({ json: techniques }));
+  await page.route('**/rpc/reorder_content', async route => {
+    const { target_kind, target_scope, target_ids } = route.request().postDataJSON();
+    expect(target_kind).toBe('technique');
+    expect(target_scope).toBe(persona.name);
+    expect(target_ids.slice(0, 2)).toEqual(['technique-2', 'technique-1']);
+    for (const row of techniques) row.display_order = target_ids.indexOf(row.id) + 1;
+    await route.fulfill({ json: null });
+  });
+  await page.route('**/rpc/save_and_publish_technique', async route => {
+    const { target_technique_id, target_snapshot } = route.request().postDataJSON();
+    expect(target_snapshot).toMatchObject({ title: '処世術 15', editorial_stage: 'title_essence' });
+    expect(target_snapshot).not.toHaveProperty('access_tier');
+    expect(target_snapshot).not.toHaveProperty('examples');
+    expect(target_snapshot).not.toHaveProperty('display_order');
+    const row = techniques.find((item) => item.id === target_technique_id)!;
+    Object.assign(row, target_snapshot);
+    await route.fulfill({ json: row });
+  });
+
+  await page.goto('/owner/content?kind=technique');
+  const titleOnly = page.getByRole('button', { name: 'タイトルのみの一覧', exact: true });
+  await expect(titleOnly).toContainText('1件');
+  await titleOnly.click();
+  await expect(page.getByRole('button', { name: '処世術 15', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '処世術 16', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
+  await page.getByRole('button', { name: category.title, exact: true }).click();
+  await page.getByRole('button', { name: persona.name, exact: true }).click();
+
+  await page.getByRole('button', { name: '処世術 1の操作', exact: true }).click();
+  await page.getByRole('button', { name: '下へ移動', exact: true }).click();
+  await expect(page.getByText('移動を保存しました。', { exact: true })).toBeVisible();
+  const article = page.getByRole('button', { name: '処世術 15', exact: true });
+  await article.scrollIntoViewIfNeeded();
+  const scroller = page.getByTestId('owner-cms-page');
+  const scrollTop = () => scroller.evaluate((element) => element.scrollTop);
+  await expect.poll(scrollTop).toBeGreaterThan(200);
+  const previousOffset = await scrollTop();
+  await article.click();
+  await expect(page.getByRole('textbox', { name: 'タイトル', exact: true })).toHaveValue('処世術 15');
+  await expect(page.getByRole('textbox', { name: '並び順', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: '本文', exact: true }).click();
+  await expect(page.getByText('具体例', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: '公開設定', exact: true }).click();
+  await expect(page.getByText('公開範囲', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('メディア', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: '基本情報', exact: true }).click();
+  await page.getByRole('button', { name: '編集段階', exact: true }).click();
+  const stageWheel = page.getByRole('dialog', { name: '編集段階' });
+  await stageWheel.getByTestId('owner-cms-wheel-options').evaluate((element) => element.scrollBy(0, 50));
+  await expect(stageWheel.getByRole('button', { name: 'タイトル・本質', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await stageWheel.getByRole('button', { name: '選択', exact: true }).click();
+  await page.getByRole('button', { name: '公開する', exact: true }).click();
+  await expect.poll(() => techniques[14].editorial_stage).toBe('title_essence');
+  await expect(page.getByRole('button', { name: '公開する', exact: true })).toBeEnabled();
+  await page.getByTestId('book-header-back').click();
+  await expect.poll(scrollTop).toBeGreaterThan(previousOffset - 90);
+  await expect(article).toBeInViewport();
+  for (let i = 0; i < 2; i++) await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
+  await expect(titleOnly).toContainText('0件');
+  await expect(page.getByRole('button', { name: 'タイトル・本質の一覧', exact: true })).toContainText('1件');
 });

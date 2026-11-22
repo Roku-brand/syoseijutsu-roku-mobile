@@ -1,6 +1,7 @@
 import { techniqueCards } from '@/data/catalog';
 import type { CategoryKey, TechniquePracticalActions } from '@/data/types';
 import { supabase } from '@/lib/supabase';
+import { legacyTechniqueEditorialStage, techniqueEditorialStages, type TechniqueEditorialStage } from './technique-editorial-stage';
 
 export type TechniqueContent = {
   id: string;
@@ -12,7 +13,6 @@ export type TechniqueContent = {
   memo: string;
   importance: 1 | 2 | 3;
   practices: string[];
-  examples: string[];
   cautions: string[];
   primary_theory_ids: string[];
   theory_ids: string[];
@@ -22,6 +22,7 @@ export type TechniqueContent = {
   image_path: string | null;
   tags: string[] | null;
   access_tier: 'free' | 'complete';
+  editorial_stage: TechniqueEditorialStage;
   updated_at: string;
 };
 
@@ -32,7 +33,7 @@ export type TechniqueDraft = {
   updated_at: string;
 };
 
-export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'primary_theory_ids' | 'theory_ids' | 'image_path' | 'access_tier' | 'tags'> & {
+export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'cautions' | 'primary_theory_ids' | 'theory_ids' | 'image_path' | 'tags' | 'editorial_stage'> & {
   display_order?: number;
   /** Links shown after the primary theories. Kept in drafts/revisions so the
    * two reader-facing groups remain independently editable. */
@@ -65,20 +66,18 @@ export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSna
     memo: technique.memo ?? '',
     importance: normalizeImportance(technique.importance),
     practices: normalizeList(technique.practices),
-    examples: normalizeList(technique.examples),
     cautions: normalizeList(technique.cautions),
     primary_theory_ids: normalizeList(technique.primary_theory_ids),
     supplementary_theory_ids: normalizeList(technique.theory_ids).filter((id) => !technique.primary_theory_ids.includes(id)),
     theory_ids: normalizeList(technique.theory_ids),
     image_path: technique.image_path,
     tags: technique.tags,
-    access_tier: technique.access_tier,
-    display_order: technique.display_order ?? technique.draft_display_order ?? 1,
+    editorial_stage: technique.editorial_stage,
   };
 }
 
 export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueSnapshot {
-  const raw = value as Partial<TechniqueSnapshot> & { relatedTheoryIds?: unknown; primaryTheoryIds?: unknown; supplementaryTheoryIds?: unknown };
+  const raw = value as Partial<TechniqueSnapshot> & { relatedTheoryIds?: unknown; primaryTheoryIds?: unknown; supplementaryTheoryIds?: unknown; status?: unknown };
   const primaryTheoryIds = normalizeList(raw.primary_theory_ids ?? raw.primaryTheoryIds);
   const allTheoryIds = normalizeList(raw.theory_ids ?? raw.relatedTheoryIds);
   const supplementaryTheoryIds = normalizeList(raw.supplementary_theory_ids ?? raw.supplementaryTheoryIds);
@@ -96,7 +95,6 @@ export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueS
     memo: value.memo ?? '',
     importance: normalizeImportance(value.importance),
     practices: normalizeList(value.practices),
-    examples: normalizeList(value.examples),
     cautions: normalizeList(value.cautions),
     primary_theory_ids: primaryTheoryIds,
     supplementary_theory_ids: resolvedSupplementaryIds,
@@ -105,8 +103,8 @@ export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueS
     theory_ids: normalizeList([...primaryTheoryIds, ...resolvedSupplementaryIds]),
     image_path: typeof value.image_path === 'string' ? value.image_path : null,
     tags: Array.isArray(value.tags) ? normalizeList(value.tags) : null,
-    access_tier: value.access_tier === 'free' ? 'free' : 'complete',
-    display_order: typeof value.display_order === 'number' ? Math.max(1, Math.floor(value.display_order)) : 1,
+    editorial_stage: techniqueEditorialStages.find(([id]) => id === value.editorial_stage)?.[0] ?? legacyTechniqueEditorialStage(raw),
+    ...(typeof value.display_order === 'number' ? { display_order: Math.max(1, Math.floor(value.display_order)) } : {}),
   };
 }
 
@@ -185,7 +183,6 @@ export async function seedOwnerTechniquesIfEmpty(): Promise<number> {
     memo: '',
     importance: item.importance === 3 ? 3 : item.importance === 2 ? 2 : 1,
     practices: item.practicalActions?.todayActions ?? [],
-    examples: item.practicalActions?.examples ?? [],
     cautions: item.practicalActions?.cautions ?? [],
     primary_theory_ids: item.primaryTheoryIds ?? [],
     theory_ids: item.relatedTheoryIds ?? item.theoryTagIds ?? [],
@@ -220,6 +217,12 @@ export async function saveTechniqueDraft(techniqueId: string, snapshot: Techniqu
     target_snapshot: normalizeSnapshot(snapshot),
     expected_updated_at: baseUpdatedAt,
   });
+  if (error) throw error;
+}
+
+export async function reorderTechniqueDrafts(personaName: string, ids: string[]) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { error } = await supabase.rpc('reorder_technique_drafts', { target_persona_id: personaName, target_ids: ids });
   if (error) throw error;
 }
 
@@ -305,7 +308,6 @@ export async function renameTechnique(sourceId: string, targetId: string) {
 export function toTechniquePayload(technique: TechniqueContent) {
   const actions: TechniquePracticalActions = {
     todayActions: technique.practices,
-    examples: technique.examples,
     cautions: technique.cautions,
   };
   return {

@@ -16,8 +16,8 @@ export async function deleteTheorySubcategory(id:string) {
  if(!supabase) throw Error('Supabaseが未設定です。');
  const {error}=await supabase.rpc('delete_theory_subcategory',{target_id:id});if(error)throw error;
 }
-export async function reorderSubcategoryTheories(subcategoryId:string,ids:string[]) {
+export async function reorderSubcategoryTheories(subcategoryId:string,ids:string[],status:'published'|'draft' = 'published') {
  if(!supabase) throw Error('Supabaseが未設定です。');
- const {error}=await supabase.rpc('reorder_subcategory_theories',{target_id:subcategoryId,target_ids:ids});if(error)throw error;
+ const {error}=await supabase.rpc('reorder_subcategory_theories',{target_id:subcategoryId,target_ids:ids,...(status === 'draft' ? { target_status: status } : {})});if(error)throw error;
 }
 export function subcategoryChoices(categoryId:string) {return theorySubcategories.filter(s=>s.categoryId===categoryId).sort((a,b)=>a.displayOrder-b.displayOrder);}

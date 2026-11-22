@@ -262,7 +262,6 @@ function staticContent(meta) {
     const actions = practicalActionsById.get(meta.item.id);
     body = `<section><h2>本質</h2><p>${escape(clean(meta.item.essence ?? meta.item.subtitle ?? paragraphs[0]))}</p></section><section><h2>なぜ重要か・どう使うか</h2>${paragraphs.map((text) => `<p>${escape(text)}</p>`).join('')}</section>`;
     if (actions?.todayActions?.length) body += `<section><h2>今日からできる実践</h2><ul>${actions.todayActions.map((action) => `<li>${escape(action)}</li>`).join('')}</ul></section>`;
-    if (actions?.examples?.length) body += `<section><h2>使う場面の例</h2><ul>${actions.examples.map((example) => `<li>${escape(example)}</li>`).join('')}</ul></section>`;
     if (actions?.cautions?.length) body += `<section><h2>注意点</h2><ul>${actions.cautions.map((caution) => `<li>${escape(caution)}</li>`).join('')}</ul></section>`;
     const primary = (meta.item.primaryTheoryIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);
     const related = (meta.item.relatedTheoryIds ?? meta.item.theoryTagIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);

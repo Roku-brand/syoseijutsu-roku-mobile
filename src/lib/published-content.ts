@@ -105,7 +105,7 @@ async function loadPublishedContent(force: boolean): Promise<boolean> {
       const cached = new Map((cachedRows?.[table] ?? []).map(row => [row.id, row]));
       const needsRead = metadata.some(row => row.access_tier === 'free' && !(row.explanation || row.summary) && (!row.updated_at || cached.get(row.id)?.updated_at !== row.updated_at));
       let result = { data: [] as Record<string, any>[] | null, error: null as unknown };
-      if (needsRead) result = await fetchPublishedRows(table, table === 'techniques' ? 'id,explanation,memo,practices,examples,cautions' : 'id,summary,provenance,quotation', true);
+      if (needsRead) result = await fetchPublishedRows(table, table === 'techniques' ? 'id,explanation,memo,practices,cautions' : 'id,summary,provenance,quotation', true);
       if (result.error) notifySync('offline');
       const rows = new Map((result.data ?? []).map(row => [row.id, row]));
       return { rows: metadata.map(row => ({ ...(row.access_tier === 'free' ? cached.get(row.id) : undefined), ...row, ...rows.get(row.id) })), ok: !result.error };
@@ -118,7 +118,7 @@ async function loadPublishedContent(force: boolean): Promise<boolean> {
     loaded = complete;
     if (complete) {
       // Complete-edition bodies never enter the shared, account-independent cache.
-      const mask = (row: Record<string, any>) => row.access_tier === 'complete' ? { ...row, essence: '', explanation: '', memo: '', practices: [], examples: [], cautions: [], tags: null, summary: '', provenance: null, quotation: null } : row;
+      const mask = (row: Record<string, any>) => row.access_tier === 'complete' ? { ...row, essence: '', explanation: '', memo: '', practices: [], cautions: [], tags: null, summary: '', provenance: null, quotation: null } : row;
       cachedRows = { techniques: data.map(mask), theories: (theoryResult.data ?? []).map(mask) };
       void AsyncStorage.setItem(CACHE_KEY, JSON.stringify({ version: 2, ...cachedRows })).catch(() => undefined);
     }
@@ -157,7 +157,6 @@ function applyPublicRows(data: Record<string, any>[], theoryResult: RowResult, p
       articleTitle: typeof row.persona_id === 'string' ? row.persona_id : '',
       practicalActions: resolved?.practicalActions ?? {
         todayActions: Array.isArray(row.practices) ? row.practices as string[] : [],
-        examples: Array.isArray(row.examples) ? row.examples as string[] : [],
         cautions: Array.isArray(row.cautions) ? row.cautions as string[] : [],
       },
       status: 'published',

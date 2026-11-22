@@ -522,6 +522,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
         cautions: ['公開後の注意点も反映する'],
         theory_ids: ['kb_001'],
         status: 'published',
+        access_tier: 'free',
         display_order: 1,
         updated_at: '2026-08-27T00:00:00.000Z',
       }]),
@@ -538,7 +539,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify([{ name: '印象がいい人', category: 'interpersonal' }]),
+      body: JSON.stringify([{ name: '印象がいい人', category: 'interpersonal', access_tier: 'free' }]),
     });
   });
   await page.route('**/rest/v1/content_categories*', async (route) => {
@@ -552,6 +553,8 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   await expect(page.getByText('公開した本質が反映される。')).toBeVisible();
   await page.getByRole('tab', { name: '実践' }).click();
   await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
+  await expect(page.getByText('公開後の具体例も反映する')).toHaveCount(0);
+  await expect(page.getByText('公開後の注意点も反映する')).toBeVisible();
 });
 
 test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }, testInfo) => {

@@ -96,7 +96,6 @@ export default function CardDetailScreen() {
   const fallbackGuidance = practiceGuidance[card.categoryKey] ?? practiceGuidance.interpersonal!;
   const guidance = card.practicalActions ?? {
     todayActions: fallbackGuidance.actions,
-    examples: [],
     cautions: fallbackGuidance.cautions,
   };
   const relatedTheories = (card.theoryTagIds ?? [])
@@ -173,18 +172,6 @@ export default function CardDetailScreen() {
 
             </View>
           </ArticleSection>
-
-          {guidance.examples.length > 0 && (
-            <ArticleSection title="具体例">
-              <View style={styles.exampleList}>
-                {guidance.examples.map((item) => (
-                  <View key={item} style={styles.exampleCard}>
-                    <AppText style={styles.exampleText}>{item}</AppText>
-                  </View>
-                ))}
-              </View>
-            </ArticleSection>
-          )}
 
           <ArticleSection title="注意点">
             <View style={styles.cautionList}>
@@ -497,16 +484,6 @@ const styles = StyleSheet.create({
   },
   checkText: { color: '#FFFFFF', fontSize: 11, lineHeight: 14, fontWeight: '800' },
   practiceText: { flex: 1, color: '#20231F', fontSize: 15, lineHeight: 26, fontWeight: '600' },
-  exampleList: { gap: 9 },
-  exampleCard: {
-    paddingHorizontal: 15,
-    paddingVertical: 13,
-    borderLeftWidth: 3,
-    borderLeftColor: detailColors.accent,
-    borderRadius: radius.sm,
-    backgroundColor: '#F3EFE6',
-  },
-  exampleText: { color: '#272923', fontSize: 16, lineHeight: 28 },
   cautionList: { gap: 9 },
   cautionCard: {
     width: '100%',

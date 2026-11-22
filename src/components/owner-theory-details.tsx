@@ -1,7 +1,7 @@
 import { isRetiredTheoryId, KNOWLEDGE_TYPES, RELATION_TYPES } from '@/data/theory-knowledge';
 import { fetchTheoryRelations } from '@/lib/theory-network';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { AppText, SecondaryButton } from './ui';
 import { colors, spacing } from '@/constants/theme';
 import type { TheoryCard, TheoryProvenance, TheoryQuotation, TheoryRelation, TheoryRelationType } from '@/data/types';
@@ -82,10 +82,10 @@ export function TheoryDetailsEditor({ value, onChange, options, disabled }: {
   <AppText style={styles.hint}>公開画面の関連理論に使用します。理論名で選択してください。</AppText>
   {ids.map((id) => <View key={id} style={styles.wrap}><AppText>{options.find((item) => item.tagId === id)?.title ?? '削除済みの理論'}</AppText><SecondaryButton disabled={disabled} onPress={() => onChange({ relatedTheoryIds: ids.filter((item) => item !== id), relations: value.relations?.filter(r => r.sourceId !== id && r.targetId !== id) })}>関連から外す</SecondaryButton></View>)}
   <TextInput accessibilityLabel="関連理論を検索" value={query} onChangeText={setQuery} style={styles.input} placeholder="追加する理論名で検索" editable={!disabled} />
-  <ScrollView nestedScrollEnabled keyboardShouldPersistTaps="handled" style={{ maxHeight: 220 }}>
+  <View>
     {results.map((item) => <Pressable accessibilityRole="button" disabled={disabled} key={item.tagId} style={styles.choice} onPress={() => onChange({ relatedTheoryIds: [...ids, item.tagId], ...(value.relations ? {relations: [...value.relations,{sourceId:value.tagId,targetId:item.tagId,type:'related',reviewStatus:'draft',rationale:'',priority:100}]} : {}) })}><AppText>＋ {item.title}</AppText></Pressable>)}
     {!results.length ? <AppText>一致する追加候補はありません。</AppText> : null}
-  </ScrollView>
+  </View>
  </View>;
 }
 function Field({ label, value, onChange, disabled, multi = false }: { label: string; value: string; onChange: (value: string) => void; disabled: boolean; multi?: boolean }) {

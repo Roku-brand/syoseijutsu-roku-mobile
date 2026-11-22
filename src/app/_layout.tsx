@@ -1,11 +1,12 @@
 import 'react-native-gesture-handler';
 import { MainSectionProvider } from '@/navigation/main-section-state';
 import { isFocusedScreen } from '@/navigation/app-routes';
+import { HeaderBackAction } from '@/navigation/header-back-action';
 import { DiscoverSearchEntryProvider } from '@/navigation/discover-search-entry';
 import '@/lib/pwa-install';
 import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BookHeader } from '@/components/book-ui';
@@ -28,6 +29,7 @@ import { HomeAppearanceProvider } from '@/state/home-appearance';
 import { HOME_HEADER_COLOR, HomeHeaderBackdrop } from '@/components/home-header-backdrop';
 
 function AppFrame() {
+  const headerBack = useRef<(() => void) | null>(null);
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
   const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
@@ -61,7 +63,7 @@ function AppFrame() {
   );
   // Keep the route tree mounted when the window crosses the sidebar breakpoint.
   // Otherwise resizing a CMS form discards its selected article and edits.
-  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav reducedMotion={reducedMotion} /> : null}{appContent}</View></View>;
+  return <HeaderBackAction.Provider value={headerBack}><View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav reducedMotion={reducedMotion} /> : null}{appContent}</View></View></HeaderBackAction.Provider>;
 }
 
 function AppStack({ reducedMotion }: { reducedMotion: boolean }) {

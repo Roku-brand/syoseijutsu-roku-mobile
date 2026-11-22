@@ -23,7 +23,6 @@ export type TechniqueSource = {
 
 export type TechniquePracticalActions = {
   todayActions: string[];
-  examples: string[];
   cautions: string[];
 };
 

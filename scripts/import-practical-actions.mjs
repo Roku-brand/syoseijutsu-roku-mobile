@@ -32,7 +32,6 @@ for (const block of blocks) {
     id: header[1].trim(),
     title: header[2].trim(),
     todayActions: sections.get('今日からできる実践') ?? [],
-    examples: sections.get('具体例') ?? [],
     cautions: sections.get('注意点') ?? [],
   });
 }
@@ -46,7 +45,6 @@ items.forEach((item, index) => {
   if (expected.get(item.id) !== item.title) failures.push(`title mismatch: ${item.id}`);
   if (item.id !== techniques[index]?.id) failures.push(`order mismatch at ${index + 1}: ${item.id}`);
   if (item.todayActions.length === 0) failures.push(`${item.id} has no todayActions`);
-  if (item.examples.length === 0) failures.push(`${item.id} has no examples`);
   if (item.cautions.length === 0) failures.push(`${item.id} has no cautions`);
 });
 for (const technique of techniques) if (!seen.has(technique.id)) failures.push(`missing id: ${technique.id}`);
