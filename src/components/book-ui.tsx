@@ -140,7 +140,7 @@ export function BookHeader() {
         <AppText
           testID={primaryTabHeader ? 'book-header-brand' : personaHeader ? 'persona-header-title' : undefined}
           accessibilityRole={primaryTabHeader ? undefined : 'header'}
-          aria-level={primaryTabHeader ? undefined : detailHeader || (pathname === '/search' && !compact) ? 2 : 1}
+          aria-level={primaryTabHeader ? undefined : detailHeader ? 2 : 1}
           numberOfLines={compact && personaHeader ? 2 : 1}
           adjustsFontSizeToFit
           minimumFontScale={0.85}
@@ -191,7 +191,7 @@ export function SaveDiamondButton({
       accessibilityState={{ selected: saved }}
       aria-pressed={saved}
       onPress={onPress}
-      hitSlop={compact ? 6 : 8}
+      hitSlop={label === '' ? 0 : compact ? 6 : 8}
       style={({ pressed }) => [
         styles.saveDiamondButton,
         compact && styles.saveDiamondButtonCompact,

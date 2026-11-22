@@ -97,7 +97,7 @@ test('folder contents render twenty at a time and preserve all three hundred mem
   expect(state.personalMemos).toHaveLength(300);
 });
 
-test('お気に入りカードは人物像の右に番号を並べ、分類ボタンで絞り込みを解除できる', async ({ page }) => {
+test('お気に入りカードは左に番号と右上にひし形を並べ、分類ボタンで絞り込みを解除できる', async ({ page }) => {
   await fixture(page, { savedIds: ['master336-176', 'master336-179', 'master336-184', techniques[0].id] });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/library?category=work');
@@ -109,16 +109,20 @@ test('お気に入りカードは人物像の右に番号を並べ、分類ボ�
   await expect(number).toHaveText('No.176');
   const [cardBox, personaBox, numberBox, titleBox] = await Promise.all([card.boundingBox(), persona.boundingBox(), number.boundingBox(), card.getByTestId('technique-index-title').boundingBox()]);
   expect(personaBox!.y - cardBox!.y).toBeLessThanOrEqual(28);
-  expect(numberBox!.x).toBeGreaterThan(personaBox!.x + personaBox!.width);
-  expect(Math.abs(numberBox!.y - personaBox!.y)).toBeLessThan(3);
-  expect(numberBox!.y + numberBox!.height).toBeLessThanOrEqual(titleBox!.y);
+  expect(numberBox!.x + numberBox!.width).toBeLessThan(personaBox!.x);
+  expect(personaBox!.y + personaBox!.height).toBeLessThan(titleBox!.y);
+  const save = card.getByRole('button', { name: '問題は小さいうちに表へ出すのお気に入りを解除' });
+  await expect(save).toHaveAttribute('aria-pressed', 'true');
+  const diamond = (await save.getByTestId('save-diamond').boundingBox())!;
+  expect(diamond.y - cardBox!.y).toBeLessThan(20);
+  expect(cardBox!.x + cardBox!.width - diamond.x - diamond.width).toBeLessThan(24);
   const filter = page.getByRole('button', { name: '仕事術の絞り込みを解除' });
   await expect(filter).toHaveText('仕事術×');
   await page.screenshot({ path: test.info().outputPath('work-favorites-390.png') });
   await filter.click();
   await expect(filter).toHaveCount(0);
   await expect(cards).toHaveCount(4);
-  await card.getByRole('button', { name: '問題は小さいうちに表へ出すのお気に入りを解除' }).click();
+  await save.click();
   await expect(cards).toHaveCount(3);
   await expect(page).toHaveURL(/\/library(?:\?|$)/);
 });

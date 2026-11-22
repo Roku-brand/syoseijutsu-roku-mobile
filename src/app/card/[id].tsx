@@ -15,7 +15,6 @@ import {
   theoryById,
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
-import { getRelatedTheoryDefinition } from '@/data/theory-display';
 import { mergedTechniqueIds, resolveTechniqueId } from '@/data/technique-identity';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
@@ -109,7 +108,7 @@ export default function CardDetailScreen() {
     return {
       key: theory.tagId,
       title: theory.title,
-      supportingText: readable ? getRelatedTheoryDefinition(theory) : undefined,
+      locked: !readable,
       href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
     };
   };
@@ -204,13 +203,11 @@ export default function CardDetailScreen() {
               <View testID="related-theories" style={styles.relatedSections}>
                 <RelatedContentSection
                   title="主要理論"
-                  description="理解の入口となる代表的な理論"
                   testID="primary-theories"
                   items={primaryTheories.map(toTheoryItem)}
                 />
                 <RelatedContentSection
                   title="あわせて読む理論"
-                  description="実践を補う知識や、別の視点を与える思想・言葉"
                   testID="supplementary-theories"
                   items={supplementaryTheories.map(toTheoryItem)}
                 />
@@ -221,9 +218,13 @@ export default function CardDetailScreen() {
 
             <RelatedContentSection
               title="関連する処世術"
-              description="あわせて身につけたい実践知"
               testID="related-techniques"
-              items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
+              items={related.map((relatedCard) => ({
+                key: relatedCard.id,
+                title: relatedCard.title,
+                locked: !canReadTechnique(effectiveAccess, relatedCard.id),
+                href: { pathname: '/card/[id]', params: { id: relatedCard.id } },
+              }))}
             />
           </View>
 

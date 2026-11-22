@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { catalogTheme, colors, fonts } from '@/constants/theme';
+import { catalogIndexTheme, colors, fonts, radius } from '@/constants/theme';
 import { AppText } from './ui';
 
 /** Both catalogues use the same compact, directly selectable page control. */
-export function Pagination({ page, totalPages, onSelect, tone = 'technique', label, testID }: {
+export function Pagination({ page, totalPages, onSelect, tone = 'technique', label, testID, framed = false }: {
   page: number; totalPages: number; onSelect: (page: number) => void;
-  tone?: 'technique' | 'theory' | 'neutral'; label: string; testID?: string;
+  tone?: 'technique' | 'theory' | 'neutral'; label: string; testID?: string; framed?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   useEffect(() => { setOpen(false); }, [page, totalPages]);
   if (totalPages <= 1) return null;
   const current = Math.min(totalPages, Math.max(1, page));
-  const ink = tone === 'theory' ? catalogTheme.theory.ink : tone === 'neutral' ? colors.ink : colors.goldDeep;
+  const ink = tone === 'theory' ? catalogIndexTheme.theory.accent : tone === 'neutral' ? colors.ink : colors.goldDeep;
+  const frame = tone === 'theory' ? catalogIndexTheme.theory : catalogIndexTheme.technique;
   const select = (value: number) => { setOpen(false); onSelect(value); };
   return <View testID={testID} accessibilityLabel={label} style={styles.pagination}>
+    {framed ? <View pointerEvents="none" aria-hidden style={[styles.frame, { borderColor: frame.border, backgroundColor: frame.surface }]} /> : null}
     <Pressable accessibilityRole="button" accessibilityLabel="前のページ" disabled={current === 1} onPress={() => select(current - 1)} style={[styles.arrow, current === 1 && styles.disabled]}><View aria-hidden style={[styles.chevron, styles.previous, { borderColor: ink }]} /></Pressable>
-    <Pressable accessibilityRole="button" accessibilityLabel={`${label}：${current}/${totalPages}`} aria-expanded={open} accessibilityHint="ページを選択します" onPress={() => setOpen(true)} style={styles.trigger}>
-      <AppText style={[styles.text, { color: ink }]}>{current}</AppText><View aria-hidden style={[styles.divider, { backgroundColor: ink }]} /><AppText style={[styles.text, styles.total, { color: ink }]}>{totalPages}</AppText><View aria-hidden style={[styles.chevron, styles.down, { borderColor: ink }]} />
+    <Pressable accessibilityRole="button" accessibilityLabel={`${label}：${current}/${totalPages}`} aria-expanded={open} accessibilityHint="ページを選択します" onPress={() => setOpen(true)} style={[styles.trigger, framed && styles.framedTrigger]}>
+      <AppText style={[styles.text, framed && styles.framedText, { color: ink }]}>{current}</AppText><View aria-hidden style={[styles.divider, { backgroundColor: ink }]} /><AppText style={[styles.text, framed && styles.framedText, styles.total, { color: ink }]}>{totalPages}</AppText><View aria-hidden style={[styles.chevron, styles.down, { borderColor: ink }]} />
     </Pressable>
     <Pressable accessibilityRole="button" accessibilityLabel="次のページ" disabled={current === totalPages} onPress={() => select(current + 1)} style={[styles.arrow, current === totalPages && styles.disabled]}><View aria-hidden style={[styles.chevron, styles.next, { borderColor: ink }]} /></Pressable>
     <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
@@ -30,6 +32,9 @@ export function Pagination({ page, totalPages, onSelect, tone = 'technique', lab
 }
 const styles = StyleSheet.create({
   pagination: { flexDirection: 'row', alignItems: 'center' },
+  frame: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, borderWidth: 1, borderRadius: radius.pill, opacity: 0.85 },
+  framedTrigger: { minWidth: 72 },
+  framedText: { fontFamily: fonts.serif, fontSize: 15 },
   trigger: { minHeight: 44, minWidth: 84, paddingHorizontal: 8, borderRadius: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
   text: { fontFamily: fonts.sans, fontVariant: ['tabular-nums'], fontSize: 14, lineHeight: 22, fontWeight: '600' },
   total: { fontWeight: '400', opacity: 0.7 },

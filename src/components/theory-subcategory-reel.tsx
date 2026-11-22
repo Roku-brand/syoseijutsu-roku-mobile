@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions, type ViewStyle } from 'react-native';
-import { catalogTheme, colors, fonts } from '@/constants/theme';
+import { catalogIndexTheme, colors, fonts } from '@/constants/theme';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { AppText } from './ui';
 import { getCategoryLabelParts } from './category-filter-label';
@@ -10,6 +10,8 @@ const optionKey = (option?: Option) => option?.subcategoryId ?? 'all';
 const optionIndex = (position: number, count: number) => count ? ((position % count) + count) % count : 0;
 const middleIndex = (index: number, count: number) => count > 1 ? count + optionIndex(index, count) : 0;
 const reelLength = (count: number) => count > 1 ? count * 3 : count;
+const LINE_WIDTH = 80;
+const ACTIVE_LINE_WIDTH = 34;
 
 export function TheorySubcategoryReel({ options, selected, onSelect }: {
   options: Option[]; selected?: string; onSelect: (id?: string) => void;
@@ -25,8 +27,9 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const { fontScale } = useWindowDimensions();
   const reducedMotion = useReducedMotion();
   const index = Math.max(0, options.findIndex(option => option.subcategoryId === selected));
-  const slot = width > 0 ? Math.max(1, Math.min(Math.max(176, width * 0.7), width - 48)) : 240;
-  const stageHeight = Math.max(Math.ceil((width >= 500 ? 60 : 56) * fontScale), textHeight + 4);
+  const slot = width > 0 ? Math.max(1, width * 0.57) : 240;
+  const sideWidth = Math.max(1, (width - slot) / 2);
+  const stageHeight = Math.max(Math.ceil((width >= 500 ? 58 : 52) * fontScale), textHeight + 4);
   const signature = options.map(optionKey).join('|');
   const key = selected ?? 'all';
   useLayoutEffect(() => { textMeasurements.current.clear(); setTextHeight(0); }, [slot, signature, fontScale]);
@@ -282,19 +285,35 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     const active = itemIndex === index;
     const center = physicalIndex * slot;
     const parts = getCategoryLabelParts(option.title);
-    const label = parts.length > 1 && option.title.length * (width >= 500 ? 22 : 20) * fontScale > slot - 16 ? parts.join('\n') : option.title;
+    const titleSize = width >= 500 ? 23 : width > 0 && width < 330 ? 17 : 21;
+    const label = parts.length > 1 && option.title.length * titleSize * fontScale > slot - 12 ? parts.join('\n') : option.title;
+    const sideOffset = (slot - sideWidth) / 2;
+    const titleOpacity = scrollX.interpolate({
+      inputRange: [center - slot * 0.75, center, center + slot * 0.75],
+      outputRange: [0, 1, 0], extrapolate: 'clamp',
+    });
+    // A neighbour occupies only the visible edge of its own swipe target.
+    const sideOpacity = scrollX.interpolate({
+      inputRange: [center - slot * 1.45, center - slot, center - slot * 0.6, center + slot * 0.6, center + slot, center + slot * 1.45],
+      outputRange: [0, 1, 0, 0, 1, 0], extrapolate: 'clamp',
+    });
+    const sideTranslation = scrollX.interpolate({
+      inputRange: [center - slot, center + slot],
+      outputRange: [-sideOffset, sideOffset], extrapolate: 'clamp',
+    });
     return <Pressable key={`${physicalIndex}:${optionKey(option)}`} testID={canonical && active ? 'theory-subcategory-tab' : 'theory-subcategory-preview'} accessibilityRole="button"
       accessible={canonical} accessibilityElementsHidden={!canonical} importantForAccessibility={canonical ? 'auto' : 'no-hide-descendants'} aria-hidden={!canonical || undefined}
       accessibilityLabel={option.subcategoryId ? `${option.title}で理論を絞り込む` : 'この分類のすべての理論を表示'} accessibilityHint={`${option.items.length}件。左右にスワイプして選択できます`}
       accessibilityState={{ selected: active }} aria-selected={active} tabIndex={canonical && active ? 0 : -1}
       onPress={() => navigate(physicalIndex)} style={[styles.item, { width: slot, minHeight: stageHeight }]}>
-      <Animated.View style={[styles.copy, { opacity: scrollX.interpolate({ inputRange: [center - slot * 1.5, center - slot, center, center + slot, center + slot * 1.5], outputRange: [0, 0.65, 1, 0.65, 0], extrapolate: 'clamp' }), transform: [
-        { translateX: scrollX.interpolate({ inputRange: [center - slot, center, center + slot], outputRange: [-slot * 0.27, 0, slot * 0.27], extrapolate: 'clamp' }) },
-        { scale: scrollX.interpolate({ inputRange: [center - slot, center, center + slot], outputRange: [0.82, 1, 0.82], extrapolate: 'clamp' }) },
-      ] }]}>
+      <Animated.View style={[styles.copy, { opacity: titleOpacity }]}>
         <AppText accessibilityRole={canonical && active ? 'header' : undefined} aria-level={canonical && active ? 3 : undefined} accessibilityLabel={canonical && active ? option.title : undefined}
           onLayout={event => { textMeasurements.current.set(optionKey(option), event.nativeEvent.layout.height); setTextHeight(Math.max(...textMeasurements.current.values())); }}
-          style={[styles.title, width >= 500 && styles.titleWide, active && styles.titleActive]}>{label}</AppText>
+          style={[styles.title, { fontSize: titleSize, lineHeight: titleSize + 4 }]}>{label}</AppText>
+      </Animated.View>
+      <Animated.View pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden
+        style={[styles.sideCopy, { width: sideWidth, left: sideOffset, opacity: sideOpacity, transform: [{ translateX: sideTranslation }] }]}>
+        <AppText numberOfLines={2} style={styles.sideTitle}>{option.title}</AppText>
       </Animated.View>
     </Pressable>;
   };
@@ -303,7 +322,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const repeatedOptions = options.length > 1 ? [...options, ...options, ...options] : options;
   return <View testID="theory-subcategory-reel" style={styles.reel}>
     <View style={styles.heading}>
-      <AppText testID="theory-subcategory-position" accessibilityLiveRegion="polite" style={styles.position}>{index + 1} / {options.length}</AppText>
+      <AppText testID="theory-subcategory-position" accessibilityLiveRegion="polite" style={styles.position}>{String(index + 1).padStart(2, '0')} / {String(options.length).padStart(2, '0')}</AppText>
     </View>
     <View ref={viewport} style={styles.viewport}>
       {Platform.OS === 'web' ? <View ref={webScroll} testID="theory-subcategory-scroll"
@@ -345,24 +364,34 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
         }}>
         {repeatedOptions.map(renderOption)}
       </ScrollView>}
+      {options.length > 1 ? <View pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={styles.arrows}>
+        <View style={[styles.chevron, styles.previous]} />
+        <View style={[styles.chevron, styles.next]} />
+      </View> : null}
     </View>
-    <View testID="theory-subcategory-indicators" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={styles.dots}>
-      {options.map((option, itemIndex) => <View key={optionKey(option)} testID={itemIndex === index ? 'theory-subcategory-indicator-active' : undefined} style={[styles.dot, itemIndex === index && styles.dotActive]} />)}
+    <View testID="theory-subcategory-indicators" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={styles.indicator}>
+      <View testID="theory-subcategory-indicator-active" style={[styles.activeLine, {
+        left: options.length > 1 ? index * (LINE_WIDTH - ACTIVE_LINE_WIDTH) / (options.length - 1) : (LINE_WIDTH - ACTIVE_LINE_WIDTH) / 2,
+      }]} />
     </View>
   </View>;
 }
 
 const styles = StyleSheet.create({
   reel: { minWidth: 0, width: '100%' },
-  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 4 },
-  position: { color: colors.ink, fontSize: 12, lineHeight: 18 },
+  heading: { alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  position: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700', fontVariant: ['tabular-nums'] },
   viewport: { minWidth: 0, width: '100%', overflow: 'hidden' },
   webScroll: { minWidth: 0, width: '100%', ...Platform.select({ web: { overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'none', touchAction: 'pan-x pan-y pinch-zoom', overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory' } }) } as ViewStyle,
   item: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'transparent', ...Platform.select({ web: { scrollSnapAlign: 'center', userSelect: 'none' } }) } as ViewStyle,
-  copy: { width: '100%', paddingHorizontal: 8 },
-  title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 26, fontWeight: '400', textAlign: 'center', ...Platform.select({ web: { overflowWrap: 'anywhere' as const } }) },
-  titleWide: { fontSize: 22, lineHeight: 28 }, titleActive: { color: colors.ink, fontWeight: '600' },
-  dots: { flexDirection: 'row', justifyContent: 'center', gap: 5, marginTop: 4, height: 4 },
-  dot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#DDD7CC' },
-  dotActive: { width: 12, backgroundColor: catalogTheme.theory.ink },
+  copy: { width: '100%', paddingHorizontal: 6 },
+  title: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', textAlign: 'center', ...Platform.select({ web: { overflowWrap: 'anywhere' as const } }) },
+  sideCopy: { position: 'absolute', top: 0, bottom: 0, justifyContent: 'center', paddingHorizontal: 9 },
+  sideTitle: { color: '#6E6E64', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, textAlign: 'center' },
+  arrows: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 4 },
+  chevron: { width: 8, height: 8, borderTopWidth: 1, borderRightWidth: 1, borderColor: colors.goldDeep },
+  previous: { transform: [{ rotate: '-135deg' }] },
+  next: { transform: [{ rotate: '45deg' }] },
+  indicator: { width: LINE_WIDTH, height: 2, borderRadius: 2, alignSelf: 'center', marginTop: 6, backgroundColor: '#E0DBD0' },
+  activeLine: { position: 'absolute', top: -0.5, width: ACTIVE_LINE_WIDTH, height: 3, borderRadius: 2, backgroundColor: catalogIndexTheme.theory.accent },
 });

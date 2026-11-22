@@ -30,6 +30,31 @@ export const catalogTheme = {
   categoryBars: { interpersonal: '#B94C55', work: '#43749D', life: '#4E7B60' } as Record<string, string>,
 } as const;
 
+/** The two index screens share paper and geometry, with separate ink and borders. */
+export const catalogIndexTheme = {
+  filterSurface: '#F2EEE6',
+  cardRadius: 12,
+  cardGap: 10,
+  technique: {
+    accent: colors.goldDeep,
+    selected: colors.gold,
+    ink: colors.ink,
+    border: '#D9CBB7',
+    divider: '#DCCFBC',
+    surface: '#FFFCF7',
+    mountain: '#AC926B',
+  },
+  theory: {
+    accent: '#315B49',
+    selected: '#315B49',
+    ink: '#172C23',
+    border: '#A1B1A6',
+    divider: '#8DA298',
+    surface: '#FFFDF8',
+    mountain: '#7F9585',
+  },
+} as const;
+
 const builtInCategoryPalette = {
   interpersonal: {
     accent: '#6B5430',

@@ -18,7 +18,7 @@ const photos = {
   recommend: require('../../assets/upgrade/morning-study.webp'),
   network: require('../../assets/upgrade/dark-library.webp'),
 };
-const mark = require('../../assets/brand/icon.png');
+const mark = require('../../assets/upgrade/complete-mark.png');
 const gold = colors.gold;
 const ink = colors.ink;
 const accessPeriod = `${COMPLETE_EDITION_ACCESS_DAYS}日間`;
@@ -66,7 +66,7 @@ function EditionCard({ counts, complete, desktop = false }: { counts: ReturnType
     `${counts.learning}ケースの学習コンテンツ`,
   ];
   return <View testID={complete ? 'upgrade-complete-card' : 'upgrade-free-card'} style={[styles.editionCard, desktop && desktopStyles.editionCard, complete && styles.editionCardComplete]}>
-    <Image source={mark} contentFit="contain" style={styles.editionSeal} />
+    <Image source={mark} contentFit="contain" style={styles.editionSeal} testID="upgrade-edition-logo" accessibilityElementsHidden />
     <AppText variant="serif" style={[styles.editionTitle, desktop && desktopStyles.editionTitle, complete && styles.editionTitleComplete]}>{complete ? '完全版' : '無料版'}</AppText>
     <AppText style={[styles.editionSubtitle, desktop && desktopStyles.editionSubtitle, complete && styles.editionSubtitleComplete]}>{complete ? '処世術禄を、まるごと使える' : 'まずは処世術禄を体験'}</AppText>
     <View style={[styles.editionItems, desktop && desktopStyles.editionItems]}>{items.map((item, index) => <View key={item} style={[styles.editionItem, desktop && desktopStyles.editionItem, index > 0 && styles.editionDivider, complete && styles.editionDividerComplete]}><Check small={!desktop} /><AppText style={[styles.editionItemText, desktop && desktopStyles.editionItemText, complete && styles.editionItemTextComplete]}>{item}</AppText></View>)}</View>
@@ -127,7 +127,7 @@ export function UpgradeLanding({ price = `¥${COMPLETE_EDITION_PRICE_JPY}`, isPa
           <Image loading="eager" source={desktop ? photos.heroDesktop : photos.hero} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={desktop ? { left: '50%', top: '45%' } : 'center'} accessibilityLabel="金色の夕日が差す山並みと湖、山頂から景色を眺める若い人物の後ろ姿" />
           <Image source={heroOverlay(desktop)} style={StyleSheet.absoluteFill} contentFit="fill" accessibilityElementsHidden />
           <View style={[styles.heroCopy, desktop && desktopStyles.heroCopy, desktop && sectionSpace]}>
-            <View style={styles.brandRow}><Image loading="eager" source={mark} style={styles.brandMark} contentFit="contain" /><AppText variant="serif" style={styles.brandName}>処世術禄　完全版</AppText></View>
+            <View style={styles.brandRow}><Image loading="eager" source={mark} style={styles.brandMark} contentFit="contain" testID="upgrade-hero-logo" accessibilityElementsHidden /><AppText variant="serif" style={styles.brandName}>処世術禄　完全版</AppText></View>
             <AppText variant="serif" accessibilityRole="header" style={[styles.heroTitle, narrow && { fontSize: 22, lineHeight: 34 }, desktop && desktopStyles.heroTitle, desktop && desktopWidth < 1200 && { fontSize: 42, lineHeight: 66 }]}>処世術禄を、{'\n'}もっと広く。もっと深く。</AppText>
             <AppText style={[styles.heroLead, desktop && desktopStyles.heroLead]}>論理性 × 網羅性 × 体系性{'\n'}人物像から実践へ。根拠となる理論まで、つながりをたどれます。</AppText>
           </View>
