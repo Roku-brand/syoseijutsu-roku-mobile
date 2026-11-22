@@ -1,4 +1,4 @@
-import { useGlobalSearchParams, useRouter } from 'expo-router';
+import { Link, useGlobalSearchParams, usePathname, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
@@ -14,14 +14,20 @@ export function DataStatusBanner() {
 
 function DataStatus() {
   const router = useRouter();
-  const { importLocalData } = useGlobalSearchParams<{ importLocalData?: string }>();
-  const requested = importLocalData === '1';
+  const pathname = usePathname();
+  const { dataPrompt } = useGlobalSearchParams<{ dataPrompt?: 'sync' | 'import' }>();
+  const requested = pathname === '/settings/data' ? dataPrompt : undefined;
   const reduced = useReducedMotion();
-  const { storageError, retrySave, guestImportAvailable, importGuestRecords, dismissGuestImport, syncStatus } = useAppState();
+  const { storageError, retrySave, guestImportAvailable, importGuestRecords, dismissGuestImport, syncStatus, acceptSyncNotice } = useAppState();
   const [deferred, setDeferred] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const running = useRef(false);
+  const syncPrompt = requested === 'sync' && syncStatus === 'notice';
+  const importPrompt = syncStatus !== 'notice' && guestImportAvailable && (!deferred || requested === 'import');
+  const title = syncPrompt ? 'データを同期する' : '端末のデータを引き継ぐ';
+  const copy = syncPrompt ? '個人データをクラウドに保存し、同じアカウントの端末で同期します。'
+    : 'ログイン前のデータをこのアカウントに追加します。';
   const act = async (task: () => Promise<unknown>, onSuccess?: () => void) => {
     if (running.current) return;
     running.current = true;
@@ -37,10 +43,10 @@ function DataStatus() {
       setBusy(false);
     }
   };
-  const clearRequest = () => { if (requested) router.setParams({ importLocalData: undefined }); };
+  const clearRequest = () => { if (requested) router.setParams({ dataPrompt: undefined }); };
   const later = () => {
     if (running.current) return;
-    setDeferred(true);
+    if (!syncPrompt) setDeferred(true);
     setMessage('');
     clearRequest();
   };
@@ -54,22 +60,26 @@ function DataStatus() {
         </Pressable>
       </View>
     ) : null}
-    <Modal transparent animationType={reduced ? 'none' : 'fade'} visible={!storageError && syncStatus !== 'notice' && guestImportAvailable && (!deferred || requested)}
+    <Modal transparent animationType={reduced ? 'none' : 'fade'} visible={!storageError && (syncPrompt || importPrompt)}
       onRequestClose={later}>
       <View style={styles.overlay}>
-        <View role="dialog" aria-modal accessibilityViewIsModal accessibilityLabel="端末のデータを引き継ぐ"
-          testID="guest-data-import-popup" style={styles.popup}>
+        <View role="dialog" aria-modal accessibilityViewIsModal accessibilityLabel={title}
+          testID={syncPrompt ? 'data-sync-popup' : 'guest-data-import-popup'} style={styles.popup}>
           <ScrollView bounces={false} contentContainerStyle={styles.inner}>
-            <AppText accessibilityRole="header" style={styles.title}>端末のデータを引き継ぐ</AppText>
-            <AppText style={styles.copy}>ログイン前の端末内のデータを、このアカウントへ追加できます。</AppText>
+            <AppText accessibilityRole="header" style={styles.title}>{title}</AppText>
+            <AppText style={styles.copy}>{copy}</AppText>
+            {syncPrompt ? <View style={styles.legalLinks}>
+              <Link href="/legal/terms" asChild><Pressable accessibilityRole="link" disabled={busy} style={styles.legalLink}><AppText style={styles.secondaryLabel}>利用規約</AppText></Pressable></Link>
+              <Link href="/legal/privacy" asChild><Pressable accessibilityRole="link" disabled={busy} style={styles.legalLink}><AppText style={styles.secondaryLabel}>プライバシーポリシー</AppText></Pressable></Link>
+            </View> : null}
             {message ? <AppText accessibilityRole="alert" style={styles.error}>{message}</AppText> : null}
             <View style={styles.actions}>
-              <Pressable disabled={busy} accessibilityRole="button" onPress={() => void act(importGuestRecords, clearRequest)} style={[styles.button, styles.primary]}>
-                <AppText style={styles.primaryLabel}>{busy ? '引き継ぎ中…' : 'データを引き継ぐ'}</AppText>
+              <Pressable disabled={busy} accessibilityRole="button" onPress={() => void act(syncPrompt ? acceptSyncNotice : importGuestRecords, clearRequest)} style={[styles.button, styles.primary]}>
+                <AppText style={styles.primaryLabel}>{syncPrompt ? busy ? '確認中…' : '同期を始める' : busy ? '引き継ぎ中…' : 'データを引き継ぐ'}</AppText>
               </Pressable>
-              <Pressable disabled={busy} accessibilityRole="button" onPress={() => { dismissGuestImport(); clearRequest(); }} style={[styles.button, styles.secondary]}>
+              {!syncPrompt ? <Pressable disabled={busy} accessibilityRole="button" onPress={() => { dismissGuestImport(); clearRequest(); }} style={[styles.button, styles.secondary]}>
                 <AppText style={styles.secondaryLabel}>引き継がない</AppText>
-              </Pressable>
+              </Pressable> : null}
               <Pressable disabled={busy} accessibilityRole="button" onPress={later} style={styles.button}>
                 <AppText style={styles.secondaryLabel}>あとで</AppText>
               </Pressable>
@@ -91,6 +101,8 @@ const styles = StyleSheet.create({
   inner: { gap: 12, padding: 22 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 30, fontWeight: '700' },
   copy: { color: colors.inkSoft, fontSize: 14, lineHeight: 23 },
+  legalLinks: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 16 },
+  legalLink: { minHeight: 44, justifyContent: 'center' },
   error: { color: colors.goldDeep, fontSize: 13, lineHeight: 21 },
   actions: { gap: 8, marginTop: 4 },
   button: { minHeight: 44, paddingHorizontal: 12, paddingVertical: 8, justifyContent: 'center', alignItems: 'center', borderRadius: 8 },
