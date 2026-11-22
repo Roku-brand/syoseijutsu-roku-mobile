@@ -7,15 +7,15 @@ import { TechniqueTitle } from './technique-title';
 
 type CardProps = {
   href: Href;
-  code: string;
   title: string;
   label: string;
   testID?: string;
   action: ReactNode;
   onOpen?: () => void;
 } & (
-  | { kind: 'theory'; definition: string; classification?: string }
-  | { kind: 'technique'; metadata: string; category: string; readable: boolean }
+  | { kind: 'theory'; code: string; definition: string; classification?: string }
+  | { kind: 'technique'; code: string; metadata: string; category: string; readable: boolean }
+  | { kind: 'feature'; cover: ReactNode; lead: string; classification?: string }
 );
 
 const mountain = require('../../assets/catalog/index-mountains.png');
@@ -24,7 +24,7 @@ export function CatalogIndexCard(props: CardProps) {
   const { width } = useWindowDimensions();
   const compact = width <= 360;
   const theory = props.kind === 'theory';
-  const theme = catalogIndexTheme[props.kind];
+  const theme = catalogIndexTheme[theory ? 'theory' : 'technique'];
   const surfaceStyle = StyleSheet.flatten([styles.cardSurface, theory && styles.theorySurface, compact && styles.compactSurface]);
   const cardBody = (
     <Pressable testID={props.testID} accessibilityRole={props.onOpen ? 'button' : 'link'}
@@ -34,11 +34,14 @@ export function CatalogIndexCard(props: CardProps) {
       {props.kind === 'technique' ? <View testID="technique-category-bar" accessibilityElementsHidden aria-hidden
         style={[styles.categoryBar, { backgroundColor: catalogTheme.categoryBars[props.category] ?? colors.gold }]} /> : null}
       <View style={[styles.numberColumn, theory && styles.theoryNumberColumn, compact && (theory ? styles.compactTheoryNumberColumn : styles.compactNumberColumn), { borderRightColor: theme.divider }]}>
-        <AppText testID={theory ? 'theory-card-id' : 'technique-index-id'} numberOfLines={1}
-          style={[styles.number, theory && styles.theoryNumber, compact && styles.compactNumber, { color: theme.accent }]}>{props.code}</AppText>
+        {props.kind === 'feature'
+          ? <View testID="personal-card-image" style={[styles.featureCover, compact && styles.compactFeatureCover]}>{props.cover}</View>
+          : <AppText testID={theory ? 'theory-card-id' : 'technique-index-id'} numberOfLines={1}
+              style={[styles.number, theory && styles.theoryNumber, compact && styles.compactNumber, { color: theme.accent }]}>{props.code}</AppText>}
       </View>
       <View style={styles.body}>
         {props.kind === 'technique' ? <AppText style={styles.metadata}>{props.metadata}</AppText> : null}
+        {props.kind === 'feature' && props.classification ? <AppText style={styles.metadata}>{props.classification}</AppText> : null}
         {props.kind === 'theory' && props.classification ? <AppText testID="theory-card-subcategory" style={styles.metadata}>{props.classification}</AppText> : null}
         {props.kind === 'technique'
           ? <TechniqueTitle testID="technique-index-title" title={props.title} minimumFontSize={compact ? 16 : 18}
@@ -47,6 +50,7 @@ export function CatalogIndexCard(props: CardProps) {
             {props.title}
           </AppText>}
         {props.kind === 'theory' && props.definition ? <AppText testID="theory-card-summary" numberOfLines={3} style={styles.definition}>{props.definition}</AppText> : null}
+        {props.kind === 'feature' && props.lead ? <AppText numberOfLines={1} style={styles.definition}>{props.lead}</AppText> : null}
         {props.kind === 'technique' && !props.readable ? <AppText style={styles.access}>完全版で読む</AppText> : null}
       </View>
       <View accessibilityElementsHidden aria-hidden style={[styles.chevron, { borderColor: theme.accent }]} />
@@ -54,7 +58,7 @@ export function CatalogIndexCard(props: CardProps) {
   );
 
   return (
-    <View testID={theory ? 'theory-card' : 'shoseijutsu-card'} style={[styles.card, { borderColor: theme.border, backgroundColor: theme.surface }]}>
+    <View testID={theory ? 'theory-card' : props.kind === 'technique' ? 'shoseijutsu-card' : 'personal-content-feature'} style={[styles.card, { borderColor: theme.border, backgroundColor: theme.surface }]}>
       {props.onOpen ? cardBody : <Link href={props.href} asChild style={surfaceStyle}>{cardBody}</Link>}
       <View style={styles.action}>{props.action}</View>
     </View>
@@ -79,6 +83,8 @@ const styles = StyleSheet.create({
   theoryNumberColumn: { minWidth: 48, minHeight: 52 },
   compactNumberColumn: { minWidth: 56 },
   compactTheoryNumberColumn: { minWidth: 44 },
+  featureCover: { position: 'relative', width: 52, height: 56, borderRadius: 5, overflow: 'hidden', backgroundColor: colors.line },
+  compactFeatureCover: { width: 46, height: 50 },
   number: { fontFamily: fonts.sans, fontSize: 15, lineHeight: 21, fontWeight: '600', fontVariant: ['tabular-nums'] },
   theoryNumber: { fontFamily: fonts.serif, fontSize: 14 },
   compactNumber: { fontSize: 13 },

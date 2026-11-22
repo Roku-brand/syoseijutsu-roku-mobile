@@ -55,6 +55,29 @@ for (const width of [320, 390, 1440]) test(`ranking artwork and type-based favor
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
+test('お気に入りの特集は共通の横長カードと右上のひし形で解除できる', async ({ page }) => {
+  await fixture(page);
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto('/library?kind=feature');
+  const card = page.getByTestId('personal-content-feature');
+  const row = card.getByTestId('saved-feature-row');
+  const cover = row.getByTestId('personal-card-image');
+  const save = card.getByRole('button', { name: `${articles[0].title}のお気に入りを解除`, exact: true });
+  await expect(row).toHaveAccessibleName(`${articles[0].title}を開く`);
+  await expect(cover).toBeVisible();
+  await expect(row.getByTestId('catalog-index-mountains')).toBeVisible();
+  await expect(save).toHaveAttribute('aria-pressed', 'true');
+  await expect(row.getByRole('button')).toHaveCount(0);
+  const [bounds, thumbnail, diamond] = await Promise.all([card.boundingBox(), cover.boundingBox(), save.getByTestId('save-diamond').boundingBox()]);
+  expect(thumbnail!.x - bounds!.x).toBeLessThan(22);
+  expect(diamond!.y - bounds!.y).toBeLessThan(20);
+  expect(bounds!.x + bounds!.width - diamond!.x - diamond!.width).toBeLessThan(24);
+  await save.click();
+  await expect(card).toHaveCount(0);
+  await expect(page).toHaveURL(/\/library\?kind=feature/);
+  await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).savedFeatureIds, key)).toEqual([]);
+});
+
 test('history separates three kinds, records features and keeps older saved IDs', async ({ page }) => {
   await fixture(page);
   await page.goto('/history');

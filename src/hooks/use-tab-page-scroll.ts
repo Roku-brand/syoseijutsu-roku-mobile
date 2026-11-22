@@ -3,7 +3,7 @@ import { useCallback, useRef, type RefObject } from 'react';
 import { Platform, type ScrollView } from 'react-native';
 import { useMainSectionNavigation } from '@/navigation/main-section-state';
 
-export function useTabPageScroll(scroll: RefObject<ScrollView | null>, enabled: boolean) {
+export function useTabPageScroll(scroll: RefObject<ScrollView | null>, enabled: boolean, onReselectAtTop?: () => void) {
   const { currentPage } = useMainSectionNavigation();
   const href = useUnstableGlobalHref();
   const focused = useRef<typeof currentPage.current | null>(null);
@@ -32,6 +32,7 @@ export function useTabPageScroll(scroll: RefObject<ScrollView | null>, enabled: 
       focused.current = entry;
       registered = scroll.current ?? undefined;
       entry.scroll = registered;
+      entry.onReselectAtTop = onReselectAtTop;
       if (entry.resumed && entry.page.scrollY > 0) {
         requested.current = entry.page.scrollY;
         restore();
@@ -39,11 +40,14 @@ export function useTabPageScroll(scroll: RefObject<ScrollView | null>, enabled: 
     });
     return () => {
       cancelAnimationFrame(frame);
-      if (focused.current && focused.current.scroll === registered) focused.current.scroll = undefined;
+      if (focused.current && focused.current.scroll === registered) {
+        focused.current.scroll = undefined;
+        focused.current.onReselectAtTop = undefined;
+      }
       focused.current = null;
       requested.current = null;
     };
-  }, [currentPage, enabled, href, restore, scroll]));
+  }, [currentPage, enabled, href, onReselectAtTop, restore, scroll]));
 
   return {
     onLayout: (height: number) => { viewport.current = height; restore(); },

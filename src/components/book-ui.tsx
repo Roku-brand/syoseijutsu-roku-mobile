@@ -1,6 +1,6 @@
 import { BookPopup } from './book-popup';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, type ComponentProps } from 'react';
 import {
   Platform,
   Pressable,
@@ -43,7 +43,7 @@ export function BookScreen({
   scroll = true,
   scrollRef,
   ...props
-}: ScrollViewProps & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null>; onPullRefresh?: () => Promise<void> }) {
+}: ScrollViewProps & Pick<ComponentProps<typeof PageScroll>, 'onPullRefresh' | 'onReselectAtTop'> & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null> }) {
   const { width } = useHydratedWindowDimensions();
   const { density } = useResponsiveLayout();
   const compact = width < 700;

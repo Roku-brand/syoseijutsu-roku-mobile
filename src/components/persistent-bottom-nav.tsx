@@ -32,9 +32,11 @@ export function PersistentBottomNav({ reducedMotion }: { reducedMotion: boolean 
 
   const currentRoot = items.find(item => pathname === (item.key === 'main' ? '/' : item.href));
   const navigate = (item: (typeof items)[number]) => {
-    const scroll = currentPage.current.scroll;
+    const { scroll, page, onReselectAtTop } = currentPage.current;
     if (currentRoot === item && scroll) {
-      scroll.scrollTo({ y: 0, animated: !reducedMotion });
+      const node: HTMLElement | null = Platform.OS === 'web' ? scroll.getScrollableNode() : null;
+      if (onReselectAtTop && (node?.scrollTop ?? page.scrollY) <= 1) onReselectAtTop();
+      else scroll.scrollTo({ y: 0, animated: !reducedMotion });
       return;
     }
     switchSection(item.key);

@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import { useCallback, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import { ActivityIndicator, Platform, RefreshControl, ScrollView, StyleSheet, Text, View, type ScrollViewProps, type ViewStyle } from 'react-native';
 import { colors } from '@/constants/theme';
@@ -6,9 +5,10 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useWebPageElasticity } from '@/hooks/use-web-page-elasticity';
 import { useTabPageScroll } from '@/hooks/use-tab-page-scroll';
 
-export function PageScroll({ ref, children, contentContainerStyle, style, onPullRefresh, rememberOnTabSwitch = false, onScroll, onScrollBeginDrag, onLayout, onContentSizeChange, ...props }: ScrollViewProps & {
+export function PageScroll({ ref, children, contentContainerStyle, style, onPullRefresh, onReselectAtTop, rememberOnTabSwitch = false, onScroll, onScrollBeginDrag, onLayout, onContentSizeChange, ...props }: ScrollViewProps & {
   ref?: Ref<ScrollView>;
   onPullRefresh?: () => Promise<void>;
+  onReselectAtTop?: () => void;
   rememberOnTabSwitch?: boolean;
 }) {
   const scroll = useRef<ScrollView>(null);
@@ -25,8 +25,6 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
     busy.current = true;
     setRefreshing(true);
     try {
-      if (Platform.OS === 'web') navigator.vibrate?.(22);
-      else void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
       await latestRefresh.current();
     } catch {
       // A failed refresh must still release the indicator and allow another pull.
@@ -36,7 +34,7 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
     }
   }, []);
   useWebPageElasticity(scroll, indicator, reduced, onPullRefresh ? refresh : undefined);
-  const routeScroll = useTabPageScroll(scroll, rememberOnTabSwitch);
+  const routeScroll = useTabPageScroll(scroll, rememberOnTabSwitch, onReselectAtTop);
   return (
     <ScrollView
       bounces={!reduced || Boolean(onPullRefresh)}

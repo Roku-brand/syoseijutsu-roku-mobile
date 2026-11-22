@@ -1,3 +1,4 @@
+import * as Haptics from 'expo-haptics';
 import { useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState, type Ref } from 'react';
 import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -222,6 +223,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     locked.current = true;
     shuffleCompletion.current = onComplete;
     if (filter) setPendingFilter(filter);
+    else void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
     setPhase('shuffle');
     spin.setValue(0);
     if (!reduced) Animated.timing(spin, { toValue: 1, duration: 1160, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
