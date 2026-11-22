@@ -59,7 +59,8 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(technique.getByTestId('save-diamond')).toBeVisible();
   const count = (await page.getByTestId('technique-index-count').boundingBox())!;
   const pages = (await page.getByTestId('technique-index-pagination').boundingBox())!;
-  expect(pages.y).toBeGreaterThan(count.y);
+  expect(pages.x).toBeGreaterThan(count.x + count.width);
+  expect(Math.abs(count.y + count.height / 2 - (pages.y + pages.height / 2))).toBeLessThan(2);
   await expect(page.getByRole('button', { name: /並び替え/ })).toHaveCount(0);
   await noOverflow(page);
   await page.screenshot({ path: test.info().outputPath(`techniques-${width}.png`), scale: 'css' });
