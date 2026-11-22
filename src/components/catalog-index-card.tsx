@@ -34,7 +34,7 @@ export function CatalogIndexCard(props: CardProps) {
       {props.kind === 'technique' ? <View testID="technique-category-bar" accessibilityElementsHidden aria-hidden
         style={[styles.categoryBar, { backgroundColor: catalogTheme.categoryBars[props.category] ?? colors.gold }]} /> : null}
       <View style={[styles.numberColumn, theory && styles.theoryNumberColumn, compact && (theory ? styles.compactTheoryNumberColumn : styles.compactNumberColumn), { borderRightColor: theme.divider }]}>
-        <AppText testID={theory ? 'theory-card-id' : 'technique-index-id'}
+        <AppText testID={theory ? 'theory-card-id' : 'technique-index-id'} numberOfLines={1}
           style={[styles.number, theory && styles.theoryNumber, compact && styles.compactNumber, { color: theme.accent }]}>{props.code}</AppText>
       </View>
       <View style={styles.body}>
@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
   theorySurface: { minHeight: 88, paddingLeft: 12 },
   compactSurface: { gap: 10, paddingRight: 38 },
   action: { position: 'absolute', top: 0, right: 3 },
-  numberColumn: { width: 64, minHeight: 44, flexShrink: 0, justifyContent: 'center', borderRightWidth: 1, paddingRight: 7 },
-  theoryNumberColumn: { width: 48, minHeight: 52 },
-  compactNumberColumn: { width: 56 },
-  compactTheoryNumberColumn: { width: 44 },
+  numberColumn: { minWidth: 64, minHeight: 44, flexShrink: 0, justifyContent: 'center', borderRightWidth: 1, paddingRight: 7 },
+  theoryNumberColumn: { minWidth: 48, minHeight: 52 },
+  compactNumberColumn: { minWidth: 56 },
+  compactTheoryNumberColumn: { minWidth: 44 },
   number: { fontFamily: fonts.sans, fontSize: 15, lineHeight: 21, fontWeight: '600', fontVariant: ['tabular-nums'] },
   theoryNumber: { fontFamily: fonts.serif, fontSize: 14 },
   compactNumber: { fontSize: 13 },
