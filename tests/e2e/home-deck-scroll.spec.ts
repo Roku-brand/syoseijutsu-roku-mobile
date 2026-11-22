@@ -101,6 +101,37 @@ test('ホームタブは途中から先頭に戻し、先頭で押すと一度�
   expect(await haptics()).toBe(3);
 });
 
+test('ボタン・ホームタブ・デッキ選択のシャッフルで同じ引き下げ更新が動く', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await ready(page);
+
+  const scroll = page.getByTestId('home-scroll');
+  const indicator = page.getByTestId('home-pull-indicator');
+  const offsets = () => scroll.evaluate(node => {
+    const viewportTop = node.getBoundingClientRect().top;
+    return ['home-recommendations-section', 'home-shortcuts'].map(id =>
+      node.querySelector(`[data-testid="${id}"]`)!.getBoundingClientRect().top - viewportTop);
+  });
+  const checkRefresh = async (trigger: () => Promise<void>) => {
+    const before = await offsets();
+    await trigger();
+    await expect(indicator).toHaveCSS('opacity', '1');
+    await expect.poll(async () => (await offsets()).map((value, i) => Math.round(value - before[i])),
+      { intervals: [30, 50, 70], timeout: 1000 }).toEqual([51, 51]);
+    await ready(page);
+    await expect(indicator).toHaveCSS('opacity', '0');
+    await expect.poll(async () => Math.round((await offsets())[0] - before[0])).toBe(0);
+    expect(await position(page)).toBe(0);
+  };
+  await checkRefresh(() => page.getByTestId('home-discovery-refresh').click());
+  await checkRefresh(() => page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: 'ホーム', exact: true }).click());
+  await page.getByTestId('home-deck-filter').click();
+  await checkRefresh(() => page.getByTestId('home-deck-filter-work').click());
+  await expect(page.getByTestId('home-deck-filter')).toHaveText('仕事術');
+});
+
 test('短い画面でもページ送り・シャッフル・下部コンテンツへ到達できる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 667 });
   await page.goto('/');

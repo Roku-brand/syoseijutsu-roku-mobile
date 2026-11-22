@@ -1,8 +1,10 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 import { Platform, type ScrollView, type View } from 'react-native';
 
 const REFRESH_THRESHOLD = 102;
-const REFRESH_OFFSET = 51;
+export const REFRESH_OFFSET = 51;
+export type ScrollRefreshTask = () => Promise<void> | undefined;
+export type RequestScrollRefresh = (task?: ScrollRefreshTask) => void;
 const FLING_RELEASE_WINDOW = 95;
 const FLING_EDGE_WINDOW = 950;
 const NATIVE_FLING_WAIT = 42;
@@ -43,8 +45,9 @@ export function useWebPageElasticity(
   ref: RefObject<ScrollView | null>,
   indicatorRef: RefObject<View | null>,
   reduced: boolean,
-  refresh?: () => Promise<void>,
+  refresh?: (task?: ScrollRefreshTask) => Promise<void> | undefined,
 ) {
+  const requestedRefresh = useRef<RequestScrollRefresh>(null);
   useEffect(() => {
     if (Platform.OS !== 'web') return;
     const scroll: HTMLElement | null = ref.current?.getScrollableNode();
@@ -185,39 +188,52 @@ export function useWebPageElasticity(
       const drag = pull * 1.22;
       movePage(touch.edge * limit * drag / (limit + drag));
     };
+    const beginRefresh = (task?: ScrollRefreshTask) => {
+      if (refreshing) return false;
+      const pending = refresh?.(task);
+      if (!pending) return false;
+      clearTouch();
+      stopSpring();
+      refreshing = true;
+      if (scroll.scrollTop > 1) scroll.scrollTop = 0;
+      const before = offset;
+      movePage(REFRESH_OFFSET);
+      if (!reduced && before !== REFRESH_OFFSET && typeof content.animate === 'function') {
+        spring = content.animate([{ translate: `0 ${before}px` }, { translate: `0 ${REFRESH_OFFSET}px` }], {
+          duration: 160, easing: 'ease-out',
+        });
+      }
+      void pending.finally(() => {
+        if (!active) return;
+        refreshing = false;
+        settle();
+      });
+      return true;
+    };
+    requestedRefresh.current = beginRefresh;
     const end = (event: TouchEvent) => {
       const finished = touch;
       if (!finished || Array.from(event.touches).some(finger => finger.identifier === finished.id)) return;
       const shouldRefresh = event.type === 'touchend' && finished.edge === 1 && distance >= REFRESH_THRESHOLD && refresh;
       clearTouch();
-      if (refreshing) return;
-      if (!shouldRefresh) {
-        const velocity = event.type === 'touchend' && event.timeStamp - finished.lastMove < FLING_RELEASE_WINDOW
-          ? finished.velocity : 0;
-        const outward = velocity * finished.edge;
-        const impulse = outward > 0.3 ? finished.edge * Math.min(45, (outward - 0.3) * 24) : 0;
-        settle(impulse);
-        const edge = Math.sign(velocity);
-        const travelled = (finished.startTop - scroll.scrollTop) * edge;
-        if (!reduced && !finished.edge && Math.abs(velocity) >= 0.35 && travelled > 5) {
-          fling = {
-            speed: Math.min(3.4, Math.abs(velocity)),
-            edge,
-            origin: scroll.scrollTop,
-            launchedAt: performance.now(),
-            mode: 'waiting',
-          };
-          flingFrame = requestAnimationFrame(advanceFling);
-        }
-        return;
+      if (refreshing || (shouldRefresh && beginRefresh())) return;
+      const velocity = event.type === 'touchend' && event.timeStamp - finished.lastMove < FLING_RELEASE_WINDOW
+        ? finished.velocity : 0;
+      const outward = velocity * finished.edge;
+      const impulse = outward > 0.3 ? finished.edge * Math.min(45, (outward - 0.3) * 24) : 0;
+      settle(impulse);
+      const edge = Math.sign(velocity);
+      const travelled = (finished.startTop - scroll.scrollTop) * edge;
+      if (!reduced && !finished.edge && Math.abs(velocity) >= 0.35 && travelled > 5) {
+        fling = {
+          speed: Math.min(3.4, Math.abs(velocity)),
+          edge,
+          origin: scroll.scrollTop,
+          launchedAt: performance.now(),
+          mode: 'waiting',
+        };
+        flingFrame = requestAnimationFrame(advanceFling);
       }
-      refreshing = true;
-      movePage(REFRESH_OFFSET);
-      void shouldRefresh().finally(() => {
-        if (!active) return;
-        refreshing = false;
-        settle();
-      });
     };
     scroll.addEventListener('touchstart', start, { passive: true });
     scroll.addEventListener('touchmove', move, { passive: false });
@@ -229,6 +245,7 @@ export function useWebPageElasticity(
     window.addEventListener('touchcancel', end, true);
     return () => {
       active = false;
+      requestedRefresh.current = null;
       clearTouch();
       stopSpring();
       movePage(0);
@@ -241,4 +258,5 @@ export function useWebPageElasticity(
       window.removeEventListener('touchcancel', end, true);
     };
   }, [ref, indicatorRef, reduced, refresh]);
+  return requestedRefresh;
 }

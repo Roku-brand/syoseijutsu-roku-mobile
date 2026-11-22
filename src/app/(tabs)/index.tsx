@@ -3,6 +3,7 @@ import { HomeThemeBackdrop } from '@/components/home-theme-backdrop';
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useRef, useState } from 'react';
+import type { RequestScrollRefresh, ScrollRefreshTask } from '@/hooks/use-web-page-elasticity';
 import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { useAccess } from '@/access/access-state';
@@ -30,8 +31,10 @@ export default function HomeScreen() {
   const { fontScale = 1 } = useWindowDimensions();
   const mobile = width > 0 && width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
-  const refreshDeck = useRef<() => Promise<void>>(null);
-  const shuffleDeck = useCallback(async () => { await refreshDeck.current?.(); }, []);
+  const refreshDeck = useRef<ScrollRefreshTask>(null);
+  const refreshPage = useRef<RequestScrollRefresh>(null);
+  const shuffleDeck = useCallback(() => refreshDeck.current?.(), []);
+  const requestRefresh = useCallback<RequestScrollRefresh>(task => { refreshPage.current?.(task); }, []);
   const { accessState, secureContentStatus, refreshAccess } = useAccess();
   const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - 68));
   // The content determines its breathing room; short viewports scroll rather
@@ -40,12 +43,12 @@ export default function HomeScreen() {
 
 
   return (
-    <BookScreen testID="home-scroll" onPullRefresh={shuffleDeck} onReselectAtTop={shuffleDeck} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
+    <BookScreen testID="home-scroll" onPullRefresh={shuffleDeck} refreshRef={refreshPage} onReselectAtTop={requestRefresh} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
 
       <View testID="home-recommendations-section" style={styles.discovery}>
         <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />
         <View style={styles.deckContent}>
-        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} refreshRef={refreshDeck} night />
+        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} refreshRef={refreshDeck} requestRefresh={requestRefresh} night />
         {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
         </View>
       </View>

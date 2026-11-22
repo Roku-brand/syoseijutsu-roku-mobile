@@ -12,6 +12,7 @@ import { personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-rout
 import { useHomeDiscovery, type HomeDeckCard, type HomeDeckCover } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import type { RequestScrollRefresh, ScrollRefreshTask } from '@/hooks/use-web-page-elasticity';
 import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { deckPose, deckReturnEdge, deckShuffleFrames, HOME_DECK_SIZE, HOME_DECK_LAST } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
@@ -54,7 +55,7 @@ function coverSummary({ group }: HomeDeckCover) {
   return getPersonaPresentation(group.name)?.subtitle || 'この人物像につながる、5つの処世術。';
 }
 
-export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard, refreshRef }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void; refreshRef?: Ref<() => Promise<void>> }) {
+export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard, refreshRef, requestRefresh }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void; refreshRef?: Ref<ScrollRefreshTask>; requestRefresh: RequestScrollRefresh }) {
   const deck = useHomeDiscovery();
   const { desktop, width: viewportWidth } = useResponsiveLayout();
   const { fontScale } = useWindowDimensions();
@@ -218,30 +219,32 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     },
     onPanResponderTerminationRequest: () => !locked.current,
   })).current;
-  const shuffle = (filter?: DiscoveryFilter, onComplete?: () => void) => {
-    if (locked.current || dragged.current || deck.loading || (deck.error && !filter)) { onComplete?.(); return; }
-    locked.current = true;
-    shuffleCompletion.current = onComplete;
-    if (filter) setPendingFilter(filter);
-    else void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-    setPhase('shuffle');
-    spin.setValue(0);
-    if (!reduced) Animated.timing(spin, { toValue: 1, duration: 1160, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
-    let exchanged = false;
-    const exchange = () => { if (!exchanged) { exchanged = true; latest.current.deck.shuffle(filter); } };
-    finish.current = exchange;
-    if (reduced) { exchange(); reset(); return; }
-    if (webMotion) { webMotion.shuffleCards(exchange, reset); return; }
-    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 540, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
-    animation.current = timing(2.1);
-    animation.current.start(({ finished }) => {
-      if (!finished) return;
-      exchange();
-      animation.current = timing(4);
-      animation.current.start(({ finished: done }) => { if (done) reset(); });
+  const shuffle = (filter?: DiscoveryFilter) => {
+    if (locked.current || dragged.current || deck.loading || (deck.error && !filter)) return;
+    return new Promise<void>(onComplete => {
+      locked.current = true;
+      shuffleCompletion.current = onComplete;
+      if (filter) setPendingFilter(filter);
+      else void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+      setPhase('shuffle');
+      spin.setValue(0);
+      if (!reduced) Animated.timing(spin, { toValue: 1, duration: 1160, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
+      let exchanged = false;
+      const exchange = () => { if (!exchanged) { exchanged = true; latest.current.deck.shuffle(filter); } };
+      finish.current = exchange;
+      if (reduced) { exchange(); reset(); return; }
+      if (webMotion) { webMotion.shuffleCards(exchange, reset); return; }
+      const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 540, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
+      animation.current = timing(2.1);
+      animation.current.start(({ finished }) => {
+        if (!finished) return;
+        exchange();
+        animation.current = timing(4);
+        animation.current.start(({ finished: done }) => { if (done) reset(); });
+      });
     });
   };
-  useImperativeHandle(refreshRef, () => () => new Promise<void>(resolve => { shuffle(undefined, resolve); }));
+  useImperativeHandle(refreshRef, () => shuffle);
   const open = () => {
     if (!current || locked.current || dragged.current || Date.now() - lastDrag.current < 350) return;
     onOpenCard?.();
@@ -268,8 +271,8 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading, night && styles.nightHeading]}>
       <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text></View>
-      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading} dimWhenDisabled={deck.loading} onChange={shuffle} />
-      <DiscoveryActionButton testID="home-discovery-refresh" label="シャッフル" disabled={busy || deck.loading || deck.error} dimWhenDisabled={deck.loading || deck.error} onPress={() => shuffle()} color={discoveryFilterColor(selectedFilter)}
+      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading} dimWhenDisabled={deck.loading} onChange={filter => requestRefresh(() => shuffle(filter))} />
+      <DiscoveryActionButton testID="home-discovery-refresh" label="シャッフル" disabled={busy || deck.loading || deck.error} dimWhenDisabled={deck.loading || deck.error} onPress={() => requestRefresh()} color={discoveryFilterColor(selectedFilter)}
         icon={<Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><DiscoveryControlIcon name="refresh" color={colors.white} /></Animated.View>} />
       </View>
     </View>

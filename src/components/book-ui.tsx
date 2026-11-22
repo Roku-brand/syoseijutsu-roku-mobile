@@ -43,7 +43,7 @@ export function BookScreen({
   scroll = true,
   scrollRef,
   ...props
-}: ScrollViewProps & Pick<ComponentProps<typeof PageScroll>, 'onPullRefresh' | 'onReselectAtTop'> & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null> }) {
+}: ScrollViewProps & Pick<ComponentProps<typeof PageScroll>, 'onPullRefresh' | 'refreshRef' | 'onReselectAtTop'> & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null> }) {
   const { width } = useHydratedWindowDimensions();
   const { density } = useResponsiveLayout();
   const compact = width < 700;
