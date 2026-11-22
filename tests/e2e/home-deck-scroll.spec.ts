@@ -6,8 +6,8 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
 });
 const ready = async (page: Page) => {
-  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
-  await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
+  await expect(page.getByTestId('home-recommendation-card').filter({ visible: true })).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck').filter({ visible: true })).toHaveAttribute('aria-busy', 'false');
 };
 const position = (page: Page) => page.getByTestId('home-scroll').evaluate(scroll => scroll.scrollTop);
 
@@ -52,6 +52,53 @@ test('戻った後もおすすめの同じカードとデッキ選択を維持�
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', title!);
   await expect(page.getByTestId('home-deck-filter')).toContainText('対人術');
   await expectDeckCursor(page, 1);
+});
+
+test('ホームタブは途中から先頭に戻し、先頭で押すと一度振動してシャッフルする', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'vibrate', {
+      configurable: true,
+      value: () => {
+        sessionStorage.setItem('home-haptic-count', String(Number(sessionStorage.getItem('home-haptic-count')) + 1));
+        return true;
+      },
+    });
+  });
+  const haptics = () => page.evaluate(() => Number(sessionStorage.getItem('home-haptic-count')));
+  const deck = () => page.evaluate(() => JSON.parse(localStorage.getItem('@shoseijutsu-roku/discovery-deck/v1/free')!));
+  await page.goto('/');
+  await ready(page);
+  const nav = page.getByTestId('persistent-bottom-navigation');
+  const home = nav.getByRole('link', { name: 'ホーム', exact: true });
+  const before = await deck();
+  await page.getByTestId('home-scroll').evaluate(node => { node.scrollTop = 125; });
+  await expect.poll(() => position(page)).toBeGreaterThan(100);
+  await home.click();
+  await expect.poll(() => position(page)).toBe(0);
+  expect((await deck()).round).toBe(before.round);
+  expect(await haptics()).toBe(0);
+
+  await home.click();
+  await expect.poll(async () => (await deck()).round).toBe(before.round + 1);
+  expect((await deck()).order).not.toEqual(before.order);
+  expect(await haptics()).toBe(1);
+  await expect(page).toHaveURL(/\/$/);
+
+  await nav.getByRole('link', { name: '探す', exact: true }).click();
+  await expect(page).toHaveURL(/\/discover$/);
+  await home.click();
+  await ready(page);
+  expect((await deck()).round).toBe(before.round + 1);
+  expect(await haptics()).toBe(1);
+
+  await home.click();
+  await expect.poll(async () => (await deck()).round).toBe(before.round + 2);
+  expect(await haptics()).toBe(2);
+  await page.getByTestId('home-discovery-refresh').filter({ visible: true }).click();
+  await expect.poll(async () => (await deck()).round).toBe(before.round + 3);
+  expect(await haptics()).toBe(3);
 });
 
 test('短い画面でもページ送り・シャッフル・下部コンテンツへ到達できる', async ({ page }) => {

@@ -15,7 +15,7 @@ type SectionPage = {
   scrollY: number;
   parent?: SectionPage;
 };
-type SectionEntry = { page: SectionPage; resumed: boolean; scroll?: ScrollView };
+type SectionEntry = { page: SectionPage; resumed: boolean; scroll?: ScrollView; onReselectAtTop?: () => void };
 const MainSectionContext = createContext<{
   section: MainSection;
   switchSection: (section: MainSection) => void;

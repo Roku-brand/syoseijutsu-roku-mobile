@@ -11,7 +11,7 @@ import { colors, fonts } from '@/constants/theme';
 import { TechniqueTitle } from './technique-title';
 
 export type PersonalContentRow = { kind: 'technique' | 'theory' | 'feature'; id: string; title: string; label: string; description: string; category: string; article?: FeatureArticle };
-export function PersonalContentCard({ row, onPress, action, favorite }: { row: PersonalContentRow; onPress: () => void; action?: ReactNode; favorite?: ReactNode }) {
+export function PersonalContentCard({ row, onPress, favorite }: { row: PersonalContentRow; onPress: () => void; favorite?: ReactNode }) {
   const { width } = useHydratedWindowDimensions();
   const mobile = width < 768;
   const tone = row.kind === 'technique' ? '#267261' : row.kind === 'theory' ? '#4666A0' : '#B35A38';
@@ -20,8 +20,8 @@ export function PersonalContentCard({ row, onPress, action, favorite }: { row: P
       <View testID="personal-card-image" style={[styles.art, mobile && styles.artMobile]}>{row.kind === 'feature'
         ? <Image source={row.article ? featureCover(row.article)?.compactSource ?? featureImage(row.article.image_path) : featureImage(null)} contentFit="cover" accessible={false} cachePolicy="memory-disk" style={StyleSheet.absoluteFill} />
         : <CategoryArt category={row.category} compact />}</View>
-      <View style={styles.copy}><AppText style={[styles.label, mobile && styles.labelMobile, { color: tone }]}>{row.label}</AppText>{row.kind === 'technique' ? <TechniqueTitle title={row.title} minimumFontSize={14} style={[styles.title, mobile && styles.titleMobile]} /> : <AppText numberOfLines={2} style={[styles.title, mobile && styles.titleMobile]}>{row.title}</AppText>}{row.description ? <AppText numberOfLines={1} style={[styles.description, mobile && styles.descriptionMobile]}>{row.description}</AppText> : null}</View>{!action ? <AppText accessibilityElementsHidden style={[styles.arrow, Boolean(favorite) && styles.arrowWithFavorite]}>›</AppText> : null}
-    </Pressable>{action}
+      <View style={styles.copy}><AppText style={[styles.label, mobile && styles.labelMobile, { color: tone }]}>{row.label}</AppText>{row.kind === 'technique' ? <TechniqueTitle title={row.title} minimumFontSize={14} style={[styles.title, mobile && styles.titleMobile]} /> : <AppText numberOfLines={2} style={[styles.title, mobile && styles.titleMobile]}>{row.title}</AppText>}{row.description ? <AppText numberOfLines={1} style={[styles.description, mobile && styles.descriptionMobile]}>{row.description}</AppText> : null}</View><AppText accessibilityElementsHidden style={[styles.arrow, Boolean(favorite) && styles.arrowWithFavorite]}>›</AppText>
+    </Pressable>
     {favorite ? <View style={styles.favorite}>{favorite}</View> : null}
   </View>;
 }

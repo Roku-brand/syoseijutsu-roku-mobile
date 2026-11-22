@@ -2,7 +2,7 @@ import { HomeShortcutDecoration } from '@/components/home-shortcut-decoration';
 import { HomeThemeBackdrop } from '@/components/home-theme-backdrop';
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { useAccess } from '@/access/access-state';
@@ -31,6 +31,7 @@ export default function HomeScreen() {
   const mobile = width > 0 && width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const refreshDeck = useRef<() => Promise<void>>(null);
+  const shuffleDeck = useCallback(async () => { await refreshDeck.current?.(); }, []);
   const { accessState, secureContentStatus, refreshAccess } = useAccess();
   const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - 68));
   // The content determines its breathing room; short viewports scroll rather
@@ -39,7 +40,7 @@ export default function HomeScreen() {
 
 
   return (
-    <BookScreen testID="home-scroll" onPullRefresh={async () => { await refreshDeck.current?.(); }} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
+    <BookScreen testID="home-scroll" onPullRefresh={shuffleDeck} onReselectAtTop={shuffleDeck} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
 
       <View testID="home-recommendations-section" style={styles.discovery}>
         <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />
