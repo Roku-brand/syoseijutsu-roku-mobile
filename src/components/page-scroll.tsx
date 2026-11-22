@@ -1,13 +1,14 @@
 import { useCallback, useImperativeHandle, useRef, useState, type Ref } from 'react';
-import { ActivityIndicator, Platform, RefreshControl, ScrollView, StyleSheet, Text, View, type ScrollViewProps, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Animated, Platform, RefreshControl, ScrollView, StyleSheet, Text, View, type ScrollViewProps, type ViewStyle } from 'react-native';
 import { colors } from '@/constants/theme';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
-import { useWebPageElasticity } from '@/hooks/use-web-page-elasticity';
+import { REFRESH_OFFSET, useWebPageElasticity, type RequestScrollRefresh, type ScrollRefreshTask } from '@/hooks/use-web-page-elasticity';
 import { useTabPageScroll } from '@/hooks/use-tab-page-scroll';
 
-export function PageScroll({ ref, children, contentContainerStyle, style, onPullRefresh, onReselectAtTop, rememberOnTabSwitch = false, onScroll, onScrollBeginDrag, onLayout, onContentSizeChange, ...props }: ScrollViewProps & {
+export function PageScroll({ ref, children, contentContainerStyle, style, onPullRefresh, refreshRef, onReselectAtTop, rememberOnTabSwitch = false, onScroll, onScrollBeginDrag, onLayout, onContentSizeChange, ...props }: ScrollViewProps & {
   ref?: Ref<ScrollView>;
-  onPullRefresh?: () => Promise<void>;
+  onPullRefresh?: ScrollRefreshTask;
+  refreshRef?: Ref<RequestScrollRefresh>;
   onReselectAtTop?: () => void;
   rememberOnTabSwitch?: boolean;
 }) {
@@ -15,25 +16,48 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
   const indicator = useRef<View>(null);
   const [refreshing, setRefreshing] = useState(false);
   const busy = useRef(false);
+  const scrollY = useRef(0);
+  const androidOffset = useRef(new Animated.Value(0)).current;
   const latestRefresh = useRef(onPullRefresh);
   latestRefresh.current = onPullRefresh;
   const reduced = useReducedMotion();
   useImperativeHandle(ref, () => scroll.current!, []);
 
-  const refresh = useCallback(async () => {
-    if (!latestRefresh.current || busy.current) return;
+  const refresh = useCallback((task = latestRefresh.current) => {
+    if (!task || busy.current) return;
     busy.current = true;
-    setRefreshing(true);
+    let pending: ReturnType<ScrollRefreshTask>;
     try {
-      await latestRefresh.current();
+      pending = task();
     } catch {
-      // A failed refresh must still release the indicator and allow another pull.
-    } finally {
+      busy.current = false;
+      return;
+    }
+    if (!pending) {
+      busy.current = false;
+      return;
+    }
+    setRefreshing(true);
+    if (Platform.OS === 'android' && !reduced) {
+      Animated.timing(androidOffset, { toValue: REFRESH_OFFSET, duration: 160, useNativeDriver: true }).start();
+    }
+    return pending.catch(() => undefined).finally(() => {
       busy.current = false;
       setRefreshing(false);
+      if (Platform.OS === 'android') {
+        Animated.timing(androidOffset, { toValue: 0, duration: reduced ? 0 : 230, useNativeDriver: true }).start();
+      }
+    });
+  }, [androidOffset, reduced]);
+  const webRefresh = useWebPageElasticity(scroll, indicator, reduced, onPullRefresh ? refresh : undefined);
+  useImperativeHandle(refreshRef, () => task => {
+    if (Platform.OS === 'web') {
+      webRefresh.current?.(task);
+    } else if (!busy.current) {
+      if (scrollY.current > 1) scroll.current?.scrollTo({ y: 0, animated: false });
+      void refresh(task);
     }
-  }, []);
-  useWebPageElasticity(scroll, indicator, reduced, onPullRefresh ? refresh : undefined);
+  }, [refresh, webRefresh]);
   const routeScroll = useTabPageScroll(scroll, rememberOnTabSwitch, onReselectAtTop);
   return (
     <ScrollView
@@ -44,7 +68,8 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
       ref={scroll}
       scrollEventThrottle={props.scrollEventThrottle ?? 16}
       onScroll={event => {
-        routeScroll.onScroll(event.nativeEvent.contentOffset.y);
+        scrollY.current = event.nativeEvent.contentOffset.y;
+        routeScroll.onScroll(scrollY.current);
         onScroll?.(event);
       }}
       onScrollBeginDrag={event => { routeScroll.cancelRestore(); onScrollBeginDrag?.(event); }}
@@ -53,7 +78,7 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
       style={[styles.webScroll, style]}
       contentContainerStyle={contentContainerStyle}
       refreshControl={onPullRefresh && Platform.OS !== 'web'
-        ? <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.goldDeep} colors={[colors.goldDeep]} />
+        ? <RefreshControl refreshing={refreshing} onRefresh={() => void refresh()} tintColor={colors.goldDeep} colors={[colors.goldDeep]} />
         : props.refreshControl}
     >
       {onPullRefresh && Platform.OS === 'web' ? (
@@ -61,7 +86,9 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
           {refreshing ? <ActivityIndicator color={colors.goldDeep} animating={!reduced} /> : <Text style={styles.refreshGlyph}>↻</Text>}
         </View>
       ) : null}
-      {children}
+      {onPullRefresh && Platform.OS === 'android'
+        ? <Animated.View style={{ width: '100%', transform: [{ translateY: androidOffset }] }}>{children}</Animated.View>
+        : children}
     </ScrollView>
   );
 }
