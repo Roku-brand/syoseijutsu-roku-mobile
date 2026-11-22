@@ -87,7 +87,7 @@ for (const width of [320, 390, 430, 1440]) {
     for (const path of ['/', '/discover', '/learn', '/my-os']) {
       await page.goto(path);
       const brand = page.getByTestId('book-header-brand');
-      await expect(brand).toHaveText('処世術録');
+      await expect(brand).toHaveText('処世術禄');
       await expect(page.getByTestId('book-header-app-icon')).toHaveCount(0);
       await expect(page.getByTestId('book-header-tagline')).toHaveCount(0);
       await expect(page.getByRole('button', { name: '検索', exact: true })).toBeVisible();

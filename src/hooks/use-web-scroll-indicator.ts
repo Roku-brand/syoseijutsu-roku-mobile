@@ -12,8 +12,13 @@ type ThumbPress = {
   startY: number;
   y: number;
   active: boolean;
-  vibrated?: boolean;
+  vibrated: boolean;
 };
+
+function vibrateThumb() {
+  if (navigator.userActivation?.hasBeenActive === false) return false;
+  return navigator.vibrate?.(35) === true;
+}
 
 export function useWebScrollIndicator(
   scrollRef: RefObject<ScrollView | null>,
@@ -74,12 +79,11 @@ export function useWebScrollIndicator(
       press.active = true;
       thumb.style.cursor = 'grabbing';
       paint.style.width = '7px';
-      paint.style.backgroundColor = '#88662B';
-      if (press.input === 'touch') press.vibrated = navigator.vibrate?.(24);
+      if (press.input === 'touch') press.vibrated = vibrateThumb();
     };
     const begin = (input: ThumbPress['input'], id: number, x: number, y: number) => {
       if (press || thumb.style.pointerEvents !== 'auto' || !position()?.travel) return false;
-      press = { input, id, startX: x, startY: y, y, active: false };
+      press = { input, id, startX: x, startY: y, y, active: false, vibrated: false };
       show();
       if (input === 'touch') holdTimer = window.setTimeout(activate, SCROLL_THUMB_HOLD_DELAY);
       else activate();
@@ -107,7 +111,6 @@ export function useWebScrollIndicator(
       press = undefined;
       thumb.style.cursor = '';
       paint.style.width = '';
-      paint.style.backgroundColor = '';
       if (position()) show();
     };
     const pointerDown = (event: PointerEvent) => {
@@ -142,9 +145,9 @@ export function useWebScrollIndicator(
     };
     const touchEnd = (event: TouchEvent) => {
       if (!pressingFinger(event)) return;
-      if (event.type === 'touchend' && press?.active && press.vibrated === false) {
+      if (event.type === 'touchend' && press?.active && !press.vibrated) {
         // A first touch can grant browser activation only when it ends.
-        navigator.vibrate?.(24);
+        vibrateThumb();
       }
       if (event.cancelable) event.preventDefault();
       finish();
@@ -173,7 +176,6 @@ export function useWebScrollIndicator(
       if (frame !== undefined) window.cancelAnimationFrame(frame);
       clearHold();
       paint.style.width = '';
-      paint.style.backgroundColor = '';
       thumb.style.cursor = '';
       hide();
       resize?.disconnect();

@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   viewport: { flexGrow: 1, flexShrink: 1, minHeight: 0 },
   thumbTarget: { position: 'absolute', top: 0, right: 0, width: 26, opacity: 0, zIndex: 1, touchAction: 'none', cursor: 'grab', userSelect: 'none', WebkitTouchCallout: 'none' } as unknown as ViewStyle,
   nativeThumbTarget: { position: 'absolute', right: 0, width: 26, zIndex: 1 },
-  heldThumb: { width: 7, backgroundColor: colors.goldDeep },
+  heldThumb: { width: 7 },
   thumb: { position: 'absolute', top: 0, bottom: 0, right: 3, width: 3, borderRadius: 4, backgroundColor: 'rgba(45, 45, 45, 0.44)' },
   thumbExpand: { transitionProperty: 'width', transitionDuration: '140ms', transitionTimingFunction: 'ease-out' } as ViewStyle,
   thumbFade: Platform.OS === 'web' ? { transitionProperty: 'opacity', transitionDuration: '180ms' } as ViewStyle : {},
