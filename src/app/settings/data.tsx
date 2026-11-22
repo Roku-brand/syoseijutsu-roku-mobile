@@ -1,3 +1,4 @@
+import { Link, useRouter } from 'expo-router';
 import { pickPersonalBackupFile } from '@/lib/personal-backup-file';
 import { summarizePersonalBackup, type BackupSummary } from '@/state/personal-backup-summary';
 import { useLayoutEffect, useRef, useState } from 'react';
@@ -32,10 +33,11 @@ const fieldLabels: Partial<Record<ReturnType<typeof syncIdentity>[0], string>> =
 export default function PersonalDataScreen() {
  const {
   exportPersonalData, restorePersonalData, hydrated, storageError, retrySave,
-  syncStatus, lastSyncedAt, hasUnsyncedRecords, syncNow, clearPersonalData,
+  syncStatus, lastSyncedAt, hasUnsyncedRecords, syncNow, acceptSyncNotice, guestImportAvailable, clearPersonalData,
   clearCloudPersonalData, listPersonalRecovery, restorePersonalRecovery,
  } = useAppState();
  const { user } = useAuth();
+ const router = useRouter();
  const [showFiles, setShowFiles] = useState(false);
  const [manual, setManual] = useState(false);
  const [preview, setPreview] = useState<BackupSummary | null>(null);
@@ -139,6 +141,14 @@ export default function PersonalDataScreen() {
    {user && hasUnsyncedRecords ? <AppText style={styles.copy}>この端末に未同期の変更があります。</AppText> : null}
    {currentSummary ? <AppText style={styles.counts}>お気に入り {currentSummary.favorites}件・マイ処世術 {currentSummary.memos}件・学習記録 {currentSummary.learning}件</AppText> : null}
    {storageError ? button('端末への保存を再試行', retrySave, true) : user && syncStatus !== 'notice' ? button('同期を確認する', syncNow, true) : null}
+   {!storageError && user && hydrated && syncStatus === 'notice' ? <>
+    <View style={styles.legalLinks}>
+     <Link href="/legal/terms" style={styles.legalLink}>利用規約</Link>
+     <Link href="/legal/privacy" style={styles.legalLink}>プライバシーポリシー</Link>
+    </View>
+    {button('確認して同期を始める', acceptSyncNotice, true)}
+   </> : null}
+   {!storageError && guestImportAvailable && syncStatus !== 'notice' ? button('端末のデータを引き継ぐ', () => router.setParams({ importLocalData: '1' }), true) : null}
   </View>
   {user && syncStatus !== 'notice' ? <View style={styles.section}>
    <AppText accessibilityRole="header" style={styles.heading}>最近の記録を復旧</AppText>
@@ -195,6 +205,7 @@ const styles=StyleSheet.create({
  content:{width:'100%',maxWidth:760,alignSelf:'center',padding:20,gap:12,paddingBottom:100},
  heading:{fontFamily:fonts.serif,fontSize:23,lineHeight:34,color:colors.ink,fontWeight:'600'},
  copy:{fontSize:14,lineHeight:24,color:colors.inkSoft},
+ legalLinks:{flexDirection:'row',flexWrap:'wrap',columnGap:16},legalLink:{color:colors.goldDeep,fontSize:13,lineHeight:44,fontWeight:'600'},
  section:{marginTop:24,gap:12,borderTopWidth:1,borderColor:colors.line,paddingTop:24},
  button:{minHeight:48,paddingHorizontal:18,paddingVertical:12,backgroundColor:colors.goldDeep,borderRadius:radius.sm,alignItems:'center',justifyContent:'center'},
  buttonText:{color:colors.white,fontSize:14,fontWeight:'600'},secondary:{backgroundColor:colors.surface,borderWidth:1,borderColor:colors.line},secondaryText:{color:colors.goldDeep,fontSize:14,fontWeight:'600'},

@@ -25,7 +25,7 @@ export function DiscoveryFilterButton({ value, disabled, dimWhenDisabled = true,
   return <>
     <DiscoveryActionButton ref={trigger} testID="home-deck-filter" label={discoveryFilters.find(option => option.key === value)!.label} accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} expanded={open} disabled={disabled} dimWhenDisabled={dimWhenDisabled} variant={outlined ? 'outline' : 'filled'} color={outlined && value === 'all' ? '#C6A15D' : discoveryFilterColor(value)} onPress={() => setOpen(true)} />
     <BookPopup visible={open} compact={!desktop} title="デッキを選ぶ" closeLabel="種類の選択を閉じる" onClose={close} testID="home-deck-filter-popup" onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
-      <View style={styles.body} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
+      {scrollProps => <View style={styles.body} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
         event.stopPropagation();
         if (event.key === 'Escape') { event.preventDefault(); close(); }
         const index = choices.current.findIndex(node => node === event.target);
@@ -36,13 +36,13 @@ export function DiscoveryFilterButton({ value, disabled, dimWhenDisabled = true,
         }
       } } : {})}>
           <Text style={styles.subtitle}>ひとつの人物像やテーマから、毎回5枚を選びます。ホームの先頭で画面を下に引いて離すと、新しいデッキを引けます。</Text>
-          <ScrollView accessibilityRole="radiogroup" accessibilityLabel="デッキの種類" style={styles.optionsScroll} contentContainerStyle={styles.options} showsVerticalScrollIndicator={false}>
+          <ScrollView {...scrollProps} accessibilityRole="radiogroup" accessibilityLabel="デッキの種類" style={styles.optionsScroll} contentContainerStyle={styles.options} showsVerticalScrollIndicator={false}>
             {discoveryFilters.map((option, index) => <Pressable key={option.key} ref={node => { choices.current[index] = node; }} testID={`home-deck-filter-${option.key}`} accessibilityRole="radio" aria-checked={value === option.key} accessibilityState={{ checked: value === option.key }} onPress={() => { close(); if (value !== option.key) onChange(option.key); }} onFocus={() => setFocused(index)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.option, value === option.key && styles.selected, focused === index && styles.focused, pressed && styles.pressed]}>
               <View style={styles.optionCopy}><Text style={styles.optionTitle}>{option.label}</Text><Text style={styles.description}>{descriptions[option.key]}</Text></View>
               <View style={[styles.radio, value === option.key && styles.radioSelected]}>{value === option.key ? <View style={styles.dot} /> : null}</View>
             </Pressable>)}
           </ScrollView>
-      </View>
+      </View>}
     </BookPopup>
   </>;
 }

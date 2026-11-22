@@ -86,17 +86,26 @@ test('ゲスト記録は確認後だけ同期し、別端末で復元して端�
       localStorage.setItem(accountKey, JSON.stringify({ personalMemos: [localMemo] }));
     }, { key: sessionKey, session: { ...session, user: { ...user, user_metadata: { ...user.user_metadata, privacy_version: '2.1', terms_version: '3.4' } } },
       accountKey, localMemo: memo('account-entry', '従来のアカウント記録') });
-    await page.reload();
-    const consent = page.getByRole('button', { name: '確認して同期を始める' });
+    await page.goto('/settings');
+    await expect(page.getByText('データの管理・削除', { exact: true })).toBeVisible();
+    await expect(page.getByText(/利用規約とプライバシーポリシーを更新します/)).toHaveCount(0);
+    await expect(page.getByRole('button', { name: '確認して同期を始める' })).toHaveCount(0);
+    await page.goto('/settings/data');
+    const consent = page.getByTestId('personal-backup-status').getByRole('button', { name: '確認して同期を始める' });
     await expect(consent).toBeVisible();
     expect(requests).toBe(0);
     await consent.click();
     await expect.poll(() => acknowledgements).toBe(1);
-    await expect(page.getByRole('button', { name: '記録を引き継ぐ' })).toBeVisible();
+    const importDialog = page.getByRole('dialog', { name: '端末のデータを引き継ぐ' });
+    await expect(importDialog).toBeVisible();
+    await expect(importDialog).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    await expect(importDialog).toContainText('ログイン前の端末内のデータを、このアカウントへ追加できます。');
+    await expect(importDialog.getByRole('button', { name: 'データを引き継ぐ' })).toBeVisible();
     const cloudHas = (text: string) => [...items.values()].some(item => (item.value as { text?: string } | null)?.text === text);
     await expect.poll(() => cloudHas('従来のアカウント記録')).toBe(true);
     expect(cloudHas('ログイン前の個人記録')).toBe(false);
-    await page.getByRole('button', { name: '記録を引き継ぐ' }).click();
+    await importDialog.getByRole('button', { name: 'データを引き継ぐ' }).click();
+    await expect(importDialog).toHaveCount(0);
     await expect.poll(() => cloudHas('ログイン前の個人記録')).toBe(true);
 
     const other = await secondary.newPage();
