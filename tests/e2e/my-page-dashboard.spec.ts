@@ -125,20 +125,20 @@ test('古い保存IDを保持し、自動分類の件数には誤って含めな
 
 test('処世術と理論の検索一覧も共通の菱形で保存・解除できる', async ({ page }) => {
   await seed(page);
-  await page.goto(`/search?q=${encodeURIComponent(cards[0].title)}`);
-  await page.getByRole('button', { name: '保存', exact: true }).first().click();
-  const saved = page.getByRole('button', { name: '保存を解除', exact: true });
-  await expect(saved).toHaveAttribute('aria-pressed', 'true');
-  await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(146, 107, 46)');
-  await saved.click();
-  await expect(saved).toHaveCount(0);
-  await page.goto(`/search?mode=theories&q=${encodeURIComponent(theory.title)}`);
-  await page.getByRole('button', { name: 'お気に入りに保存', exact: true }).first().click();
-  const theorySaved = page.getByRole('button', { name: 'お気に入りから外す', exact: true });
-  await expect(theorySaved).toHaveAttribute('aria-pressed', 'true');
-  await expect(theorySaved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(146, 107, 46)');
-  await theorySaved.click();
-  await expect(theorySaved).toHaveCount(0);
+  for (const [mode, title, cardId] of [
+    ['techniques', cards[0].title, 'shoseijutsu-card'],
+    ['theories', theory.title, 'theory-card'],
+  ]) {
+    await page.goto(`/search?mode=${mode}&q=${encodeURIComponent(title)}`);
+    const card = page.getByTestId(cardId).filter({ hasText: title }).first();
+    const openSave = card.getByRole('button', { name: `${title}をお気に入りに保存`, exact: true });
+    await openSave.click();
+    const saved = card.getByRole('button', { name: `${title}のお気に入りを解除`, exact: true });
+    await expect(saved).toHaveAttribute('aria-pressed', 'true');
+    await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(146, 107, 46)');
+    await saved.click();
+    await expect(openSave).toHaveAttribute('aria-pressed', 'false');
+  }
 });
 
 test('自作フォルダーの改名・移動・削除でカードを失わない', async ({ page }) => {
