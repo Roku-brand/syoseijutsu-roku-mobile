@@ -49,7 +49,12 @@ test('six old cards leave the screen before new cards arrive from the opposite e
   await page.waitForFunction(() => (window as any).__incoming);
   const incoming = await page.evaluate(() => (window as any).__incoming as { id: string; left: number; start: number }[]);
   expect(incoming.every(path => path.left > 390 && path.start > 390)).toBe(true);
-  await page.evaluate(() => { for (const animation of document.getAnimations()) animation.finish(); });
+  await page.evaluate(() => {
+    for (const animation of document.getAnimations()) {
+      const target = (animation.effect as KeyframeEffect | null)?.target;
+      if (target?.id.startsWith('home-deck-slot-')) animation.finish();
+    }
+  });
   await ready(page);
   await expect(page.getByTestId('home-discovery-refresh')).toBeEnabled();
   await expect.poll(async () => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(original.round + 1);
