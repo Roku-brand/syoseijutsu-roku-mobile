@@ -125,6 +125,20 @@ test('大分類から縦バーの色を選び、IDと全文タイトルを維持
   await noOverflow(page);
 });
 
+test('狭い画面で文字を拡大しても処世術番号を一行で表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto('/techniques?q=002');
+  const code = page.getByTestId('technique-index-id');
+  await expect(code).toHaveText('No.002');
+  await page.addStyleTag({ content: '[data-testid="technique-index-id"] { font-size: 20px !important; line-height: 28px !important; }' });
+  await expect.poll(() => code.evaluate(node => {
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    return range.getClientRects().length === 1 && node.scrollWidth <= node.clientWidth;
+  })).toBe(true);
+  await noOverflow(page);
+});
+
 test('お気に入りを種類別に表示し、解除・再登録と詳細遷移を維持する', async ({ page }) => {
   await seed(page);
   await page.goto('/library');
