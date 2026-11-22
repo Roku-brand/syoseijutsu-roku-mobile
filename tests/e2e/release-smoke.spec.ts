@@ -165,13 +165,14 @@ test('無料版の関連理論は完全版のタイトルも表示し、未収�
   await expect(supplementaryTheories).toHaveCount(0);
   await expect(relatedTheories).not.toContainText('完全版の理論');
   const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
-  await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');
+  await expect(lockedTheoryLink).toHaveAttribute('href', /\/upgrade\?source=discover_theory&itemTitle=/);
   await expect(lockedTheoryLink.getByTestId('related-content-lock')).toBeVisible();
   const freeTechniqueLink = page.getByTestId('related-techniques').getByRole('link', { name: '会話は内容よりテンポを開く' });
   await expect(freeTechniqueLink).toHaveAttribute('href', '/card/master336-015');
   await expect(freeTechniqueLink.getByTestId('related-content-lock')).toHaveCount(0);
   await lockedTheoryLink.click();
   await expect(page).toHaveURL(/\/upgrade\?source=discover_theory/);
+  await expect(page.getByTestId('upgrade-item-context')).toContainText('行動同調');
 });
 
 test('theory metadata sits beside its identifier and content is never ellipsized', async ({ page }) => {

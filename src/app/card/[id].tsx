@@ -10,10 +10,12 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
+  getTheoryDisplayId,
   techniqueById,
   techniqueCards,
   theoryById,
 } from '@/data/catalog';
+import { getTheoryUpgradeTitle } from '@/data/theory-display';
 import { practiceGuidance } from '@/data/search';
 import { mergedTechniqueIds, resolveTechniqueId } from '@/data/technique-identity';
 import { useAppState } from '@/state/app-state';
@@ -109,7 +111,7 @@ export default function CardDetailScreen() {
       key: theory.tagId,
       title: theory.title,
       locked: !readable,
-      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory', theory.title),
+      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory', getTheoryUpgradeTitle(theory, getTheoryDisplayId(theory))),
     };
   };
   const explanation = splitExplanation(card.explanation, card.subtitle);

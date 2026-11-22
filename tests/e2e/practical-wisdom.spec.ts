@@ -51,6 +51,7 @@ test('格言の公開見出しを許可し、有料の原文・解説・権利�
  const response=await request.get('/theory/'+quote.tagId);const html=await response.text();
  expect(html).not.toContain(quote.quotation.originalText);expect(html).not.toContain(quote.quotation.contextNote);expect(html).not.toContain(quote.quotation.rightsBasis);
  await page.goto('/theory/'+quote.tagId);
+ await expect(page.getByTestId('upgrade-item-context')).toContainText(quote.quotation.author + 'の格言');
  await expect(page.getByTestId('theory-title')).toHaveCount(0);
  await expect(page.getByText(quote.quotation.translationText,{exact:false})).toHaveCount(0);
 });
