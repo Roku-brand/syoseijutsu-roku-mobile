@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
   resultCard: { overflow: 'hidden', borderWidth: 1, borderColor: '#DED4C5', borderRadius: 15, backgroundColor: '#FFFEFB', ...bookCardShadow },
   resultCardMobile: { borderRadius: 13 },
   resultBand: { position: 'relative', minHeight: 118, margin: 16, marginBottom: 0, paddingHorizontal: 22, paddingRight: 250, flexDirection: 'row', alignItems: 'center', gap: 24, overflow: 'hidden', borderRadius: 10 },
-  resultBandMobile: { minHeight: 0, margin: 9, marginBottom: 0, paddingHorizontal: 12, paddingVertical: 12, flexDirection: 'column', alignItems: 'stretch', gap: 8, borderRadius: 8 },
+  resultBandMobile: { minHeight: 0, margin: 9, marginBottom: 0, paddingHorizontal: 12, paddingRight: 12, paddingVertical: 12, flexDirection: 'column', alignItems: 'stretch', gap: 8, borderRadius: 8 },
   resultVerdict: { flexDirection: 'row', alignItems: 'center', gap: 24 },
   resultVerdictMobile: { gap: 12 },
   lockedCaseButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },

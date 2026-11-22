@@ -101,10 +101,13 @@ for (const width of [320, 390]) {
     await page.getByRole('button', { name: /^A 実績や面白い経験/ }).click();
     const speech = page.getByTestId('learning-result-speech');
     const copy = page.getByTestId('learning-result-status-copy');
+    await expect(page.getByText('おしい！', { exact: true })).toBeVisible();
     await expect(copy).toHaveText('ここで違いを覚えましょう。');
+    await expect(copy).toBeVisible();
     await expect(speech).toBeVisible();
     const [copyBox, speechBox] = await Promise.all([copy.boundingBox(), speech.boundingBox()]);
     expect(speechBox!.y).toBeGreaterThanOrEqual(copyBox!.y + copyBox!.height);
+    expect(copyBox!.width).toBeGreaterThan(130);
     expect(speechBox!.x + speechBox!.width).toBeLessThanOrEqual(width);
   });
 }
