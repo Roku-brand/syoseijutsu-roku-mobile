@@ -1087,6 +1087,11 @@ test('人物像詳細は写真を右に置いたコンパクトな紹介を固�
   await page.screenshot({ path: test.info().outputPath('persona-compact-390.png') });
 
   const scroll = page.getByTestId('persona-technique-scroll');
+  const viewport = (await scroll.boundingBox())!;
+  expect(viewport.x).toBeCloseTo(0, 0);
+  expect(viewport.x + viewport.width).toBeCloseTo(390, 0);
+  expect(box.x).toBeGreaterThan(viewport.x);
+  expect(box.x).toBeCloseTo(before.x, 0);
   await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
   await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
   await expect(cards.last()).toBeInViewport();

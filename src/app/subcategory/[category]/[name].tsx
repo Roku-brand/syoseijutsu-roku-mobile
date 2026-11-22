@@ -39,6 +39,7 @@ export default function PersonaScreen() {
   }
 
   const compact = width < 700;
+  const column = [styles.column, compact && styles.compactColumn];
   const presentation = getPersonaPresentation(persona.name);
 
   return (
@@ -46,6 +47,7 @@ export default function PersonaScreen() {
       <ScrollView
         key={persona.name}
         style={styles.fixedIntro}
+        contentContainerStyle={column}
         showsVerticalScrollIndicator={false}
         bounces={false}
         overScrollMode="never"
@@ -68,6 +70,9 @@ export default function PersonaScreen() {
           ) : null}
         </View>
       </ScrollView>
+      <View style={[...column, styles.dividerArea]}>
+        <View style={styles.divider} />
+      </View>
 
       <PageScroll
         rememberOnTabSwitch
@@ -77,7 +82,7 @@ export default function PersonaScreen() {
         contentContainerStyle={styles.listContent}
         keyboardShouldPersistTaps="handled"
       >
-        <View key={`${clientReady ? 'live' : 'prerender'}-${catalogRevision}`} testID="persona-technique-list">
+        <View key={`${clientReady ? 'live' : 'prerender'}-${catalogRevision}`} testID="persona-technique-list" style={column}>
           {clientReady ? persona.items.map((item, index) => (
             <Link key={item.id} href={{ pathname: '/card/[id]', params: { id: item.id } }} asChild>
               <Pressable testID={`persona-technique-row-${index + 1}`} accessibilityRole="link" accessibilityLabel={`${item.title}を開く`} style={styles.row}>
@@ -96,7 +101,9 @@ export default function PersonaScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingTop: spacing.sm, paddingBottom: 0 },
+  content: { width: '100%', maxWidth: '100%', paddingHorizontal: 0, paddingTop: spacing.sm, paddingBottom: 0 },
+  column: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingHorizontal: spacing.lg },
+  compactColumn: { paddingHorizontal: spacing.md },
   fixedIntro: { flexGrow: 0, flexShrink: 1, maxHeight: '74%' },
   intro: { width: '100%', padding: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface },
   introCompact: { padding: spacing.sm },
@@ -106,7 +113,9 @@ const styles = StyleSheet.create({
   titleCompact: { fontSize: 22, lineHeight: 29 },
   subtitle: { maxWidth: 460, marginTop: 3, color: colors.inkSoft, fontSize: 13, lineHeight: 19 },
   count: { marginTop: 4, color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '600' },
-  list: { flex: 1, minHeight: 0, width: '100%', marginTop: spacing.md, borderTopWidth: 1, borderTopColor: colors.line },
+  dividerArea: { marginTop: spacing.md },
+  divider: { height: 1, backgroundColor: colors.line },
+  list: { flex: 1, minHeight: 0, width: '100%' },
   listContent: { paddingBottom: spacing.xl },
   row: { minHeight: 48, paddingVertical: spacing.sm, paddingHorizontal: spacing.sm, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.line },
   numberBadge: { minWidth: 32, minHeight: 26, paddingHorizontal: 4, flexShrink: 0, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, backgroundColor: colors.paperDeep },
