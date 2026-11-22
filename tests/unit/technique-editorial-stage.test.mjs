@@ -2,11 +2,23 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 import { PGlite } from '@electric-sql/pglite';
+import { selectPublicContent } from '../../scripts/public-content-selection.mjs';
 
 const migration = (name) => readFileSync(new URL(`../../supabase/migrations/${name}`, import.meta.url), 'utf8');
 const ordering = migration('20260929130601_cms_single_source_ordering.sql');
 const canonical = migration('20260928093000_canonical_content_cms.sql');
 const fn = (sql, name) => sql.match(new RegExp(`create or replace function public\\.${name}\\([\\s\\S]+?\\$\\$;`))[0];
+
+test('the release allowlist removes stale free copy without adding other bundled copy', () => {
+  const data = (name) => JSON.parse(readFileSync(new URL(`../../src/data/generated/${name}.json`, import.meta.url), 'utf8'));
+  const inputs = { techniques: data('techniques'), theories: data('theories'), learning: data('learning.full') };
+  const baseline = selectPublicContent(inputs);
+  const [retained, removed] = baseline.freeTechniqueIds;
+  const unbundled = baseline.allTechniques.find((item) => !baseline.freeTechniqueIds.has(item.id));
+  const release = selectPublicContent({ ...inputs, liveFreeTechniqueIds: new Set([retained, unbundled.id]) });
+  assert.deepEqual([...release.freeTechniqueIds], [retained]);
+  assert.ok(baseline.freeTechniqueIds.has(removed));
+});
 
 test('editorial stages round-trip while persona access controls the existing public and paid projections', async () => {
   const db = new PGlite();

@@ -1048,14 +1048,14 @@ test('権威付けの装飾と人物像メニューの保存操作を表示し�
 });
 
 for (const category of publicTechniques.categories) {
-  test(`${category.name}では無料人物像の配下をすべて読める`, async ({ page }) => {
+  test(`${category.name}では無料人物像の公開処世術を読める`, async ({ page }) => {
     await page.route('**/rest/v1/**', (route) => route.fulfill({ status: 503, json: {} }));
     const free = category.subcategories.filter((persona) => scope.free.personas.includes(persona.name));
     expect(free.length).toBeGreaterThanOrEqual(Math.ceil(category.subcategories.length / 2));
     for (const persona of free) {
       await page.goto(`/subcategory/${category.key}/${persona.name}`);
       await expect(page.getByTestId('persona-page-title')).toContainText(persona.name);
-      await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(persona.items.length);
+      await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(persona.items.filter((item) => item.status !== 'locked').length);
     }
 
     const locked = category.subcategories.find((persona) => !scope.free.personas.includes(persona.name))!;

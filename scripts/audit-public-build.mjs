@@ -2,7 +2,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { isPublicCatalogIdentityField } from './public-catalog-identity.mjs';
-import { selectPublicContent } from './public-content-selection.mjs';
+import { readLiveFreeTechniqueIds, selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
 const generated = path.join(root, 'src', 'data', 'generated');
@@ -72,7 +72,8 @@ const [techniques, theories, learning, publicTechniques, publicTheories, publicL
   readJson('home-brand-content.json'),
   readJson('metadata.json'),
 ]);
-const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
+const liveFreeTechniqueIds = await readLiveFreeTechniqueIds();
+const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning, liveFreeTechniqueIds });
 // Shared citations are public when they occur verbatim in an authorized free
 // card. Only provenance strings are exempted; paid summaries stay protected.
 const publicSourceTexts = new Set();
@@ -184,8 +185,8 @@ const publicTechniqueItems = publicTechniques.categories.flatMap((category) => c
 if (publicTechniqueItems.length !== allTechniques.length || publicTheories.length !== theories.length) {
   throw new Error(`Public catalog shape is incomplete: techniques=${publicTechniqueItems.length}/${allTechniques.length}, theories=${publicTheories.length}/${theories.length}`);
 }
-if (publicTechniqueItems.filter((item) => item.status === 'locked').length !== allTechniques.length - freeTechniqueIds.size) {
-  throw new Error('Public technique catalog does not contain the expected locked shells.');
+if (publicTechniqueItems.some((item) => (item.status !== 'locked') !== freeTechniqueIds.has(item.id))) {
+  throw new Error('Public technique catalog does not match the expected public IDs and locked shells.');
 }
 const lockedPublicTheories = publicTheories.filter((item) => item.status === 'locked' && !item.summary);
 if (lockedPublicTheories.length !== theories.length - freeTheoryIds.size) {

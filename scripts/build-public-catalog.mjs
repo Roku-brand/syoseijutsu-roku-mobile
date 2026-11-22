@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { orderPersonasForDisplay, selectPublicContent } from './public-content-selection.mjs';
+import { orderPersonasForDisplay, readLiveFreeTechniqueIds, selectPublicContent } from './public-content-selection.mjs';
 import './apply-theory-provenance.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -14,7 +14,8 @@ const [techniques, theories, learning, practicalActions, metadata] = await Promi
   readJson('practical-actions.json'), readJson('metadata.json'),
 ]);
 
-const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
+const liveFreeTechniqueIds = await readLiveFreeTechniqueIds();
+const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning, liveFreeTechniqueIds });
 
 const HOME_MAP_TECHNIQUE_ID = 'master336-071';
 const HOME_MAP_THEORY_IDS = ['kb_002', 'kb_029', 'kb_401', 'kb_514'];

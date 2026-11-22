@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const dist = path.resolve('dist');
 const scope = JSON.parse(await readFile(path.resolve('src/data/content-scope.json'), 'utf8'));
+const publicTechniques = JSON.parse(await readFile(path.resolve('src/data/generated/techniques.public.json'), 'utf8'));
 const publicTheories = JSON.parse(await readFile(path.resolve('src/data/generated/theories.public.json'), 'utf8'));
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1].replaceAll('&amp;', '&'));
@@ -61,7 +62,12 @@ for (const url of urls) {
 const theoryUrls = urls.filter((url) => new URL(url).pathname.startsWith('/theory/'));
 const techniqueUrls = urls.filter((url) => new URL(url).pathname.startsWith('/card/'));
 if (theoryUrls.length !== scope.free.theories) failures.push(`sitemap has ${theoryUrls.length} theory URLs; expected ${scope.free.theories}`);
-if (techniqueUrls.length !== scope.free.techniques) failures.push(`sitemap has ${techniqueUrls.length} technique URLs; expected ${scope.free.techniques}`);
+const indexableTechniqueIds = new Set(publicTechniques.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items))
+  .filter((item) => item.status !== 'locked' && item.explanation).map((item) => item.id));
+const actualTechniqueIds = new Set(techniqueUrls.map((url) => decodeURIComponent(new URL(url).pathname.slice('/card/'.length))));
+if (techniqueUrls.length !== indexableTechniqueIds.size || [...indexableTechniqueIds].some((id) => !actualTechniqueIds.has(id))) {
+  failures.push(`sitemap technique IDs differ from the public catalog (${techniqueUrls.length}/${indexableTechniqueIds.size})`);
+}
 if (scope.excludedTechniqueIds.some((id) => sitemap.includes(`/card/${id}`))) failures.push('source-only techniques leaked into sitemap');
 
 const lockedTheory = publicTheories.find((item) => item.status === 'locked' && !item.summary);

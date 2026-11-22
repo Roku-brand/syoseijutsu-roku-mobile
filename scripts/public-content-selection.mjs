@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import {
   COMPLETE_TECHNIQUE_COUNT,
   FREE_PERSONA_NAMES,
@@ -26,7 +27,17 @@ export function orderPersonasForDisplay(category) {
     .map(({ persona }) => persona);
 }
 
-export function selectPublicContent({ techniques, theories, learning }) {
+export async function readLiveFreeTechniqueIds() {
+  const source = process.env.ROKU_LIVE_FREE_TECHNIQUE_IDS_FILE;
+  if (!source) return undefined;
+  const ids = JSON.parse(await readFile(source, 'utf8'));
+  if (!Array.isArray(ids) || !ids.length || ids.some((id) => typeof id !== 'string' || !id.trim())) {
+    throw new Error('Live free technique list is empty or invalid.');
+  }
+  return new Set(ids);
+}
+
+export function selectPublicContent({ techniques, theories, learning, liveFreeTechniqueIds }) {
   const allTechniques = techniques.categories.flatMap((category) =>
     category.subcategories.flatMap((persona) => persona.items.filter(isProductTechnique)),
   );
@@ -46,6 +57,11 @@ export function selectPublicContent({ techniques, theories, learning }) {
     .map((item) => item.id));
   if (freeTechniqueIds.size !== FREE_TECHNIQUE_COUNT) {
     throw new Error(`The configured free personas must contain ${FREE_TECHNIQUE_COUNT} techniques; received ${freeTechniqueIds.size}.`);
+  }
+  if (liveFreeTechniqueIds) {
+    for (const id of freeTechniqueIds) {
+      if (!liveFreeTechniqueIds.has(id)) freeTechniqueIds.delete(id);
+    }
   }
   const freeTheoryIds = resolveFreeTheoryIds(theories);
   const freeLearningIds = new Set(learning.slice(0, 7).map((item) => item.id));

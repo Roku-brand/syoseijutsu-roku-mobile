@@ -11,7 +11,12 @@ on:
         default: 'false'
         type: boolean
       skip_content_sync:
-        description: 'Build from the committed catalog when Supabase is temporarily unavailable'
+        description: 'Skip syncing owner operations and learning data'
+        required: false
+        default: 'false'
+        type: boolean
+      skip_edge_functions:
+        description: 'Apply database migrations without redeploying Edge Functions'
         required: false
         default: 'false'
         type: boolean
@@ -53,6 +58,7 @@ jobs:
           supabase db push --db-url "$db_url" --include-all --dry-run
           supabase db push --db-url "$db_url" --include-all
       - name: Deploy backend functions
+        if: ${{ inputs.skip_edge_functions != true }}
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
@@ -157,6 +163,12 @@ jobs:
 
       - name: Check types
         run: pnpm typecheck
+
+      - name: Read the live free technique list for the public build
+        run: |
+          access_list="$RUNNER_TEMP/roku-live-free-techniques.json"
+          node scripts/capture-live-free-techniques.mjs "$access_list"
+          echo "ROKU_LIVE_FREE_TECHNIQUE_IDS_FILE=$access_list" >> "$GITHUB_ENV"
 
       - name: Export web app
         run: pnpm export:pages
