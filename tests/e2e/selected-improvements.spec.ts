@@ -102,9 +102,30 @@ test('small learning rows wrap and settings remains distinct from MyPage',async(
  await page.screenshot({path:'release-evidence/selected-improvements/learn-320.png'});
  await nav(page,'ホーム').click();const settings=page.getByTestId('settings-header-action');await expect(settings).toHaveAccessibleName('設定を開く');
  await expect(settings).toContainText('\ue8b8');await settings.click();await expect(page).toHaveURL(/\/settings$/);
- await expect(nav(page,'マイページ')).toHaveAttribute('aria-current','page');
+ const selected = page.getByTestId('persistent-bottom-navigation').locator('[aria-current="page"]');
+ await expect(selected).toHaveCount(0);
  await page.getByRole('button',{name:/データの管理・削除/}).click();await expect(page).toHaveURL(/\/settings\/data$/);
+ await expect(selected).toHaveCount(0);
  await nav(page,'マイページ').click();await expect(page).toHaveURL(/\/my-os$/);
+ await expect(nav(page,'マイページ')).toHaveAttribute('aria-current','page');
+
+ await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
+ await expect(page).toHaveURL(/\/library$/);
+ await nav(page,'ホーム').click();
+ await page.getByTestId('settings-header-action').click();
+ await expect(selected).toHaveCount(0);
+ await nav(page,'マイページ').click();
+ await expect(page).toHaveURL(/\/library$/);
+ await expect(nav(page,'マイページ')).toHaveAttribute('aria-current','page');
+ await nav(page,'ホーム').click();
+ await expect(page).toHaveURL(/\/$/);
+ await page.getByTestId('settings-header-action').click();
+ await page.getByRole('button', { name: /^利用規約/ }).click();
+ await expect(page).toHaveURL(/\/legal\/terms$/);
+ await page.getByTestId('book-header-back').click();
+ await expect(page).toHaveURL(/\/settings$/);
+ await nav(page,'ホーム').click();
+ await expect(page).toHaveURL(/\/$/);
 });
 
 test('shuffle labels contrast with every category fill',async({page})=>{

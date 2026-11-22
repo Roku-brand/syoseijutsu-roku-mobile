@@ -1,7 +1,7 @@
 import { usePathname, useRootNavigationState, useRouter, useUnstableGlobalHref, type Href } from 'expo-router';
 import { createContext, useContext, useLayoutEffect, useRef, type PropsWithChildren, type RefObject } from 'react';
 import { Platform, type ScrollView } from 'react-native';
-import { APP_ROUTES, getMainSection, type MainSection } from './app-routes';
+import { APP_ROUTES, getMainSection, isFocusedScreen, type MainSection } from './app-routes';
 
 const sectionRoots = {
   main: APP_ROUTES.home, discover: APP_ROUTES.discover, learn: APP_ROUTES.learn, 'my-os': APP_ROUTES.myPage,
@@ -9,7 +9,7 @@ const sectionRoots = {
 const sectionPaths = { ...sectionRoots, main: '/' };
 const rootHref = (section: MainSection) => section === 'main' && Platform.OS === 'web' ? '/' : sectionRoots[section];
 type SectionPage = {
-  section: MainSection;
+  section: MainSection | null;
   href: Href;
   pathname: string;
   scrollY: number;
@@ -17,7 +17,7 @@ type SectionPage = {
 };
 type SectionEntry = { page: SectionPage; resumed: boolean; scroll?: ScrollView; onReselectAtTop?: () => void };
 const MainSectionContext = createContext<{
-  section: MainSection;
+  section: MainSection | null;
   switchSection: (section: MainSection) => void;
   backWithinSection: () => boolean;
   currentPage: RefObject<SectionEntry>;
@@ -32,7 +32,7 @@ function webEntry(pathname: string): MainSection | null {
     return entry?.pathname === pathname && sections.includes(entry.section) ? entry.section : null;
   } catch { return null; }
 }
-function rememberWebEntry(pathname: string, section: MainSection) {
+function rememberWebEntry(pathname: string, section: MainSection | null) {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return;
   try {
     if (decodeURI(window.location.pathname) !== pathname) return;
@@ -40,7 +40,7 @@ function rememberWebEntry(pathname: string, section: MainSection) {
     window.history.replaceState({ ...window.history.state, [HISTORY_FIELD]: { pathname, section } }, '');
   } catch { /* Navigation still works when the browser disallows history writes. */ }
 }
-function retainWebEntry(latest: RefObject<{ pathname: string; section: MainSection }>) {
+function retainWebEntry(latest: RefObject<{ pathname: string; section: MainSection | null }>) {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return;
   const history = window.history;
   const push = history.pushState;
@@ -94,7 +94,7 @@ export function MainSectionProvider({ children }: PropsWithChildren) {
   const entry = destination ?? known ?? {
     page: {
       section, href, pathname, scrollY: 0,
-      parent: pathname !== sectionPaths[section] && prior?.section === section
+      parent: section !== null && pathname !== sectionPaths[section] && prior?.section === section
         ? depth > (previous.current?.depth ?? 0) ? prior : prior.parent
         : undefined,
     },
@@ -104,6 +104,9 @@ export function MainSectionProvider({ children }: PropsWithChildren) {
   const latest = useRef({ pathname, section });
   useLayoutEffect(() => retainWebEntry(latest), []);
   useLayoutEffect(() => {
+    if (section === null && prior?.section && !isFocusedScreen(prior.pathname)) {
+      saved.current[prior.section] = prior;
+    }
     latest.current = { pathname, section };
     currentPage.current = entry;
     entries.current.set(key, entry);
@@ -111,7 +114,7 @@ export function MainSectionProvider({ children }: PropsWithChildren) {
     rememberWebEntry(pathname, section);
     if (destination) pending.current = null;
     if (entries.current.size > 200) entries.current.delete(entries.current.keys().next().value!);
-  }, [depth, destination, entry, key, pathname, section]);
+  }, [depth, destination, entry, key, pathname, prior, section]);
 
   const prepareRestore = (page?: SectionPage) => {
     pending.current = page ? { entry: { page, resumed: true }, fromKey: key, expiresAt: Date.now() + 3000 } : null;
@@ -122,13 +125,18 @@ export function MainSectionProvider({ children }: PropsWithChildren) {
       router.dismissTo(rootHref(next));
       return;
     }
+    const page = saved.current[next];
+    if (section === null) {
+      prepareRestore(page);
+      router.dismissTo(page?.pathname === '/' ? rootHref(next) : page?.href ?? rootHref(next));
+      return;
+    }
     const current = currentPage.current;
     if (Platform.OS === 'web') {
       const node: HTMLElement | null = current.scroll?.getScrollableNode();
       if (node) current.page.scrollY = Math.max(0, node.scrollTop);
     }
     saved.current[section] = current.page;
-    const page = saved.current[next];
     prepareRestore(page);
     const atRoot = pathname === sectionPaths[section];
 
@@ -144,7 +152,7 @@ export function MainSectionProvider({ children }: PropsWithChildren) {
   };
 
   const backWithinSection = () => {
-    if (!entry.resumed) return false;
+    if (section === null || !entry.resumed) return false;
     const parent = entry.page.parent;
     prepareRestore(parent);
     if (parent && parent.pathname !== sectionPaths[section]) router.replace(parent.href);
