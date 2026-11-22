@@ -31,12 +31,9 @@ export default function SettingsScreen() {
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥320・自動更新なし'}
           href={APP_ROUTES.upgrade}
-          last
         />
-      </SettingsGroup>
-      <SettingsSection title="アプリの設定" />
-      <SettingsGroup>
-        <SettingLink title="背景テーマ" detail={backgroundTheme.name} preview={<Image source={backgroundTheme.image} contentFit="cover" contentPosition="top" style={styles.themePreview} accessibilityElementsHidden aria-hidden />} href={'/settings/background' as Href} last />
+        <SettingLink title="背景テーマ" detail={backgroundTheme.name} preview={<Image source={backgroundTheme.image} contentFit="cover" contentPosition="top" style={styles.themePreview} accessibilityElementsHidden aria-hidden />} href={'/settings/background' as Href} />
+        <SettingLink title="データの管理・削除" detail="保存状況、復旧履歴、個人記録の削除" href={'/settings/data' as Href} last />
       </SettingsGroup>
 
       {role === 'owner' ? <>
@@ -56,16 +53,11 @@ export default function SettingsScreen() {
         <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
       </SettingsGroup>
 
-      <SettingsSection title="プライバシー・データ" />
-      <SettingsGroup>
-        <UsageSharingSetting />
-        <SettingLink title="データの管理・削除" detail="保存状況、復旧履歴、個人記録の削除" href={'/settings/data' as Href} last />
-      </SettingsGroup>
-
       <SettingsSection title="規約・その他" subdued />
       <SettingsGroup subdued>
         <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
         <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
+        <UsageSharingSetting />
         <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
         <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} last subdued />
       </SettingsGroup>
