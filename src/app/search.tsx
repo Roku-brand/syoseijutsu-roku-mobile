@@ -21,7 +21,7 @@ function getParam(value: string | string[] | undefined) {
 
 export default function SearchScreen() {
   'use no memo';
-  const params = useLocalSearchParams<{ q?: string; mode?: string }>();
+  const params = useLocalSearchParams<{ q?: string; mode?: string; preferredMode?: string }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
@@ -30,6 +30,7 @@ export default function SearchScreen() {
   const [query, setQuery] = useState(initialQuery);
   const [submittedQuery, setSubmittedQuery] = useState(initialQuery);
   const requestedMode = getSearchMode(getParam(params.mode));
+  const preferredMode = getSearchMode(getParam(params.preferredMode));
   const { articles, loading: featuresLoading, error: featuresError } = useFeatures();
   useEffect(() => {
     setQuery(initialQuery);
@@ -44,7 +45,8 @@ export default function SearchScreen() {
   const matchingModes = SEARCH_MODES.filter(item =>
     (item.id !== 'features' || !featuresLoading && !featuresError)
     && (counts[item.id] > 0 || item.id === 'techniques' && personaMatches.length > 0));
-  const mode = requestedMode ?? matchingModes[0]?.id ?? 'techniques';
+  const autoMode = matchingModes.find(item => item.id === preferredMode)?.id ?? matchingModes[0]?.id;
+  const mode = requestedMode ?? autoMode ?? preferredMode ?? 'techniques';
   const count = counts[mode];
   const resultKind = SEARCH_MODES.find(item => item.id === mode)?.label;
   const otherMatches = matchingModes.filter(item => item.id !== mode);
@@ -113,7 +115,7 @@ export default function SearchScreen() {
               return <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={label} onPress={() => changeMode(item.id)} style={styles.retry}><AppText style={styles.clearText}>{label}　›</AppText></Pressable>;
             }) : <>
               <AppText style={styles.promptText}>短い言葉や、別の表現でも探してみてください。</AppText>
-              <View style={styles.suggestions}>{POPULAR_SEARCHES.slice(0, 4).map(item => <Pressable key={item.term} accessibilityRole="button" accessibilityLabel={`${item.term}を検索`} onPress={() => { setQuery(item.term); setSubmittedQuery(item.term); router.setParams({ q: item.term, mode: requestedMode }); }} style={styles.personaResult}><AppText>{item.term}</AppText></Pressable>)}</View>
+              <View style={styles.suggestions}>{POPULAR_SEARCHES.slice(0, 4).map(item => <Pressable key={item.term} accessibilityRole="button" accessibilityLabel={`${item.term}を検索`} onPress={() => { setQuery(item.term); setSubmittedQuery(item.term); router.setParams({ q: item.term, preferredMode: item.mode }); }} style={styles.personaResult}><AppText>{item.term}</AppText></Pressable>)}</View>
             </>}
           </View>}
         </View>

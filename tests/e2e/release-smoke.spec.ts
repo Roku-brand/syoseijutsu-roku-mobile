@@ -433,7 +433,7 @@ test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の�
 test('探すの検索欄は独立検索ページを開く', async ({ page }) => {
   await page.goto('/discover');
   await page.getByRole('button', { name: '処世術・理論・特集を検索' }).click();
-  await expect(page).toHaveURL(/\/search\?mode=techniques/);
+  await expect(page).toHaveURL(/\/search\?preferredMode=techniques/);
   const input = page.getByRole('textbox', { name: 'キーワードを検索' });
   await input.fill('聞き上手');
   await input.press('Enter');

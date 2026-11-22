@@ -85,3 +85,15 @@ test('最初の検索は該当タブを開き、手動で選んだタブは次�
   await expect(tab('理論')).toHaveAttribute('aria-selected', 'true');
   await expect(results.getByText('社会的比較理論', { exact: true })).toBeVisible();
 });
+
+test('探すから始めた検索でも、入力ごとに該当タブを自動で選ぶ', async ({ page }) => {
+  await page.goto('/discover');
+  await page.getByTestId('discover-search-input').fill('愛着理論');
+  await page.getByTestId('discover-search-submit').click();
+  await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
+  expect(new URL(page.url()).searchParams.has('mode')).toBe(false);
+  await page.getByRole('textbox', { name: 'キーワードを検索' }).fill('清潔感');
+  await page.getByRole('button', { name: '検索を実行' }).click();
+  await expect(page.getByRole('tab', { name: '処世術', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByTestId('search-page-results')).toContainText('清潔感を意識する');
+});
