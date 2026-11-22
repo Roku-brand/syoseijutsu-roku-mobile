@@ -55,26 +55,36 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   expect(numberBox.x - cardBox!.x).toBeGreaterThanOrEqual(16);
   await expect(technique).toContainText('対人術・印象がいい人');
   await expect(technique).toContainText('清潔感を意識する');
+  await expect(technique.getByTestId('catalog-index-mountains')).toBeVisible();
+  await expect(technique.getByTestId('save-diamond')).toBeVisible();
+  const count = (await page.getByTestId('technique-index-count').boundingBox())!;
+  const pages = (await page.getByTestId('technique-index-pagination').boundingBox())!;
+  expect(pages.y).toBeGreaterThan(count.y);
+  await expect(page.getByRole('button', { name: /並び替え/ })).toHaveCount(0);
   await noOverflow(page);
   await page.screenshot({ path: test.info().outputPath(`techniques-${width}.png`), scale: 'css' });
   await page.goto('/theories');
   await expect(page.getByTestId('theory-index-count')).toHaveText(`${theories.length}件`);
   await expect(page.getByTestId('theory-index-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
-  await compactPages(page.getByTestId('theory-index-pagination'), 'rgb(32, 63, 105)');
-  await expect(page.getByTestId('theory-category-filters').getByRole('button', { name: 'すべてで理論を絞り込む' })).toHaveCSS('background-color', 'rgb(32, 63, 105)');
+  await compactPages(page.getByTestId('theory-index-pagination'), 'rgb(49, 91, 73)');
+  const activeFilter = page.getByTestId('theory-category-filters').getByRole('button', { name: 'すべてで理論を絞り込む' });
+  await expect(activeFilter.locator(':scope > div').first()).toHaveCSS('background-color', 'rgb(49, 91, 73)');
   const entry = page.getByTestId('theory-card').first();
-  await expect(entry).toHaveCSS('border-color', 'rgb(168, 187, 208)');
-  await expect(entry).toHaveCSS('border-radius', '6px');
-  await expect(entry.getByTestId('theory-card-title')).toHaveCSS('text-align', 'center');
+  await expect(entry).toHaveCSS('border-color', 'rgb(161, 177, 166)');
+  await expect(entry).toHaveCSS('border-radius', '12px');
+  await expect(entry.getByTestId('theory-card-title')).toHaveCSS('text-align', 'left');
   const withSummary = page.getByTestId('theory-card').filter({ has: page.getByTestId('theory-card-summary') }).first();
-  await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'center');
-  await expect(entry.getByTestId('theory-card-ornament')).toBeVisible();
+  await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'left');
+  await expect(entry.getByTestId('catalog-index-mountains')).toBeVisible();
+  await expect(entry.getByTestId('save-diamond')).toBeVisible();
+  await expect(page.getByRole('button', { name: /並び替え/ })).toHaveCount(0);
   await expect(entry.getByTestId('theory-card-id')).toHaveText('P-001');
   await expect(entry.getByTestId('theory-card-subcategory')).toHaveCount(0);
   const [entryBox, codeBox] = await Promise.all([entry.boundingBox(), entry.getByTestId('theory-card-id').boundingBox()]);
-  expect(entryBox!.height).toBeGreaterThanOrEqual(148);
-  expect(codeBox!.y - entryBox!.y).toBeGreaterThanOrEqual(14);
-  expect(entryBox!.x + entryBox!.width - codeBox!.x - codeBox!.width).toBeGreaterThanOrEqual(16);
+  expect(entryBox!.height).toBeLessThan(125);
+  expect(Math.abs(codeBox!.y + codeBox!.height / 2 - entryBox!.y - entryBox!.height / 2)).toBeLessThan(2);
+  const titleBox = (await entry.getByTestId('theory-card-title').boundingBox())!;
+  expect(titleBox.x).toBeGreaterThan(codeBox!.x + codeBox!.width);
   await noOverflow(page);
   await page.screenshot({ path: test.info().outputPath(`theories-${width}.png`), scale: 'css' });
   await page.goto('/library');
@@ -84,9 +94,11 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(page.getByTestId('theory-card')).toHaveCount(0);
   await expect(page.getByTestId('personal-card-image')).toHaveCount(0);
   await expect(page.getByTestId('shoseijutsu-card')).toContainText('No.001');
+  await expect(page.getByTestId('saved-technique-row').getByTestId('catalog-index-mountains')).toBeVisible();
   await page.getByRole('tab', { name: /^理論のお気に入り/ }).click();
   await expect(page.getByTestId('shoseijutsu-card')).toHaveCount(0);
   await expect(page.getByTestId('theory-card')).toHaveCount(1);
+  await expect(page.getByTestId('saved-theory-row').getByTestId('catalog-index-mountains')).toBeVisible();
   await expect(page.getByTestId('theory-card-title')).toHaveText(theory.title);
   await expect(page.getByTestId('theory-card-summary')).toContainText(theory.summary.split('。')[0]);
   await expect(page.getByTestId('save-diamond')).toHaveCount(1);
@@ -103,6 +115,14 @@ test('大分類から縦バーの色を選び、IDと全文タイトルを維持
   await expect(page.getByTestId('technique-index-title')).toHaveAccessibleName('表情・視線・姿勢・声を安定させる');
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.002');
   await expect(page.getByTestId('technique-essence')).toHaveCount(0);
+  await page.setViewportSize({ width: 320, height: 900 });
+  const title = page.getByTestId('technique-index-title');
+  await expect.poll(() => title.evaluate(el => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    return range.getBoundingClientRect().height > Number.parseFloat(getComputedStyle(el).lineHeight);
+  })).toBe(true);
+  await noOverflow(page);
 });
 
 test('お気に入りを種類別に表示し、解除・再登録と詳細遷移を維持する', async ({ page }) => {
@@ -132,4 +152,34 @@ test('お気に入りを種類別に表示し、解除・再登録と詳細遷�
   await page.getByRole('tab', { name: /^処世術のお気に入り/ }).click();
   await page.getByRole('button', { name: '清潔感を意識するを開く', exact: true }).click();
   await expect(page).toHaveURL('/card/master336-001');
+});
+
+test('検索の案内枠を省き、処世術と理論を共通カードの右上から保存できる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const { title, mode, rowID, cardID, detail } of [
+    { title: '清潔感を意識する', mode: 'techniques', rowID: 'technique-search-row', cardID: 'shoseijutsu-card', detail: '/card/master336-001' },
+    { title: theory.title as string, mode: 'theories', rowID: 'theory-search-row', cardID: 'theory-card', detail: '/theory/kb_001' },
+  ]) {
+    await page.goto(`/search?mode=${mode}&q=${encodeURIComponent(title)}`);
+    await expect(page.getByRole('heading', { name: 'キーワード検索', exact: true })).toHaveCount(1);
+    await expect(page.getByText('処世術・理論・特集を横断して探せます')).toHaveCount(0);
+    const [header, searchBox] = await Promise.all([page.getByTestId('book-header').boundingBox(), page.getByTestId('independent-search-box').boundingBox()]);
+    expect(searchBox!.y - header!.y - header!.height).toBeLessThanOrEqual(25);
+    const row = page.getByTestId(rowID).filter({ hasText: title }).first();
+    await expect(row.getByTestId('catalog-index-mountains')).toBeVisible();
+    await expect(row.getByRole('button')).toHaveCount(0);
+    const card = page.getByTestId(cardID).filter({ has: row });
+    const save = card.getByRole('button', { name: `${title}をお気に入りに保存` });
+    await expect(save).toHaveAttribute('aria-pressed', 'false');
+    const [cardBox, diamond] = await Promise.all([card.boundingBox(), save.getByTestId('save-diamond').boundingBox()]);
+    expect(diamond!.y - cardBox!.y).toBeLessThan(20);
+    expect(cardBox!.x + cardBox!.width - diamond!.x - diamond!.width).toBeLessThan(24);
+    await save.click();
+    await expect(card.getByRole('button', { name: `${title}のお気に入りを解除` })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page).toHaveURL(/\/search\?/);
+    await noOverflow(page);
+    await page.screenshot({ path: test.info().outputPath(`search-${mode}-390.png`) });
+    await row.click();
+    await expect(page).toHaveURL(detail);
+  }
 });

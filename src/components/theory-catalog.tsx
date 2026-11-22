@@ -2,14 +2,13 @@ import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
-import { catalogTheme, colors, fonts, radius, spacing } from '@/constants/theme';
+import { fonts, radius } from '@/constants/theme';
 import { getTheoryCategoryTitle, getTheoryDisplayId, theoryCategoryOrder } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCardSupplement, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
-import { CategoryFilterLabel } from './category-filter-label';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { CatalogIndexFilters } from './catalog-index-controls';
 
 export type TheoryFilterKey = string;
 
@@ -24,32 +23,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
   selected: TheoryFilterKey;
   onSelect: (filter: TheoryFilterKey) => void;
 }) {
-  const options = getTheoryFilterOptions();
-  const { width } = useHydratedWindowDimensions();
-  const renderOption = (option: { key: TheoryFilterKey; label: string }) => {
-    const active = selected === option.key;
-    const label = option.label;
-    return <Pressable
-      key={option.key}
-      accessibilityRole="button"
-      accessibilityLabel={`${label}で理論を絞り込む`}
-      accessibilityState={{ selected: active }}
-      aria-selected={active}
-      onPress={() => onSelect(option.key)}
-      style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
-    >
-      <CategoryFilterLabel label={label} style={StyleSheet.flatten([styles.filterText, active && styles.filterTextActive])} />
-    </Pressable>;
-  };
-
-  return (
-    <View testID="theory-category-filters" style={styles.filterGrid}>
-      {width >= 1000 ? <View style={styles.filterRow}>{options.map(renderOption)}</View> : <>
-        <View style={styles.filterRow}>{options.slice(0, 4).map(renderOption)}</View>
-        <View style={styles.filterRow}>{options.slice(4).map(renderOption)}</View>
-      </>}
-    </View>
-  );
+  return <CatalogIndexFilters kind="theory" options={getTheoryFilterOptions()} selected={selected} onSelect={onSelect} />;
 }
 
 export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
@@ -79,12 +53,6 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 }
 
 const styles = StyleSheet.create({
-  filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
-  filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
-  filterButton: { flexBasis: 0, flexGrow: 1, minWidth: 0, minHeight: 44, paddingHorizontal: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: catalogTheme.theory.inactive, alignItems: 'center', justifyContent: 'center' },
-  filterButtonActive: { backgroundColor: catalogTheme.theory.ink },
-  filterText: { color: catalogTheme.theory.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5, textAlign: 'center' },
-  filterTextActive: { color: colors.surface, fontWeight: '700' },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },
   cardPressed: { opacity: 0.84, transform: [{ translateY: -1 }] },

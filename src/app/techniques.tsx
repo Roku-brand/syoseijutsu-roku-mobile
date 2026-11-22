@@ -1,15 +1,16 @@
 import { CatalogPageFooter } from '@/components/catalog-page-footer';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo, useRef } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTechnique } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
-import { catalogTheme, colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors } from '@/constants/theme';
 import { categoryMeta, categoryOrder } from '@/data/catalog';
 import { getTechniqueIndex } from '@/data/technique-index';
-import { ShoseijutsuCard } from '@/components/shoseijutsu-card';
+import { ShoseijutsuListCard } from '@/components/shoseijutsu-card';
+import { CatalogIndexCount, CatalogIndexFilters, catalogIndexLayout } from '@/components/catalog-index-controls';
 import { Pagination } from '@/components/pagination';
 
 const PAGE_SIZE = 100;
@@ -33,20 +34,19 @@ export default function TechniqueIndexScreen() {
   const selectPage = (value: number) => { router.setParams({ page: String(value) }); requestAnimationFrame(toTop); };
 
   return (
-    <BookScreen scrollRef={scrollRef} testID="technique-index-screen" contentContainerStyle={styles.content}>
-      <View testID="technique-index-filters" style={styles.filters}>
-        {[{ key: 'all', label: 'すべて' }, ...categoryOrder.map(key => ({ key, label: categoryMeta[key].label }))].map(option => (
-          <Pressable key={option.key} accessibilityRole="button" accessibilityLabel={`${option.label}で処世術を絞り込む`} accessibilityState={{ selected: category === option.key }} aria-selected={category === option.key} onPress={() => router.setParams({ category: option.key === 'all' ? undefined : option.key, page: undefined })} style={[styles.filter, category === option.key && styles.filterActive]}>
-            <AppText style={[styles.filterText, category === option.key && styles.filterTextActive]}>{option.label}</AppText>
-          </Pressable>
-        ))}
-      </View>
+    <BookScreen scrollRef={scrollRef} testID="technique-index-screen" contentContainerStyle={catalogIndexLayout.content}>
+      <CatalogIndexFilters kind="technique" selected={category}
+        options={[{ key: 'all', label: 'すべて' }, ...categoryOrder.map(key => ({ key, label: categoryMeta[key].label }))]}
+        onSelect={key => router.setParams({ category: key === 'all' ? undefined : key, page: undefined })} />
       <View style={styles.heading}>
-        <AppText testID="technique-index-count" style={styles.count}>{rows.length}件</AppText>
-      <Pagination page={page} totalPages={totalPages} onSelect={selectPage} label="処世術一覧のページ選択" testID="technique-index-pagination" />
+        <CatalogIndexCount label="収録処世術" count={rows.length} testID="technique-index-count" />
+        {totalPages > 1 ? <View style={styles.pages}>
+          <Pagination framed page={page} totalPages={totalPages} onSelect={selectPage} label="処世術一覧のページ選択" testID="technique-index-pagination" />
+        </View> : null}
       </View>
-      <View testID="technique-index-list" style={styles.list}>
-        {pageRows.map(card => <ShoseijutsuCard key={card.id} testID="technique-index-row" card={card} readable={canReadTechnique(accessState === 'paid' ? 'paid' : 'guest', card.id) && card.status !== 'locked'} />)}
+      <View testID="technique-index-list" style={catalogIndexLayout.list}>
+        {pageRows.map(card => <ShoseijutsuListCard key={card.id} card={card}
+          readable={canReadTechnique(accessState === 'paid' ? 'paid' : 'guest', card.id) && card.status !== 'locked'} />)}
         {!rows.length ? <AppText style={styles.empty}>該当する処世術はありません。</AppText> : null}
       </View>
       <CatalogPageFooter page={page} totalPages={totalPages} onSelect={selectPage} onTop={toTop} label="処世術一覧のページ選択" testID="technique-index-footer" />
@@ -55,14 +55,7 @@ export default function TechniqueIndexScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingTop: 0, paddingBottom: spacing.xl * 3 },
-  filters: { flexDirection: 'row', gap: 8, marginTop: spacing.lg },
-  filter: { flex: 1, minWidth: 0, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
-  filterActive: { backgroundColor: colors.gold },
-  filterText: { color: colors.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 21, fontWeight: '600' },
-  filterTextActive: { color: colors.surface },
-  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 16, marginBottom: 16 },
-  count: { color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22 },
-  list: { gap: 12 },
+  heading: { marginTop: 11, marginBottom: 14, gap: 2 },
+  pages: { alignSelf: 'flex-end' },
   empty: { paddingVertical: 30, color: colors.muted, fontSize: 15 },
 });

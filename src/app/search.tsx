@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
 import { FeatureCard } from '@/components/feature-card';
+import { catalogIndexLayout } from '@/components/catalog-index-controls';
 import { SearchMark } from '@/components/search-mark';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
@@ -66,11 +67,6 @@ export default function SearchScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.intro}>
-        {!compact ? <AppText accessibilityRole="header" aria-level={1} style={styles.title}>キーワード検索</AppText> : null}
-        <AppText style={styles.subtitle}>処世術・理論・特集を横断して探せます</AppText>
-      </View>
-
       <View style={[styles.searchBox, compact && styles.searchBoxCompact]} testID="independent-search-box">
         <SearchMark />
         <TextInput
@@ -106,7 +102,7 @@ export default function SearchScreen() {
             : count ? (
             mode === 'features'
               ? <View style={styles.featureGrid}>{featureMatches.map(article => <FeatureCard key={article.id} article={article} compact={compact} style={{ width: compact ? '100%' : '31%' }} />)}</View>
-              : <View>{mode === 'techniques'
+              : <View style={catalogIndexLayout.list}>{mode === 'techniques'
                 ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />)
                 : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
           ) : <View style={styles.empty}>
@@ -133,12 +129,8 @@ const styles = StyleSheet.create({
   personaResult: { minHeight: 44, padding: 12, borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface },
   suggestions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' },
   content: { maxWidth: 1260, paddingBottom: spacing.xl * 2 },
-  intro: { alignItems: 'center', paddingVertical: spacing.lg, borderBottomWidth: 1, borderBottomColor: colors.line },
-  title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 2 },
-  titleCompact: { fontSize: 25, lineHeight: 36 },
-  subtitle: { marginTop: 3, color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, textAlign: 'center' },
-  searchBox: { minHeight: 68, marginTop: spacing.xl, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.75)' },
-  searchBoxCompact: { minHeight: 56, marginTop: spacing.lg, paddingHorizontal: spacing.md },
+  searchBox: { minHeight: 68, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.75)' },
+  searchBoxCompact: { minHeight: 56, paddingHorizontal: spacing.md },
   searchInput: { flex: 1, minWidth: 0, minHeight: 66, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 },
   searchInputCompact: { minHeight: 54, fontSize: 16 },
   clearText: { color: colors.goldDeep, fontSize: 11, fontWeight: '700' },

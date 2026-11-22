@@ -22,6 +22,7 @@ test('人気ランキングは両部門トップ10で、CMSの順位とカテゴ
     await page.getByTestId(`ranking-tab-${division}`).click();
     const cards = page.getByTestId('ranking-list-' + division).getByTestId('ranking-card');
     await expect(cards).toHaveCount(10);
+    await expect(page.getByTestId('ranking-list-' + division).getByTestId('save-diamond')).toHaveCount(10);
     const first = ranks.find((item) => item.division === division && item.rank === 1)!;
     await expect(cards.first()).toContainText(first.title);
     await expect(cards.first()).toContainText(first.category_title);

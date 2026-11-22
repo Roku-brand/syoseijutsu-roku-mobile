@@ -18,7 +18,7 @@ async function expectCategory(page: Page, id?: string, category = 'psychology') 
   const count = theories.filter((t: any) => t.categoryId === category && (!id || t.subcategoryId === id)).length;
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(count);
   await expect(page.getByTestId('theory-index-count')).toHaveText(`${count}件`);
-  await expect(page.getByTestId('theory-subcategory-position')).toHaveText(`${index + 1} / ${sections.length + 1}`);
+  await expect(page.getByTestId('theory-subcategory-position')).toHaveText(`${String(index + 1).padStart(2, '0')} / ${String(sections.length + 1).padStart(2, '0')}`);
   await expect(page.getByTestId('theory-subcategory-indicator-active')).toHaveCount(1);
   await expect.poll(async () => {
     const [item, viewport] = await Promise.all([current.boundingBox(), page.getByTestId('theory-subcategory-scroll').boundingBox()]);

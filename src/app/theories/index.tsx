@@ -3,13 +3,15 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
+import { canReadTheory } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
 import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { TheorySubcategoryReel } from '@/components/theory-subcategory-reel';
-import { catalogTheme, colors, fonts, spacing } from '@/constants/theme';
+import { catalogIndexTheme, colors, fonts, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
-import { TheoryCard } from '@/components/theory-card';
+import { TheoryListCard } from '@/components/theory-card';
+import { CatalogIndexCount, catalogIndexLayout } from '@/components/catalog-index-controls';
 import { Pagination } from '@/components/pagination';
 import { groupTheorySections, resolveTheorySubcategoryId } from '@/data/theory-taxonomy';
 
@@ -71,8 +73,8 @@ export default function TheoryIndexScreen() {
   const selectPage = (value: number) => { setPage(value); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(value) }); requestAnimationFrame(toTop); };
 
   return (
-    <BookScreen scrollRef={scrollRef} testID="theory-index-screen" contentContainerStyle={styles.content}>
-      <View style={styles.filters}>
+    <BookScreen scrollRef={scrollRef} testID="theory-index-screen" contentContainerStyle={catalogIndexLayout.content}>
+      <View>
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
           <TheorySubcategoryReel key={category} options={subcategoryOptions} selected={subcategory} onSelect={selectSubcategory} />
@@ -80,18 +82,19 @@ export default function TheoryIndexScreen() {
       </View>
 
       <View style={[styles.resultHeading, category !== 'all' && styles.resultHeadingWithReel]}>
-        <AppText testID="theory-index-count" style={styles.resultTitle}>{selectedTheories.length}件</AppText>
-      <Pagination page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={selectPage} />
+        <CatalogIndexCount label="収録理論" count={selectedTheories.length} testID="theory-index-count" />
+        <Pagination framed page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={selectPage} />
       </View>
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
-        <View testID="theory-index-list" style={styles.list}>
+        <View testID="theory-index-list" style={catalogIndexLayout.list}>
           {groupTheorySections(pageTheories).map((section) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
             {!subcategory ? <View style={styles.subHeading}>
               {category === 'all' ? <AppText style={styles.categoryLabel}>{section.categoryTitle}</AppText> : null}
               <AppText accessibilityRole="header" aria-level={2} style={styles.subTitle}>{section.title}</AppText>
             </View> : null}
-            {section.items.map(theory=><TheoryCard key={theory.tagId} theory={theory} showClassification={false} testID="theory-index-row-card" />)}
+            {section.items.map(theory => <TheoryListCard key={theory.tagId} theory={theory}
+              readable={canReadTheory(accessState === 'paid' ? 'paid' : 'guest', theory.tagId)} />)}
           </View>)}
         </View>
       ) : (
@@ -103,25 +106,21 @@ export default function TheoryIndexScreen() {
 }
 
 function TheoryListSkeleton() {
-  return <View testID="theory-index-loading" style={styles.list}>{Array.from({ length: 6 }, (_, index) => <View key={index} style={styles.skeletonRow}><View style={styles.skeletonCode} /><View style={styles.skeletonLine} /><View style={styles.skeletonLineWide} /></View>)}</View>;
+  return <View testID="theory-index-loading" style={catalogIndexLayout.list}>{Array.from({ length: 6 }, (_, index) => <View key={index} style={styles.skeletonRow}><View style={styles.skeletonCode} /><View style={styles.skeletonLine} /><View style={styles.skeletonLineWide} /></View>)}</View>;
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingTop: 0, paddingBottom: spacing.xl * 3 },
-  filters: { marginTop: spacing.lg, paddingBottom: 0 },
-  subcategoryFilters: { marginTop: spacing.lg },
-  resultHeading: { marginTop: 16, marginBottom: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  resultHeadingWithReel: { marginTop: spacing.md },
-  resultTitle: { color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22 },
-  list: { width: '100%', gap: 12 },
-  section: { width: '100%', gap: 18, marginBottom: spacing.lg },
+  subcategoryFilters: { marginTop: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.line, paddingTop: 9 },
+  resultHeading: { minHeight: 32, marginTop: 12, marginBottom: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  resultHeadingWithReel: { marginTop: 12 },
+  section: { width: '100%', gap: catalogIndexTheme.cardGap, marginBottom: 5 },
   subHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10, paddingTop: 4, paddingBottom: 2 },
   categoryLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 12, lineHeight: 22, paddingRight: 10, borderRightWidth: 1, borderRightColor: colors.line },
   subTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 26, fontWeight: '600' },
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
-  skeletonRow: { minHeight: 158, padding: 22, gap: 16, borderWidth: 1, borderColor: catalogTheme.theory.border, borderRadius: 6, alignItems: 'center', opacity: 0.5 },
-  skeletonCode: { width: 62, height: 10, alignSelf: 'flex-end', borderRadius: 5, backgroundColor: colors.paperDeep },
-  skeletonLine: { width: '58%', height: 16, borderRadius: 6, backgroundColor: colors.paperDeep },
-  skeletonLineWide: { width: '86%', height: 10, marginTop: 12, borderRadius: 5, backgroundColor: colors.paperDeep },
+  skeletonRow: { minHeight: 90, padding: 14, gap: 8, borderWidth: 1, borderColor: catalogIndexTheme.theory.border, borderRadius: catalogIndexTheme.cardRadius, alignItems: 'flex-start', opacity: 0.5 },
+  skeletonCode: { width: 62, height: 8, borderRadius: 5, backgroundColor: colors.paperDeep },
+  skeletonLine: { width: '58%', height: 13, borderRadius: 6, backgroundColor: colors.paperDeep },
+  skeletonLineWide: { width: '86%', height: 8, borderRadius: 5, backgroundColor: colors.paperDeep },
 });

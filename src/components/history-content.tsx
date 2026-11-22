@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { PersonalContentCard, type PersonalContentRow } from './personal-content-card';
 import { PersonalSectionHeading } from './personal-section-heading';
 import { MoreCards } from './folder-fronts';
+import { KnowledgeFavoriteButton } from './knowledge-favorite-button';
 import { AppText } from './ui';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
@@ -35,7 +36,9 @@ export function HistoryContent() {
   return <View testID="history-content">
     <PersonalSectionHeading hideCompactTitle title="閲覧履歴" subtitle="以前読んだ知識を振り返る" />
     <View accessibilityRole="tablist" accessibilityLabel="閲覧履歴の種類" style={styles.tabs}>{([{ kind: 'technique', label: '処世術' }, { kind: 'theory', label: '理論' }, { kind: 'feature', label: '特集' }] as const).map(item => <Pressable key={item.kind} accessibilityRole="tab" accessibilityLabel={item.label} accessibilityState={{ selected: kind === item.kind }} aria-selected={kind === item.kind} onPress={() => { setKind(item.kind); setLimit(20); }} style={[styles.tab, kind === item.kind && styles.selected]}><AppText style={[styles.label, kind === item.kind && styles.selectedLabel]}>{item.label}</AppText></Pressable>)}</View>
-    {rows.length ? rows.slice(0, limit).map(row => <PersonalContentCard key={row.kind + row.id} row={row} onPress={() => router.push(row.kind === 'feature' ? featureRoute(row.article?.slug ?? row.id) : row.kind === 'technique' ? techniqueRoute(row.id) : theoryRoute(row.id))} />) : <View style={styles.empty}><AppText>{empty}</AppText>{!pending || failed ? <Pressable accessibilityRole="button" onPress={featureFailed ? () => void refreshFeatures() : failed ? () => void refreshAccess() : () => router.push(kind === 'feature' ? '/features' : kind === 'theory' ? '/theories' : '/techniques')} style={styles.action}><AppText style={styles.actionText}>{failed || featureFailed ? 'もう一度読み込む' : '気になる知識を探す ›'}</AppText></Pressable> : null}</View>}
+    {rows.length ? rows.slice(0, limit).map(row => <PersonalContentCard key={row.kind + row.id} row={row}
+      favorite={row.kind !== 'feature' && !isRetiredTheoryId(row.id) ? <KnowledgeFavoriteButton kind={row.kind} id={row.id} title={row.title} /> : undefined}
+      onPress={() => router.push(row.kind === 'feature' ? featureRoute(row.article?.slug ?? row.id) : row.kind === 'technique' ? techniqueRoute(row.id) : theoryRoute(row.id))} />) : <View style={styles.empty}><AppText>{empty}</AppText>{!pending || failed ? <Pressable accessibilityRole="button" onPress={featureFailed ? () => void refreshFeatures() : failed ? () => void refreshAccess() : () => router.push(kind === 'feature' ? '/features' : kind === 'theory' ? '/theories' : '/techniques')} style={styles.action}><AppText style={styles.actionText}>{failed || featureFailed ? 'もう一度読み込む' : '気になる知識を探す ›'}</AppText></Pressable> : null}</View>}
     <MoreCards remaining={rows.length - limit} onPress={() => setLimit(value => value + 20)} />
   </View>;
 }

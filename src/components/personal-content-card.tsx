@@ -11,17 +11,18 @@ import { colors, fonts } from '@/constants/theme';
 import { TechniqueTitle } from './technique-title';
 
 export type PersonalContentRow = { kind: 'technique' | 'theory' | 'feature'; id: string; title: string; label: string; description: string; category: string; article?: FeatureArticle };
-export function PersonalContentCard({ row, onPress, action }: { row: PersonalContentRow; onPress: () => void; action?: ReactNode }) {
+export function PersonalContentCard({ row, onPress, action, favorite }: { row: PersonalContentRow; onPress: () => void; action?: ReactNode; favorite?: ReactNode }) {
   const { width } = useHydratedWindowDimensions();
   const mobile = width < 768;
   const tone = row.kind === 'technique' ? '#267261' : row.kind === 'theory' ? '#4666A0' : '#B35A38';
   return <View testID={`personal-content-${row.kind}`} style={[styles.row, mobile && styles.rowMobile]}>
-    <Pressable accessibilityRole="button" accessibilityLabel={`${row.title}を開く`} onPress={onPress} style={({ pressed }) => [styles.open, pressed && styles.pressed]}>
+    <Pressable accessibilityRole="button" accessibilityLabel={`${row.title}を開く`} onPress={onPress} style={({ pressed }) => [styles.open, Boolean(favorite) && styles.openWithFavorite, pressed && styles.pressed]}>
       <View testID="personal-card-image" style={[styles.art, mobile && styles.artMobile]}>{row.kind === 'feature'
         ? <Image source={row.article ? featureCover(row.article)?.compactSource ?? featureImage(row.article.image_path) : featureImage(null)} contentFit="cover" accessible={false} cachePolicy="memory-disk" style={StyleSheet.absoluteFill} />
         : <CategoryArt category={row.category} compact />}</View>
-      <View style={styles.copy}><AppText style={[styles.label, mobile && styles.labelMobile, { color: tone }]}>{row.label}</AppText>{row.kind === 'technique' ? <TechniqueTitle title={row.title} minimumFontSize={14} style={[styles.title, mobile && styles.titleMobile]} /> : <AppText numberOfLines={2} style={[styles.title, mobile && styles.titleMobile]}>{row.title}</AppText>}{row.description ? <AppText numberOfLines={1} style={[styles.description, mobile && styles.descriptionMobile]}>{row.description}</AppText> : null}</View>{!action ? <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText> : null}
+      <View style={styles.copy}><AppText style={[styles.label, mobile && styles.labelMobile, { color: tone }]}>{row.label}</AppText>{row.kind === 'technique' ? <TechniqueTitle title={row.title} minimumFontSize={14} style={[styles.title, mobile && styles.titleMobile]} /> : <AppText numberOfLines={2} style={[styles.title, mobile && styles.titleMobile]}>{row.title}</AppText>}{row.description ? <AppText numberOfLines={1} style={[styles.description, mobile && styles.descriptionMobile]}>{row.description}</AppText> : null}</View>{!action ? <AppText accessibilityElementsHidden style={[styles.arrow, Boolean(favorite) && styles.arrowWithFavorite]}>›</AppText> : null}
     </Pressable>{action}
+    {favorite ? <View style={styles.favorite}>{favorite}</View> : null}
   </View>;
 }
 const styles = StyleSheet.create({
@@ -32,6 +33,9 @@ const styles = StyleSheet.create({
   descriptionMobile: { fontSize: 13, lineHeight: 22 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 18, marginBottom: 14, borderWidth: 1, borderColor: '#E6DDCF', borderRadius: 18, overflow: 'hidden', backgroundColor: '#FFFDF9' },
   open: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  openWithFavorite: { paddingRight: 32 },
+  favorite: { position: 'absolute', top: 0, right: 3 },
+  arrowWithFavorite: { position: 'absolute', right: 1, top: '50%' },
   art: { width: 145, height: 118, borderRadius: 10, overflow: 'hidden', backgroundColor: '#EAF0E7' },
   copy: { flex: 1, minWidth: 0, justifyContent: 'center' },
   label: { borderLeftWidth: 4, borderLeftColor: '#C49B50', paddingLeft: 12, fontSize: 14, lineHeight: 22, fontWeight: '600' },

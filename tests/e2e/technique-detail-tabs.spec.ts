@@ -30,7 +30,7 @@ for (const width of [320, 390, 430]) {
 }
 
 for (const width of [320, 390]) {
-  test(`無料版の関連知識は定義と共通の一覧を表示する (${width}px)`, async ({ page }) => {
+  test(`無料版の関連知識はタイトルだけの共通一覧を表示する (${width}px)`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/card/master336-009');
     const tab = page.getByRole('tab', { name: '関連知識' });
@@ -39,10 +39,10 @@ for (const width of [320, 390]) {
     const supplementary = page.getByTestId('supplementary-theories');
     const definition = primary.getByRole('link', { name: '自己開示の返報性を開く' });
     const titleOnly = primary.getByRole('link', { name: '質問好意効果を開く' });
-    await expect(definition).toContainText('自分のことを適度に話すと、相手も自分のことを話しやすくなること。');
-    await expect(definition).not.toContainText('最近困っていること');
+    await expect(definition).toHaveText('01自己開示の返報性›');
+    await expect(definition.getByTestId('related-content-lock')).toHaveCount(0);
     await expect(titleOnly).toHaveText('02質問好意効果›');
-    await expect(supplementary).toContainText('やりすぎは不足と同じように問題になるという教え。');
+    await expect(supplementary).not.toContainText('やりすぎは不足と同じように問題になるという教え。');
     await expect(supplementary).not.toContainText(/助言も気遣いも|実践手法｜|思想・言葉による補完｜/);
     const relatedTechniques = page.getByTestId('related-techniques').getByRole('link');
     await expect(relatedTechniques).toHaveCount(4);
@@ -60,7 +60,7 @@ for (const width of [320, 390]) {
       await expect(rows.last()).toHaveCSS('border-bottom-width', '1px');
     }
     expect((await titleOnly.boundingBox())!.height).toBeLessThanOrEqual(54);
-    expect((await titleOnly.boundingBox())!.height).toBeLessThan((await definition.boundingBox())!.height);
+    expect((await definition.boundingBox())!.height).toBeCloseTo((await titleOnly.boundingBox())!.height);
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 
     const scroll = page.getByTestId('technique-detail-scroll');

@@ -66,7 +66,7 @@ export function TheoryNetwork({ theory }: { theory: TheoryCard }) {
       return {
         key: entry.id,
         title: relatedTheory.title,
-        supportingText: canReadTheory(effectiveAccess, entry.id) ? getRelatedTheoryDefinition(relatedTheory) : undefined,
+        locked: !canReadTheory(effectiveAccess, entry.id),
         href: { pathname: '/theory/[id]', params: { id: entry.id } },
       };
     })} />

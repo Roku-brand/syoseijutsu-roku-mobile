@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { Image as ExpoImage } from 'expo-image';
 import { Image, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
+import { KnowledgeFavoriteButton } from '@/components/knowledge-favorite-button';
 import { RankingArt } from '@/components/ranking-art';
 import { fonts } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -46,7 +47,8 @@ export default function PopularScreen() {
         const podium = index < 3;
         const tone = podium ? metal[index] : '#A77C35';
         const canvas = podium ? ['#FFF8E9', '#F4F8FA', '#FFF3E8'][index] : '#FFFCF7';
-        return <Pressable key={item.content_id} testID="ranking-card" accessibilityRole="link" accessibilityLabel={`${index + 1}位 ${item.category_title} ${item.title}を読む`} onPress={() => router.push(division === 'technique' ? techniqueRoute(item.content_id) : theoryRoute(item.content_id))}
+        return <View key={item.content_id}>
+        <Pressable testID="ranking-card" accessibilityRole="link" accessibilityLabel={`${index + 1}位 ${item.category_title} ${item.title}を読む`} onPress={() => router.push(division === 'technique' ? techniqueRoute(item.content_id) : theoryRoute(item.content_id))}
           style={({ pressed }) => [styles.card, podium && styles.podium, compact && styles.cardCompact, compact && podium && styles.podiumCompact, { backgroundColor: canvas, borderColor: podium ? `${tone}70` : '#EADFCB' }, pressed && styles.pressed]}>
           <View style={[styles.art, !podium && styles.artSmall]}><RankingArt category={item.category_id} /></View>
           {Platform.OS === 'web' ? <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundImage: `linear-gradient(90deg, ${canvas} 0%, ${canvas} 48%, ${canvas}e8 62%, ${canvas}00 90%)` } as ViewStyle]} />
@@ -54,7 +56,9 @@ export default function PopularScreen() {
           <View style={[styles.rankWrap, compact && styles.rankWrapCompact]}>{podium ? <Medal color={tone} rank={index + 1} compact={compact} /> : <Text style={[styles.rank, { color: tone }]}>{String(index + 1).padStart(2, '0')}</Text>}</View>
           <View style={styles.copy}><View style={[styles.categoryPill, { backgroundColor: division === 'theory' ? '#45718E' : '#8C692E' }]}><Text style={styles.category}>{item.category_title}</Text></View><Text style={[styles.title, podium && styles.podiumTitle, compact && styles.titleCompact, compact && podium && styles.podiumTitleCompact]}>{item.title}</Text></View>
           <View style={[styles.arrowCircle, compact && styles.arrowCircleCompact]}><Text style={styles.arrow}>›</Text></View>
-        </Pressable>;
+        </Pressable>
+        <View style={styles.favorite}><KnowledgeFavoriteButton kind={division} id={item.content_id} title={item.title} /></View>
+        </View>;
       })}</View>
       {!ranked.length ? <Text style={styles.caption}>ランキングはただいま準備中です。</Text> : null}
     </View>
@@ -78,7 +82,8 @@ const styles = StyleSheet.create({
   body: { paddingHorizontal: 18 }, tabs: { flexDirection: 'row', gap: 10, marginTop: 22, marginBottom: 25 }, tab: { flex: 1, alignItems: 'center', justifyContent: 'center', minHeight: 66, borderWidth: 1, borderColor: '#D9C9AC', borderRadius: 12, backgroundColor: '#FFFCF7', gap: 4 }, tabActive: { backgroundColor: '#23352F', borderColor: '#23352F' }, tabLabel: { fontFamily: fonts.serif, fontSize: 17, fontWeight: '700', color: '#5B5140' }, tabLabelActive: { color: '#FFF8E8' }, tabCount: { fontSize: 9, letterSpacing: 2, color: '#8E7954' },
   sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }, sectionTitle: { color: '#24251E', fontFamily: fonts.serif, fontSize: 22, lineHeight: 33, fontWeight: '700' }, caption: { color: '#7D7566', fontFamily: fonts.serif, fontSize: 12, lineHeight: 21 }, topTen: { color: '#A27D3D', fontSize: 10, letterSpacing: 2 }, list: { gap: 12 },
   card: { minHeight: 92, borderWidth: 1, borderRadius: 17, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingRight: 18, paddingVertical: 13, boxShadow: '0 4px 16px rgba(85,64,29,0.07)' }, podium: { minHeight: 157, boxShadow: '0 5px 18px rgba(108,80,29,0.13)' }, cardCompact: { minHeight: 85, paddingRight: 12, borderRadius: 14 }, podiumCompact: { minHeight: 129 }, art: { position: 'absolute', right: 0, top: 0, bottom: 0, width: '50%' }, artSmall: { width: '38%' },
+  favorite: { position: 'absolute', top: 0, right: 3 },
   rankWrap: { width: 118, alignItems: 'center', justifyContent: 'center' }, rankWrapCompact: { width: 75 }, rank: { fontFamily: fonts.serif, fontSize: 27, fontWeight: '500' }, medal: { width: 112, height: 112, justifyContent: 'center', alignItems: 'center', paddingTop: 21 }, medalCompact: { width: 76, height: 86, paddingTop: 17 }, medalNumber: { fontFamily: fonts.serif, fontSize: 41, fontWeight: '700' }, medalNumberCompact: { fontSize: 31 },
   copy: { flex: 1, minWidth: 0, gap: 7, paddingRight: 8 }, categoryPill: { alignSelf: 'flex-start', borderRadius: 20, paddingVertical: 3, paddingHorizontal: 12 }, category: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 }, title: { color: '#171916', fontFamily: fonts.serif, fontSize: 23, lineHeight: 34, fontWeight: '600' }, podiumTitle: { fontSize: 30, lineHeight: 43 }, titleCompact: { fontSize: 16, lineHeight: 25 }, podiumTitleCompact: { fontSize: 20, lineHeight: 30 },
-  arrowCircle: { width: 42, height: 42, borderWidth: 1, borderColor: '#BC9656', borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFCF4E8' }, arrowCircleCompact: { width: 30, height: 30 }, arrow: { color: '#9B742D', fontSize: 29, lineHeight: 31, marginTop: -3 }, connectionNote: { color: '#805B28', fontSize: 12, lineHeight: 21, marginBottom: 12 }, pressed: { opacity: 0.76 },
+  arrowCircle: { marginTop: 22, width: 42, height: 42, borderWidth: 1, borderColor: '#BC9656', borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFCF4E8' }, arrowCircleCompact: { width: 30, height: 30 }, arrow: { color: '#9B742D', fontSize: 29, lineHeight: 31, marginTop: -3 }, connectionNote: { color: '#805B28', fontSize: 12, lineHeight: 21, marginBottom: 12 }, pressed: { opacity: 0.76 },
 });

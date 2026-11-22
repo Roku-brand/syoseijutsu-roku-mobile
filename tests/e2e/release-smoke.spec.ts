@@ -166,6 +166,10 @@ test('無料版の関連理論は完全版のタイトルも表示し、未収�
   await expect(relatedTheories).not.toContainText('完全版の理論');
   const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
   await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');
+  await expect(lockedTheoryLink.getByTestId('related-content-lock')).toBeVisible();
+  const freeTechniqueLink = page.getByTestId('related-techniques').getByRole('link', { name: '会話は内容よりテンポを開く' });
+  await expect(freeTechniqueLink).toHaveAttribute('href', '/card/master336-015');
+  await expect(freeTechniqueLink.getByTestId('related-content-lock')).toHaveCount(0);
   await lockedTheoryLink.click();
   await expect(page).toHaveURL(/\/upgrade\?source=discover_theory/);
 });
@@ -219,7 +223,8 @@ test('理論詳細の関連項目は処世術詳細と同じ番号付きの一�
   expect(theoryBox).not.toBeNull();
   expect(techniqueBox!.width).toBeGreaterThan(700);
   expect(techniqueBox!.width).toBeLessThanOrEqual(820);
-  expect(techniqueBox!.height).toBeGreaterThanOrEqual(52);
+  expect(techniqueBox!.height).toBeGreaterThanOrEqual(44);
+  expect(techniqueBox!.height).toBeLessThanOrEqual(54);
   expect(Math.abs(techniqueBox!.width - theoryBox!.width)).toBeLessThan(2);
 });
 
@@ -236,7 +241,7 @@ test('処世術詳細の関連理論と関連処世術も同じボックスで�
   expect(techniqueBox).not.toBeNull();
   expect(theoryBox!.width).toBeGreaterThan(1000);
   expect(techniqueBox!.height).toBeLessThanOrEqual(54);
-  expect(techniqueBox!.height).toBeLessThan(theoryBox!.height);
+  expect(techniqueBox!.height).toBeCloseTo(theoryBox!.height);
   expect(Math.abs(theoryBox!.width - techniqueBox!.width)).toBeLessThan(2);
 });
 
@@ -452,7 +457,9 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   const filters = page.getByTestId('theory-category-filters').getByRole('button');
   const boxes = await Promise.all(Array.from({ length: 7 }, (_, index) => filters.nth(index).boundingBox()));
   expect(boxes.every(Boolean)).toBe(true);
-  expect(new Set(boxes.map((box) => Math.round(box!.y))).size).toBe(1);
+  expect(new Set(boxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
+  expect(new Set(boxes.slice(4).map((box) => Math.round(box!.y))).size).toBe(1);
+  expect(boxes[4]!.y).toBeGreaterThan(boxes[0]!.y);
   expect(boxes.every((box) => Math.abs(box!.height - 44) <= 1)).toBe(true);
   await expect(page.getByRole('textbox')).toHaveCount(0);
 
