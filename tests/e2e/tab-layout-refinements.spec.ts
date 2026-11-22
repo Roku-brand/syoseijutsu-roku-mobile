@@ -61,6 +61,64 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
+test('五大原則とデッキ選択は先頭から下に引くと閉じ、本文の途中ではスクロールする', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.setViewportSize({ width: 390, height: 650 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const cdp = await context.newCDPSession(page);
+  const pullDown = async (x: number, y: number, distance: number) => {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+    for (let step = 1; step <= 8; step++) {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + distance * step / 8 }] });
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  };
+
+  await page.getByTestId('home-shortcut-principles').click();
+  const principles = page.getByTestId('principles-popup');
+  const body = principles.getByTestId('principles-popup-scroll');
+  await expect(body).toBeVisible();
+  await body.evaluate(node => { node.scrollTop = 150; });
+  const scrolled = await body.evaluate(node => node.scrollTop);
+  expect(scrolled).toBeGreaterThan(20);
+  const reading = (await body.boundingBox())!;
+  await pullDown(reading.x + 45, reading.y + 36, 100);
+  await expect(principles).toBeVisible();
+  await expect.poll(() => body.evaluate(node => node.scrollTop)).toBeLessThan(scrolled);
+  await body.evaluate(node => { node.scrollTop = 0; });
+  await pullDown(reading.x + 45, reading.y + 36, 32);
+  await expect(principles).toBeVisible();
+  await pullDown(reading.x + 45, reading.y + 36, 112);
+  await expect(principles).toHaveCount(0);
+
+  const trigger = page.getByTestId('home-deck-filter');
+  await trigger.click();
+  const filters = page.getByTestId('home-deck-filter-popup');
+  const options = filters.getByRole('radiogroup');
+  await expect(options).toBeVisible();
+  const first = (await options.boundingBox())!;
+  await pullDown(first.x + 45, first.y + 30, 108);
+  await expect(filters).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveText('すべて');
+});
+
+test('PCでもポップアップのヘッダーを下へ動かして閉じられる', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await page.getByTestId('home-deck-filter').click();
+  const popup = page.getByTestId('home-deck-filter-popup');
+  const header = popup.getByTestId('book-popup-header');
+  const box = (await header.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + 25);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2, box.y + 135, { steps: 8 });
+  await page.mouse.up();
+  await expect(popup).toHaveCount(0);
+});
+
 test('guest settings show one account link and a preview of the active theme', async ({ page }) => {
   await page.goto('/settings');
   const account = page.getByRole('button', { name: /^アカウント作成・ログイン/ });

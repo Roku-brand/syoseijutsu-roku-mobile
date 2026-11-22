@@ -432,8 +432,10 @@ export function PrinciplesModal({
   onClose: () => void;
 }) {
   return (
-    <BookPopup visible={visible} compact={compact} title="処世術の五大原則" closeLabel="原則を閉じる" onClose={onClose} mark={<PrincipleMark />}>
-          <ScrollView
+    <BookPopup visible={visible} compact={compact} title="処世術の五大原則" closeLabel="原則を閉じる" onClose={onClose} mark={<PrincipleMark />} testID="principles-popup">
+          {scrollProps => <ScrollView
+            {...scrollProps}
+            testID="principles-popup-scroll"
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.principlesContent}
           >
@@ -471,7 +473,7 @@ export function PrinciplesModal({
                 運用せよ ／ 目的に従え
               </AppText>
             </View>
-          </ScrollView>
+          </ScrollView>}
     </BookPopup>
   );
 }
