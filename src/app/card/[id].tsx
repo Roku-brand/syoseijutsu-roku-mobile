@@ -75,7 +75,7 @@ export default function CardDetailScreen() {
   if (card && !canReadTechnique(effectiveAccess, card.id)) {
     return (
       <Screen contentContainerStyle={styles.screenContent}>
-        <LockedPreview title={card.subcategory} description="この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。" count={1} source="discover_technique" />
+        <LockedPreview title={card.title === '完全版の処世術' ? `${getTechniqueDisplayId(card)}・${card.subcategory}` : card.title} source="discover_technique" />
       </Screen>
     );
   }
@@ -109,7 +109,7 @@ export default function CardDetailScreen() {
       key: theory.tagId,
       title: theory.title,
       locked: !readable,
-      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
+      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory', theory.title),
     };
   };
   const explanation = splitExplanation(card.explanation, card.subtitle);

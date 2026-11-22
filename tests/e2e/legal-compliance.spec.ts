@@ -99,7 +99,7 @@ test('端末内データ消去は取消しでは保持し、確認後に実デ�
   await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({ personalPrinciple: '消去検証用の座右の銘', savedIds: ['master336-001'] })), key);
   await page.goto('/settings/data');
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toContain('消去検証用');
-  const erase = page.getByRole('button', { name: 'この端末の個人記録を消去' });
+  const erase = page.getByRole('button', { name: 'この端末のデータを削除' });
   await erase.click();
   await page.getByRole('button', { name: 'キャンセル', exact: true }).click();
   // Initial hydration may normalize legacy storage while the dialog is open.
@@ -109,7 +109,7 @@ test('端末内データ消去は取消しでは保持し、確認後に実デ�
     savedIds: ['master336-001'],
   });
   await erase.click();
-  await page.getByRole('button', { name: '消去を確定する', exact: true }).click();
+  await page.getByRole('button', { name: '端末の削除を確定する', exact: true }).click();
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toBeNull();
 });
 

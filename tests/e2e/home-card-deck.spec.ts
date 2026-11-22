@@ -322,9 +322,9 @@ test('既存の端末内データ消去でデッキ履歴も消去する', async
   await turnDeck(page);
   await ready(page);
   await page.goto('/settings/data');
-  await page.getByRole('button', { name: 'この端末の個人記録を消去', exact: true }).click();
-  await page.getByRole('button', { name: '消去を確定する', exact: true }).click();
-  await expect(page.getByTestId('personal-backup-message')).toContainText('この端末の個人記録を消去しました');
+  await page.getByRole('button', { name: 'この端末のデータを削除', exact: true }).click();
+  await page.getByRole('button', { name: '端末の削除を確定する', exact: true }).click();
+  await expect(page.getByTestId('personal-backup-message')).toContainText('この端末のデータを削除しました');
   await page.goto('/');
   await ready(page);
   await expect.poll(() => page.evaluate(key => {

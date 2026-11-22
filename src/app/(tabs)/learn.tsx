@@ -10,6 +10,8 @@ import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import { canPlayLearningCase } from '@/access/access-config';
+import { LockMark } from '@/components/lock-mark';
+import { upgradeRoute } from '@/navigation/app-routes';
 
 const marks = ['対', '仕', '生'];
 const landscape = require('../../../assets/home/system-atlas-washi.webp');
@@ -23,12 +25,13 @@ export default function LearnHomeScreen() {
   const { desktop, narrow } = useResponsiveLayout();
   const [expandedStages, setExpandedStages] = useState<number[]>([]);
   const completed = learningIndex.filter((item) => learningRecords[item.id]).length;
-  const openCase = (id: string) => {
-    if (!canPlayLearningCase(isPaid ? 'paid' : 'free', id)) {
-      router.push({ pathname: '/upgrade', params: { source: 'learning' } });
+  const canPlay = (id: string) => canPlayLearningCase(isPaid ? 'paid' : 'free', id);
+  const openCase = (item: (typeof learningIndex)[number]) => {
+    if (!canPlay(item.id)) {
+      router.push(upgradeRoute('learning', item.title));
       return;
     }
-    router.push({ pathname: '/learn/[caseId]', params: { caseId: id, retry: '1' } });
+    router.push({ pathname: '/learn/[caseId]', params: { caseId: item.id, retry: '1' } });
   };
   return <BookScreen testID="learn-scroll" contentContainerStyle={[styles.content, desktop && styles.contentDesktop]}>
     <View testID="learning-hero" style={[styles.hero, desktop && styles.heroDesktop]}>
@@ -44,7 +47,16 @@ export default function LearnHomeScreen() {
       <View accessibilityRole="progressbar" accessibilityLabel="全体の学習進捗" accessibilityValue={{ min: 0, max: learningIndex.length, now: completed }} style={styles.track}><View style={[styles.fill, { width: `${learningIndex.length ? completed / learningIndex.length * 100 : 0}%` }]} /></View>
       <AppText style={styles.overallNote}>一歩ずつ、{'\n'}自分の判断に。</AppText>
     </View>
-      {reviewCaseIds.length ? <View style={styles.practiceControls} testID="learning-review-list"><AppText accessibilityRole="header" aria-level={2} style={styles.practiceLabel}>あとで復習</AppText>{learningIndex.filter(item => reviewCaseIds.includes(item.id)).map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を復習する`} onPress={() => openCase(item.id)} style={styles.reviewEntry}><AppText>{item.title}　›</AppText></Pressable>)}</View> : null}
+    {reviewCaseIds.length ? <View style={styles.practiceControls} testID="learning-review-list">
+      <AppText accessibilityRole="header" aria-level={2} style={styles.practiceLabel}>あとで復習</AppText>
+      {learningIndex.filter(item => reviewCaseIds.includes(item.id)).map(item => {
+        const locked = !canPlay(item.id);
+        return <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title + (locked ? 'を復習する（完全版）' : 'を復習する')} onPress={() => openCase(item)} style={styles.reviewEntry}>
+          <AppText style={styles.caseTitle}>{item.title}</AppText>
+          {locked ? <View style={styles.caseAccess}><LockMark /><AppText style={styles.caseAccessText}>完全版</AppText></View> : <AppText>›</AppText>}
+        </Pressable>;
+      })}
+    </View> : null}
     <View testID="learning-stage-list" style={styles.roadmap}>
       <View pointerEvents="none" style={styles.roadmapLine} />
       {learningStages.map((stage, index) => {
@@ -53,6 +65,7 @@ export default function LearnHomeScreen() {
         const expanded = expandedStages.includes(stage.number);
         const visibleCases = expanded ? cases : cases.slice(0, 3);
         const next = cases.find((item) => !learningRecords[item.id]) ?? cases[0];
+        const stageLocked = Boolean(next && !canPlay(next.id));
         return <View key={stage.number} style={styles.stageRow}>
           <View style={styles.chapter} accessibilityElementsHidden><View style={styles.chapterRing} /><AppText style={styles.chapterText}>{marks[index]}</AppText></View>
           <View testID={`learning-stage-${stage.number}`} style={[styles.stageCard, desktop && styles.stageCardDesktop]}>
@@ -66,10 +79,20 @@ export default function LearnHomeScreen() {
             </View>
             <View style={[styles.stageBottom, !narrow && styles.stageBottomDesktop, !desktop && styles.stageBottomMobile]}>
               <View style={styles.caseList}>
-                {visibleCases.map((item, caseIndex) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => openCase(item.id)} style={({ pressed }) => [styles.caseRow, pressed && styles.pressed]}><AppText style={styles.caseNumber}>{String(caseIndex + 1).padStart(2, '0')}</AppText><AppText numberOfLines={2} style={styles.caseTitle}>{item.title}</AppText></Pressable>)}
+                {visibleCases.map((item, caseIndex) => {
+                  const locked = !canPlay(item.id);
+                  return <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title + (locked ? 'を開く（完全版）' : 'を開く')} onPress={() => openCase(item)} style={({ pressed }) => [styles.caseRow, pressed && styles.pressed]}>
+                    <AppText style={styles.caseNumber}>{String(caseIndex + 1).padStart(2, '0')}</AppText>
+                    <AppText numberOfLines={2} style={styles.caseTitle}>{item.title}</AppText>
+                    {locked ? <View style={styles.caseAccess}><LockMark /><AppText style={styles.caseAccessText}>完全版</AppText></View> : null}
+                  </Pressable>;
+                })}
                 {cases.length > 3 ? <Pressable accessibilityRole="button" accessibilityLabel={`ステージ${stage.number}の${expanded ? 'ケースを閉じる' : '残りのケースを見る'}`} accessibilityState={{ expanded }} aria-expanded={expanded} onPress={() => setExpandedStages((current) => expanded ? current.filter((number) => number !== stage.number) : [...current, stage.number])} style={styles.more}><AppText style={styles.moreText}>{expanded ? '閉じる' : `＋${cases.length - 3}件を見る`}　›</AppText></Pressable> : null}
               </View>
-              <Pressable testID={`learning-challenge-${stage.number}`} accessibilityRole="button" accessibilityLabel={`ステージ${stage.number}、${stage.title}`} onPress={() => next && openCase(next.id)} style={({ pressed }) => [styles.challenge, pressed && styles.pressed]}><AppText style={styles.challengeText}>挑戦する　→</AppText></Pressable>
+              <Pressable testID={'learning-challenge-' + stage.number} accessibilityRole="button" accessibilityLabel={'ステージ' + stage.number + '、' + stage.title + (stageLocked ? '（完全版）' : '')} onPress={() => next && openCase(next)} style={({ pressed }) => [styles.challenge, pressed && styles.pressed]}>
+                {stageLocked ? <LockMark color={colors.goldLight} /> : null}
+                <AppText style={styles.challengeText}>{stageLocked ? '完全版　›' : '挑戦する　→'}</AppText>
+              </Pressable>
             </View>
           </View>
         </View>;
@@ -81,7 +104,7 @@ export default function LearnHomeScreen() {
 const styles = StyleSheet.create({
   practiceControls: { width: '100%', marginTop: 16, marginBottom: 18, padding: 14, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface, gap: 8 },
   practiceLabel: { flexShrink: 1, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, color: colors.ink },
-  reviewEntry: { minHeight: 44, justifyContent: 'center', paddingVertical: 10, borderBottomWidth: 1, borderColor: colors.line },
+  reviewEntry: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 10, borderBottomWidth: 1, borderColor: colors.line },
   content: { width: '100%', maxWidth: 1050, alignSelf: 'center', paddingHorizontal: spacing.md, paddingTop: 0, paddingBottom: 32 },
   contentDesktop: { paddingHorizontal: spacing.xl },
   hero: { minHeight: 210, overflow: 'hidden', marginHorizontal: -spacing.md, paddingHorizontal: spacing.lg, paddingTop: 26 },
@@ -127,10 +150,12 @@ const styles = StyleSheet.create({
   stageBottomMobile: { flexDirection: 'column', alignItems: 'stretch' },
   caseRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 48, paddingVertical: 7 },
   caseNumber: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12 },
+  caseAccess: { flexShrink: 0, flexDirection: 'row', alignItems: 'center', gap: 3 },
+  caseAccessText: { color: colors.goldDeep, fontSize: 10, lineHeight: 15, fontWeight: '600' },
   caseTitle: { flex: 1, minWidth: 0, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 23 },
   more: { minHeight: 44, justifyContent: 'center' },
   moreText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22 },
-  challenge: { width: 112, minHeight: 44, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.goldDeep, alignItems: 'center', justifyContent: 'center' },
+  challenge: { width: 112, minHeight: 44, paddingHorizontal: 12, flexDirection: 'row', gap: 4, borderRadius: radius.pill, backgroundColor: colors.goldDeep, alignItems: 'center', justifyContent: 'center' },
   challengeText: { color: colors.white, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
   pressed: { opacity: 0.75 },
 });

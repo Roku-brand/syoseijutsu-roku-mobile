@@ -19,7 +19,7 @@ const syncLabels = {
   syncing: '同期中',
   synced: '同期済み',
   offline: '端末に保存しています。通信が回復するとクラウドへの保存を再試行します。',
-  reset: 'クラウド上の記録が削除されました。',
+  reset: 'アカウントのデータが削除されました。',
 };
 const recoveryLabels = { conflict: '別端末との競合', delete_conflict: '削除と編集の競合', deleted: '削除前', edited: '編集前' };
 const fieldLabels: Partial<Record<ReturnType<typeof syncIdentity>[0], string>> = {
@@ -78,14 +78,14 @@ export default function PersonalDataScreen() {
   if (Platform.OS === 'web') {
    const url = URL.createObjectURL(new Blob([text], { type: 'application/json;charset=utf-8' }));
    const link = document.createElement('a');
-   link.href = url; link.download = '処世術禄-記録-' + new Date().toISOString().slice(0, 10) + '.json';
+   link.href = url; link.download = '処世術禄-データ-' + new Date().toISOString().slice(0, 10) + '.json';
    link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   } else {
-   const result = await Share.share({ title: '処世術禄の記録バックアップ', message: text });
+   const result = await Share.share({ title: '処世術禄のデータバックアップ', message: text });
    if (result.action === Share.dismissedAction) return;
   }
   checkUser(expected);
-  setMessage('記録を書き出しました。');
+  setMessage('データを書き出しました。');
  };
  const selectFile = async () => {
   const expected = activeUser.current;
@@ -120,23 +120,23 @@ export default function PersonalDataScreen() {
   setConfirm(null);
   if (action === 'device') {
    await clearPersonalData();
-   setMessage('この端末の個人記録を消去しました。');
+   setMessage('この端末のデータを削除しました。');
   } else if (action === 'cloud') {
    await clearCloudPersonalData();
    setRecovery(null);
-   setMessage('クラウド上の個人記録と復旧履歴を削除しました。');
+   setMessage('アカウントのデータと復旧履歴を削除しました。');
   } else if (action !== null) {
    await restorePersonalRecovery(action.id);
-   setMessage('選んだ記録を復旧しました。');
+   setMessage('選んだデータを復旧しました。');
    await loadRecovery();
   }
  };
  const button=(label:string,task:()=>Promise<void>|void,secondary=false)=><Pressable disabled={busy||!hydrated} accessibilityRole="button" accessibilityLabel={label} onPress={()=>void run(async()=>{await task();})} style={[styles.button,secondary&&styles.secondary,(busy||!hydrated)&&styles.disabled]}><AppText style={secondary?styles.secondaryText:styles.buttonText}>{label}</AppText></Pressable>;
  return <BookScreen contentContainerStyle={styles.content}>
   <View testID="personal-backup-status" style={styles.status}>
-   <AppText accessibilityRole="header" style={styles.heading}>記録の保存状況</AppText>
-   <AppText style={styles.copy}>{!hydrated ? '記録を読み込んでいます。' : storageError || (user ? syncLabels[syncStatus] : 'この端末に自動保存しています。ログインすると、同じアカウントの端末で記録を使えます。')}</AppText>
-   {user && hydrated && syncStatus !== 'notice' ? <AppText style={styles.copy}>ログイン中の個人記録は同じアカウントの端末に自動同期されます。</AppText> : null}
+   <AppText accessibilityRole="header" style={styles.heading}>データの保存状況</AppText>
+   <AppText style={styles.copy}>{!hydrated ? 'データを読み込んでいます。' : storageError || (user ? syncLabels[syncStatus] : 'この端末に自動保存しています。ログインすると、同じアカウントの端末でデータを使えます。')}</AppText>
+   {user && hydrated && syncStatus !== 'notice' ? <AppText style={styles.copy}>同じアカウントの端末にデータを自動同期します。</AppText> : null}
    {user && lastSyncedAt ? <AppText style={styles.copy}>最終同期 {new Date(lastSyncedAt).toLocaleString('ja-JP')}</AppText> : null}
    {user && hasUnsyncedRecords ? <AppText style={styles.copy}>この端末に未同期の変更があります。</AppText> : null}
    {currentSummary ? <AppText style={styles.counts}>お気に入り {currentSummary.favorites}件・マイ処世術 {currentSummary.memos}件・学習記録 {currentSummary.learning}件</AppText> : null}
@@ -145,49 +145,59 @@ export default function PersonalDataScreen() {
    {!storageError && guestImportAvailable && syncStatus !== 'notice' ? button('端末のデータを引き継ぐ', () => router.setParams({ dataPrompt: 'import' }), true) : null}
   </View>
   {user && syncStatus !== 'notice' ? <View style={styles.section}>
-   <AppText accessibilityRole="header" style={styles.heading}>最近の記録を復旧</AppText>
-   <AppText style={styles.copy}>削除や競合などがあった記録を、過去30日分から探せます。保存容量に応じて古い履歴から整理します。</AppText>
+   <AppText accessibilityRole="header" style={styles.heading}>最近のデータを復旧</AppText>
+   <AppText style={styles.copy}>削除や競合があったデータを、過去30日分の履歴から探せます。</AppText>
    {button(recovery === null ? '復旧履歴を表示' : '復旧履歴を更新', () => loadRecovery(), true)}
    {recovery?.length === 0 ? <AppText style={styles.copy}>復旧できる履歴はありません。</AppText> : null}
    {recovery?.map(entry => <View key={entry.id} style={styles.status}>
-    <AppText style={styles.counts}>{fieldLabels[syncIdentity(entry.key)[0]] ?? '個人記録'}・{recoveryLabels[entry.reason]}</AppText>
+    <AppText style={styles.counts}>{fieldLabels[syncIdentity(entry.key)[0]] ?? '個人データ'}・{recoveryLabels[entry.reason]}</AppText>
     {entry.preview ? <AppText style={styles.copy}>{entry.preview}</AppText> : null}
     <AppText style={styles.copy}>{new Date(entry.created_at).toLocaleString('ja-JP')}</AppText>
-    {button('この記録を復旧する', () => setConfirm(entry), true)}
+    {confirm === entry ? <View style={styles.confirm} accessibilityLiveRegion="polite">
+     <AppText style={styles.copy}>選んだデータを復旧し、同じアカウントの端末にも同期します。</AppText>
+     {button('復旧を確定する', performDelete)}
+     {button('キャンセル', () => setConfirm(null), true)}
+    </View> : button('このデータを復旧する', () => setConfirm(entry), true)}
    </View>)}
    {hasMore ? button('さらに表示', () => loadRecovery(true), true) : null}
   </View> : null}
   <View style={styles.section}>
-   <AppText accessibilityRole="header" style={styles.heading}>記録を削除</AppText>
-   {button('この端末の個人記録を消去', () => setConfirm('device'), true)}
-   {user ? button('クラウド上の個人記録を削除', () => setConfirm('cloud'), true) : null}
-   {confirm !== null ? <View style={styles.confirm} accessibilityLiveRegion="polite">
-    <AppText style={styles.copy}>{confirm === 'device' ? user
-      ? 'この端末のアカウント用記録を消去してログアウトします。未同期の変更は失われます。クラウドの記録は残り、再ログインすると取得できます。'
-      : 'この端末に保存されている未ログイン時の記録を消去します。消去した記録は元に戻せません。'
-      : confirm === 'cloud'
-        ? 'このアカウントの個人記録・復旧履歴・旧クラウドバックアップを削除します。他の端末でも次回同期時に記録を消去し、削除前の未同期の変更を破棄します。アカウントと完全版の利用権は残ります。'
-        : '選んだ内容を現在の記録に反映します。ログイン中の他の端末にも同期されます。'}</AppText>
-    {button(confirm === 'device' ? '消去を確定する' : confirm === 'cloud' ? 'クラウドの削除を確定する' : '復旧を確定する', performDelete)}
-    {button('キャンセル', () => setConfirm(null), true)}
+   <AppText accessibilityRole="header" style={styles.heading}>データを削除</AppText>
+   <View style={styles.deleteScope}>
+    <AppText accessibilityRole="header" style={styles.scopeTitle}>この端末のデータ</AppText>
+    <AppText style={styles.copy}>{user ? 'この端末のデータを削除してログアウトします。同期済みデータはアカウントに残ります。' : 'ログインせずに、この端末に保存したデータが対象です。'}</AppText>
+    {confirm === 'device' ? <View style={styles.confirm} accessibilityLiveRegion="polite">
+     <AppText style={styles.copy}>{user ? '未同期の変更は失われます。同期済みデータは再ログインすると取得できます。' : '削除したデータは元に戻せません。'}</AppText>
+     {button('端末の削除を確定する', performDelete)}
+     {button('キャンセル', () => setConfirm(null), true)}
+    </View> : button('この端末のデータを削除', () => setConfirm('device'), true)}
+   </View>
+   {user ? <View style={styles.deleteScope}>
+    <AppText accessibilityRole="header" style={styles.scopeTitle}>アカウントのデータ</AppText>
+    <AppText style={styles.copy}>同期済みのデータを削除します。同じアカウントの他の端末にも反映されます。</AppText>
+    {confirm === 'cloud' ? <View style={styles.confirm} accessibilityLiveRegion="polite">
+     <AppText style={styles.copy}>復旧履歴とクラウドのバックアップも削除されます。他の端末の未同期の変更は、次回の同期時に破棄されます。アカウントと完全版の利用権は残ります。</AppText>
+     {button('アカウントのデータ削除を確定する', performDelete)}
+     {button('キャンセル', () => setConfirm(null), true)}
+    </View> : button('アカウントのデータを削除', () => setConfirm('cloud'), true)}
    </View> : null}
   </View>
   <View style={styles.section}>
    {button(showFiles ? 'ファイルの操作を閉じる' : 'ファイルの書き出し・読み込み', () => setShowFiles(!showFiles), true)}
    {showFiles ? <>
-    <AppText style={styles.copy}>記録を手元に残したい場合や、以前に保存したファイルから復元したい場合に使えます。</AppText>
+    <AppText style={styles.copy}>データをファイルに保存できます。</AppText>
     {button(Platform.OS === 'web' ? 'バックアップをダウンロード' : 'バックアップを共有・保存', download, true)}
   <View style={styles.section}><AppText accessibilityRole="header" aria-level={2} style={styles.heading}>バックアップから復元</AppText>
    {button('バックアップファイルを選ぶ',selectFile,true)}
-   <AppText style={styles.copy}>ファイルを選んでも、復元を実行するまでは現在の記録を変更しません。追加する方法では、現在の記録も残します。</AppText>
+   <AppText style={styles.copy}>ファイルを選ぶと内容を確認できます。通常は現在のデータに追加します。</AppText>
    {preview ? <View testID="personal-backup-preview" style={styles.status}><AppText style={styles.copy}>バックアップの作成日時：{preview.exportedAt ? new Date(preview.exportedAt).toLocaleString('ja-JP') : '不明'}</AppText><AppText style={styles.counts}>お気に入り {preview.favorites}件・マイ処世術 {preview.memos}件・学習記録 {preview.learning}件</AppText></View> : null}
    {button(manual?'テキスト入力を閉じる':'テキストから復元する',()=>setManual(value=>!value),true)}
    {manual ? <><AppText style={styles.copy}>以前のバックアップをテキストで保存している場合は、ここに貼り付けて復元できます。</AppText>
    <TextInput accessibilityLabel="バックアップのJSON" testID="personal-backup-input" multiline value={json} onChangeText={value=>{setJson(value);setPreview(null);}} autoCapitalize="none" autoCorrect={false} placeholder="ここにバックアップのJSONを貼り付け" style={styles.input}/>{button('バックアップの内容を確認',()=>previewImport(json),true)}</> : null}
-   <View style={styles.option}><AppText style={styles.optionText}>現在の記録を置き換える</AppText><Switch accessibilityLabel="現在の記録を置き換える" {...(Platform.OS==='web'?{activeThumbColor:colors.surface}:{})} trackColor={{false:colors.line,true:colors.gold}} thumbColor={colors.surface} value={replace} onValueChange={setReplace}/></View>
-   {replace?<AppText style={styles.copy}>復元前の記録は端末内に1回分保存され、「復元前に戻す」で戻せます。</AppText>:null}
-   {button('記録を復元する',async()=>{await restorePersonalData(json,replace?'replace':'merge');setMessage('記録を復元しました。');})}
-   {button('復元前に戻す',async()=>{const old=await AsyncStorage.getItem(personalStorageKey(user?.id)+'/before-restore');if(!old)throw new Error('復元前の記録はまだありません。');await restorePersonalData(old,'replace');setMessage('復元前の記録に戻しました。');},true)}
+   <View style={styles.option}><AppText style={styles.optionText}>現在のデータを置き換える</AppText><Switch accessibilityLabel="現在のデータを置き換える" {...(Platform.OS==='web'?{activeThumbColor:colors.surface}:{})} trackColor={{false:colors.line,true:colors.gold}} thumbColor={colors.surface} value={replace} onValueChange={setReplace}/></View>
+   {replace?<AppText style={styles.copy}>置き換え前のデータは端末に1回分保存されます。</AppText>:null}
+   {button('データを復元する',async()=>{await restorePersonalData(json,replace?'replace':'merge');setMessage('データを復元しました。');})}
+   {button('復元前に戻す',async()=>{const old=await AsyncStorage.getItem(personalStorageKey(user?.id)+'/before-restore');if(!old)throw new Error('復元前のデータはまだありません。');await restorePersonalData(old,'replace');setMessage('復元前のデータに戻しました。');},true)}
   </View>
    </> : null}
   </View>
@@ -204,6 +214,8 @@ const styles=StyleSheet.create({
  buttonText:{color:colors.white,fontSize:14,fontWeight:'600'},secondary:{backgroundColor:colors.surface,borderWidth:1,borderColor:colors.line},secondaryText:{color:colors.goldDeep,fontSize:14,fontWeight:'600'},
  disabled:{opacity:.6},input:{minHeight:150,maxHeight:300,borderWidth:1,borderColor:colors.line,borderRadius:12,padding:12,color:colors.ink,backgroundColor:colors.surface,fontSize:13,textAlignVertical:'top'},
  option:{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:12,minHeight:48},optionText:{flex:1,color:colors.ink,fontSize:14},
+ deleteScope:{padding:14,gap:8,borderWidth:1,borderColor:colors.line,borderRadius:12,backgroundColor:colors.surface},
+ scopeTitle:{fontFamily:fonts.serif,fontSize:17,lineHeight:24,fontWeight:'600',color:colors.ink},
  confirm:{padding:14,gap:10,backgroundColor:colors.paperDeep,borderRadius:12},message:{fontSize:14,lineHeight:24,color:colors.goldDeep,paddingVertical:16},
 });
 

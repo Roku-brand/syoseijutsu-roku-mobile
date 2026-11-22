@@ -1101,13 +1101,14 @@ test('人物像詳細は写真を右に置いたコンパクトな紹介を固�
   await expect(page.getByTestId('technique-essence')).toBeVisible();
 });
 
-test('学ぶトップは同じ挑戦ボタンと実進捗を表示し、完全版の購入導線を維持する', async ({ page }) => {
+test('学ぶトップは実進捗と完全版の購入導線を表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/learn');
   await expect(page.getByText('処世術を習得しよう！')).toBeVisible();
   await expect(page.getByTestId('learning-stage-list').getByRole('button', { name: /^ステージ[123]、/ })).toHaveCount(3);
   await expect(page.getByTestId('learning-stage-1')).toContainText('0 / 7');
-  await expect(page.getByTestId('learning-stage-2')).toContainText('挑戦する');
+  await expect(page.getByTestId('learning-challenge-1')).toContainText('挑戦する');
+  await expect(page.getByTestId('learning-challenge-2')).toContainText('完全版');
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
   await page.getByRole('button', { name: /ステージ2、仕事を、どう動かす？/ }).click();

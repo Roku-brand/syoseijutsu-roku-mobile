@@ -64,7 +64,7 @@ export default function TheoryDetailScreen() {
     return <Screen style={detailStyles.screen} contentContainerStyle={styles.screenContent}><EmptyState title="理論が見つかりません" description="前の画面へ戻り、別の理論を選んでください。" /></Screen>;
   }
 
-  if (!canReadTheory(effectiveAccess, theory.tagId)) return <LockedPreview source="discover_theory" />;
+  if (!canReadTheory(effectiveAccess, theory.tagId)) return <LockedPreview source="discover_theory" title={normalizeDisplayText(theory.title)} />;
 
   if (isLockedTheoryShell(theory)) {
     const failed = secureContentStatus === 'error';

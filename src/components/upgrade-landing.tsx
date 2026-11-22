@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
 import { getEditionCounts } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
+import { LockMark } from '@/components/lock-mark';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 import { AppText } from '@/components/ui';
 import { HeaderBackButton } from '@/components/header-back-button';
@@ -90,6 +91,7 @@ function KnowledgeNetwork({ width }: { width: number }) {
 export type UpgradeLandingProps = {
   price?: string;
   isPaid?: boolean;
+  itemTitle?: string;
   onBack: () => void;
   onPurchase: () => void;
   onTerms: () => void;
@@ -101,7 +103,7 @@ export type UpgradeLandingProps = {
   statusActions?: ReactNode;
 };
 
-export function UpgradeLanding({ price = `¥${COMPLETE_EDITION_PRICE_JPY}`, isPaid = false, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
+export function UpgradeLanding({ price = `¥${COMPLETE_EDITION_PRICE_JPY}`, isPaid = false, itemTitle, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
   'use no memo';
   // Re-render when the access provider reconciles the public catalogue in place.
   useAccess();
@@ -123,6 +125,13 @@ export function UpgradeLanding({ price = `¥${COMPLETE_EDITION_PRICE_JPY}`, isPa
         <AppText style={styles.headerTitle}>{isPaid ? '完全版の利用情報' : '完全版を購入'}</AppText><View style={styles.headerBalance} />
       </View>
       <PageScroll testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }}>
+        {itemTitle && !isPaid ? <View testID="upgrade-item-context" style={[styles.itemContext, sectionSpace]}>
+          <LockMark />
+          <View style={styles.itemContextCopy}>
+            <AppText style={styles.itemContextLabel}>完全版限定</AppText>
+            <AppText style={styles.itemContextTitle}>{itemTitle}</AppText>
+          </View>
+        </View> : null}
         <View style={[styles.hero, { height: desktop ? 680 : Math.max(510, width * 1.48) }]}>
           <Image loading="eager" source={desktop ? photos.heroDesktop : photos.hero} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={desktop ? { left: '50%', top: '45%' } : 'center'} accessibilityLabel="金色の夕日が差す山並みと湖、山頂から景色を眺める若い人物の後ろ姿" />
           <Image source={heroOverlay(desktop)} style={StyleSheet.absoluteFill} contentFit="fill" accessibilityElementsHidden />
@@ -212,6 +221,10 @@ const styles = StyleSheet.create({
   headerSide: { width: 76, alignItems: 'flex-start' },
   headerTitle: { fontSize: 13, lineHeight: 20, fontWeight: '600', color: ink }, headerBalance: { width: 76 },
   scroll: { flex: 1, minHeight: 0 },
+  itemContext: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 24, paddingVertical: 10, backgroundColor: '#F5EFE3', borderBottomWidth: 1, borderBottomColor: colors.line },
+  itemContextCopy: { flex: 1, minWidth: 0 },
+  itemContextLabel: { color: colors.goldDeep, fontSize: 11, lineHeight: 16, fontWeight: '600' },
+  itemContextTitle: { color: ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600' },
   hero: { overflow: 'hidden', backgroundColor: '#DDC7A7' },
   heroWash: { position: 'absolute', top: 0, left: 0, right: 0, bottom: '48%', backgroundColor: 'rgba(255,253,248,0.62)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(180deg,rgba(255,253,248,.85),rgba(255,253,248,.64) 70%,rgba(255,253,248,.15))' } }) },
   heroCopy: { paddingHorizontal: 24, paddingTop: 28 },

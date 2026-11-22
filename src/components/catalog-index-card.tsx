@@ -4,6 +4,7 @@ import { Image, Platform, Pressable, StyleSheet, View, useWindowDimensions } fro
 import { catalogIndexTheme, catalogTheme, colors, fonts, shadow } from '@/constants/theme';
 import { AppText } from './ui';
 import { TechniqueTitle } from './technique-title';
+import { LockMark } from './lock-mark';
 
 type CardProps = {
   href: Href;
@@ -13,7 +14,7 @@ type CardProps = {
   action: ReactNode;
   onOpen?: () => void;
 } & (
-  | { kind: 'theory'; code: string; definition: string; classification?: string }
+  | { kind: 'theory'; code: string; definition: string; classification?: string; readable: boolean }
   | { kind: 'technique'; code: string; metadata: string; category: string; readable: boolean }
   | { kind: 'feature'; cover: ReactNode; lead: string; classification?: string }
 );
@@ -24,11 +25,12 @@ export function CatalogIndexCard(props: CardProps) {
   const { width } = useWindowDimensions();
   const compact = width <= 360;
   const theory = props.kind === 'theory';
+  const locked = props.kind !== 'feature' && !props.readable;
   const theme = catalogIndexTheme[theory ? 'theory' : 'technique'];
   const surfaceStyle = StyleSheet.flatten([styles.cardSurface, theory && styles.theorySurface, compact && styles.compactSurface]);
   const cardBody = (
     <Pressable testID={props.testID} accessibilityRole={props.onOpen ? 'button' : 'link'}
-      accessibilityLabel={props.label} onPress={props.onOpen} style={surfaceStyle}>
+      accessibilityLabel={props.label} accessibilityHint={locked ? '完全版限定の項目です' : undefined} onPress={props.onOpen} style={surfaceStyle}>
       <Image testID="catalog-index-mountains" source={mountain} resizeMode="stretch" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden
         style={[styles.mountain, { tintColor: theme.mountain }]} />
       {props.kind === 'technique' ? <View testID="technique-category-bar" accessibilityElementsHidden aria-hidden
@@ -51,7 +53,7 @@ export function CatalogIndexCard(props: CardProps) {
           </AppText>}
         {props.kind === 'theory' && props.definition ? <AppText testID="theory-card-summary" numberOfLines={3} style={styles.definition}>{props.definition}</AppText> : null}
         {props.kind === 'feature' && props.lead ? <AppText numberOfLines={1} style={styles.definition}>{props.lead}</AppText> : null}
-        {props.kind === 'technique' && !props.readable ? <AppText style={styles.access}>完全版で読む</AppText> : null}
+        {locked ? <View style={styles.accessRow}><LockMark /><AppText style={styles.access}>完全版で読む</AppText></View> : null}
       </View>
       <View accessibilityElementsHidden aria-hidden style={[styles.chevron, { borderColor: theme.accent }]} />
     </Pressable>
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
   compactTitle: { fontSize: 17, lineHeight: 23 },
   metadata: { color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18 },
   definition: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12.5, lineHeight: 18.5, textAlign: 'left' },
+  accessRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   access: { color: colors.goldDeep, fontSize: 11, lineHeight: 16 },
   mountain: { position: 'absolute', left: 0, bottom: 0, width: 108, height: 31, opacity: 0.76 },
   categoryBar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 7 },

@@ -23,7 +23,8 @@ test('各術で追加された無料処世術を解説まで読め、対象外�
     await expect(page.getByText('原理と解説', { exact: true })).toBeVisible();
   }
   await page.goto('/card/master336-211');
-  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique\b/);
+  await expect(page.getByTestId('upgrade-item-context')).toBeVisible();
   await expect(page.getByText('原理と解説', { exact: true })).toHaveCount(0);
 });
 

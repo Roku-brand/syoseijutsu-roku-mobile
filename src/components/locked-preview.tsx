@@ -3,13 +3,14 @@ import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { AppText } from '@/components/ui';
 import { fonts } from '@/constants/theme';
+import { upgradeRoute } from '@/navigation/app-routes';
 
 type Source = 'reel' | 'discover_technique' | 'discover_theory' | 'learning' | 'my_os';
 
 /** Paid content no longer has an intermediate lock preview: it opens the purchase page immediately. */
-export function LockedPreview({ source }: { source: Source; title?: string; description?: string; count?: number }) {
+export function LockedPreview({ source, title }: { source: Source; title?: string }) {
   const router = useRouter();
-  useEffect(() => { router.replace({ pathname: '/upgrade', params: { source } }); }, [router, source]);
+  useEffect(() => { router.replace(upgradeRoute(source, title)); }, [router, source, title]);
   return null;
 }
 

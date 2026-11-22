@@ -10,17 +10,17 @@ import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getFeatureSearchResults, getSearchMode, getSearchResults, SEARCH_MODES, type BrowseMode } from '@/data/search-catalog';
+import { getFeatureSearchResults, getSearchMode, getSearchResults, POPULAR_SEARCHES, SEARCH_MODES, type BrowseMode } from '@/data/search-catalog';
 import { refreshFeatures, useFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { personaRoute } from '@/navigation/app-routes';
-import { POPULAR_SEARCHES } from '@/data/search-catalog';
 
 function getParam(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] ?? '' : value ?? '';
 }
 
 export default function SearchScreen() {
+  'use no memo';
   const params = useLocalSearchParams<{ q?: string; mode?: string }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
@@ -29,40 +29,41 @@ export default function SearchScreen() {
   const initialQuery = getParam(params.q);
   const [query, setQuery] = useState(initialQuery);
   const [submittedQuery, setSubmittedQuery] = useState(initialQuery);
-  const requestedMode = getParam(params.mode);
-  const [mode, setMode] = useState<BrowseMode>(getSearchMode(requestedMode));
+  const requestedMode = getSearchMode(getParam(params.mode));
   const { articles, loading: featuresLoading, error: featuresError } = useFeatures();
   useEffect(() => {
     setQuery(initialQuery);
     setSubmittedQuery(initialQuery);
   }, [initialQuery]);
-  useEffect(() => {
-    setMode(getSearchMode(requestedMode));
-  }, [requestedMode]);
   const { techniqueMatches, theoryMatches, personaMatches } = useMemo(
     () => getSearchResults(submittedQuery, isPaid),
     [catalogRevision, isPaid, submittedQuery],
   );
   const featureMatches = useMemo(() => getFeatureSearchResults(articles, submittedQuery), [articles, submittedQuery]);
   const counts = { techniques: techniqueMatches.length, theories: theoryMatches.length, features: featureMatches.length };
+  const matchingModes = SEARCH_MODES.filter(item =>
+    (item.id !== 'features' || !featuresLoading && !featuresError)
+    && (counts[item.id] > 0 || item.id === 'techniques' && personaMatches.length > 0));
+  const mode = requestedMode ?? matchingModes[0]?.id ?? 'techniques';
   const count = counts[mode];
   const resultKind = SEARCH_MODES.find(item => item.id === mode)?.label;
+  const otherMatches = matchingModes.filter(item => item.id !== mode);
+  const waitingForAutoResults = !requestedMode && !matchingModes.length && featuresLoading;
 
   const submitSearch = () => {
     const trimmed = query.trim();
     setSubmittedQuery(trimmed);
-    router.setParams({ q: trimmed, mode });
+    router.setParams({ q: trimmed || undefined });
   };
 
   const changeMode = (nextMode: BrowseMode) => {
-    setMode(nextMode);
     router.setParams({ q: submittedQuery, mode: nextMode });
   };
 
   const clearSearch = () => {
     setQuery('');
     setSubmittedQuery('');
-    router.setParams({ q: undefined, mode });
+    router.setParams({ q: undefined });
   };
 
   return (
@@ -79,7 +80,7 @@ export default function SearchScreen() {
           accessibilityLabel="キーワードを検索"
           style={[styles.searchInput, compact && styles.searchInputCompact]}
         />
-        {query ? <Pressable accessibilityRole="button" accessibilityLabel="検索語を消す" onPress={clearSearch} style={styles.clearButton}><AppText style={styles.clearText}>消す</AppText></Pressable> : null}
+        {query ? <Pressable accessibilityRole="button" accessibilityLabel="検索語を消す" onPress={clearSearch} style={styles.clearButton}><AppText style={styles.clearMark}>✕</AppText></Pressable> : null}
         <Pressable accessibilityRole="button" accessibilityLabel="検索を実行" onPress={submitSearch} style={styles.submitButton}><AppText style={styles.submitText}>検索</AppText></Pressable>
       </View>
 
@@ -97,7 +98,7 @@ export default function SearchScreen() {
             <AppText style={styles.resultTitle}>「{submittedQuery}」の検索結果</AppText>
             <AppText style={styles.resultNote}>{resultKind}{mode === 'features' && (featuresLoading || featuresError) ? '' : ` ${count}件`}</AppText>
           </View>
-          {mode === 'features' && featuresLoading ? <View accessibilityLiveRegion="polite" style={styles.empty}><AppText style={styles.emptyText}>特集を読み込んでいます…</AppText></View>
+          {waitingForAutoResults || mode === 'features' && featuresLoading ? <View accessibilityLiveRegion="polite" style={styles.empty}><AppText style={styles.emptyText}>特集を読み込んでいます…</AppText></View>
             : mode === 'features' && featuresError ? <View accessibilityLiveRegion="polite" style={styles.empty}><AppText style={styles.emptyText}>{featuresError}</AppText><Pressable accessibilityRole="button" accessibilityLabel="特集を再読み込み" onPress={() => void refreshFeatures()} style={styles.retry}><AppText style={styles.clearText}>再読み込み</AppText></Pressable></View>
             : count ? (
             mode === 'features'
@@ -105,12 +106,15 @@ export default function SearchScreen() {
               : <View style={catalogIndexLayout.list}>{mode === 'techniques'
                 ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />)
                 : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
-          ) : <View style={styles.empty}>
-            <AppText style={styles.emptyText}>一致するものはありません</AppText>
-            <AppText style={styles.promptText}>短い言葉や、別の表現でも探してみてください。</AppText>
-            <View style={styles.suggestions}>{POPULAR_SEARCHES.slice(0, 4).map(item => <Pressable key={item.term} accessibilityRole="button" accessibilityLabel={`${item.term}を検索`} onPress={() => { setQuery(item.term); setSubmittedQuery(item.term); changeMode(item.mode); router.setParams({ q: item.term, mode: item.mode }); }} style={styles.personaResult}><AppText>{item.term}</AppText></Pressable>)}</View>
-            {SEARCH_MODES.filter(item => item.id !== mode && counts[item.id] > 0 && (item.id !== 'features' || !featuresLoading && !featuresError)).map(item =>
-              <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.label}の${counts[item.id]}件を見る`} onPress={() => changeMode(item.id)} style={styles.retry}><AppText style={styles.clearText}>{item.label}に{counts[item.id]}件あります　›</AppText></Pressable>)}
+          ) : mode === 'techniques' && personaMatches.length ? null : <View style={styles.empty} accessibilityLiveRegion="polite">
+            <AppText style={styles.emptyText}>{otherMatches.length ? `${resultKind}に一致する項目はありません` : '一致するものはありません'}</AppText>
+            {otherMatches.length ? otherMatches.map(item => {
+              const label = counts[item.id] ? `${item.label}の${counts[item.id]}件を見る` : '一致する人物像を見る';
+              return <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={label} onPress={() => changeMode(item.id)} style={styles.retry}><AppText style={styles.clearText}>{label}　›</AppText></Pressable>;
+            }) : <>
+              <AppText style={styles.promptText}>短い言葉や、別の表現でも探してみてください。</AppText>
+              <View style={styles.suggestions}>{POPULAR_SEARCHES.slice(0, 4).map(item => <Pressable key={item.term} accessibilityRole="button" accessibilityLabel={`${item.term}を検索`} onPress={() => { setQuery(item.term); setSubmittedQuery(item.term); router.setParams({ q: item.term, mode: requestedMode }); }} style={styles.personaResult}><AppText>{item.term}</AppText></Pressable>)}</View>
+            </>}
           </View>}
         </View>
       ) : (
@@ -134,7 +138,8 @@ const styles = StyleSheet.create({
   searchInput: { flex: 1, minWidth: 0, minHeight: 66, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 },
   searchInputCompact: { minHeight: 54, fontSize: 16 },
   clearText: { color: colors.goldDeep, fontSize: 11, fontWeight: '700' },
-  clearButton: { minHeight: 44, minWidth: 32, alignItems: 'center', justifyContent: 'center' },
+  clearMark: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 18, lineHeight: 24 },
+  clearButton: { minHeight: 44, minWidth: 44, alignItems: 'center', justifyContent: 'center' },
   submitButton: { minHeight: 44, paddingHorizontal: 14, borderRadius: radius.pill, backgroundColor: colors.goldDeep, alignItems: 'center', justifyContent: 'center' },
   submitText: { color: colors.white, fontSize: 14, fontWeight: '700' },
   modeTabs: { flexDirection: 'row', width: '100%', maxWidth: 820, alignSelf: 'center', marginTop: spacing.md, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },

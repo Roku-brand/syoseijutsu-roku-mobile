@@ -149,16 +149,16 @@ test('ゲスト記録は確認後だけ同期し、別端末で復元して端�
     await sharedTab.close();
 
     await other.goto('/settings/data');
-    await other.getByRole('button', { name: 'この端末の個人記録を消去' }).click();
-    await other.getByRole('button', { name: '消去を確定する', exact: true }).click();
+    await other.getByRole('button', { name: 'この端末のデータを削除' }).click();
+    await other.getByRole('button', { name: '端末の削除を確定する', exact: true }).click();
     await expect(other.getByText('この端末に自動保存しています。', { exact: false })).toBeVisible();
     expect(await other.evaluate(key => localStorage.getItem(key + '/sync-v1'), accountKey)).toBeNull();
     expect(cloudHas('通信が戻る前に作成')).toBe(true);
 
     await page.goto('/settings/data');
-    await page.getByRole('button', { name: 'クラウド上の個人記録を削除' }).click();
-    await page.getByRole('button', { name: 'クラウドの削除を確定する' }).click();
-    await expect(page.getByText('クラウド上の個人記録と復旧履歴を削除しました。')).toBeVisible();
+    await page.getByRole('button', { name: 'アカウントのデータを削除' }).click();
+    await page.getByRole('button', { name: 'アカウントのデータ削除を確定する' }).click();
+    await expect(page.getByText('アカウントのデータと復旧履歴を削除しました。')).toBeVisible();
     expect(items.size).toBe(0);
     expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).personalMemos.length, guestKey)).toBe(1);
   } finally {
@@ -199,9 +199,9 @@ test('同期の案内をまだ確認していないアカウントも旧クラ�
   await syncDialog.getByRole('button', { name: 'あとで', exact: true }).click();
   await expect(syncDialog).toHaveCount(0);
   expect(activeRequests).toBe(0);
-  await page.getByRole('button', { name: 'クラウド上の個人記録を削除' }).click();
-  await page.getByRole('button', { name: 'クラウドの削除を確定する' }).click();
-  await expect(page.getByText('クラウド上の個人記録と復旧履歴を削除しました。')).toBeVisible();
+  await page.getByRole('button', { name: 'アカウントのデータを削除' }).click();
+  await page.getByRole('button', { name: 'アカウントのデータ削除を確定する' }).click();
+  await expect(page.getByText('アカウントのデータと復旧履歴を削除しました。')).toBeVisible();
   await expect(notice).toBeVisible();
   expect(removed).toBe(true);
   expect(activeRequests).toBe(0);

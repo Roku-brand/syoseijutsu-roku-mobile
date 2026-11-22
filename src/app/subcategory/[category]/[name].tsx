@@ -35,7 +35,7 @@ export default function PersonaScreen() {
 
   const techniqueCount = getTechniqueCount(category.key, persona.name, persona.items.length);
   if (!isPaid && !isFreePersona(persona.name)) {
-    return <Screen><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={techniqueCount} source="discover_technique" /></Screen>;
+    return <Screen><LockedPreview title={persona.name} source="discover_technique" /></Screen>;
   }
 
   const compact = width < 700;

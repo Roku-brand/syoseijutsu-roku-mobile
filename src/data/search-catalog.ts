@@ -17,8 +17,8 @@ export const POPULAR_SEARCHES: ReadonlyArray<{ term: string; mode: BrowseMode }>
   { term: '単純接触効果', mode: 'theories' }, { term: '交渉', mode: 'techniques' },
   { term: '先延ばし', mode: 'techniques' }, { term: '最適化の罠', mode: 'theories' },
 ];
-export function getSearchMode(value: string): BrowseMode {
-  return value === 'theories' || value === 'features' ? value : 'techniques';
+export function getSearchMode(value: string): BrowseMode | undefined {
+  return SEARCH_MODES.find(item => item.id === value)?.id;
 }
 export function getFeatureSearchResults(articles: FeatureArticle[], query: string) {
   const published = articles.filter(article => article.status === 'published')

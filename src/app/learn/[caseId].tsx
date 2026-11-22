@@ -28,6 +28,8 @@ import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { LearningCountdown } from '@/components/learning-countdown';
 import { useLearningFeedback } from '@/hooks/use-learning-feedback';
 import { useLearningRound } from '@/hooks/use-learning-round';
+import { LockMark } from '@/components/lock-mark';
+import { upgradeRoute } from '@/navigation/app-routes';
 
 export function generateStaticParams() {
   return learningIndex.map(({ id: caseId }) => ({ caseId }));
@@ -71,13 +73,18 @@ export default function LearningCaseScreen() {
   if (!activeCaseId) return null;
 
   if (!item) {
-    const knownCase = learningIndex.some((candidate) => candidate.id === activeCaseId);
+    const knownCase = learningIndex.find((candidate) => candidate.id === activeCaseId);
     const loading = knownCase && isPaid && (secureContentStatus === 'idle' || secureContentStatus === 'loading');
     return (
       <BookScreen contentContainerStyle={styles.notFound}>
         <AppText style={styles.notFoundTitle}>{loading ? '学習ケースを読み込んでいます…' : knownCase && !isPaid ? 'このケースは完全版でご利用いただけます。' : 'このケースは現在利用できません。'}</AppText>
         {knownCase && isPaid && !loading ? <Pressable accessibilityRole="button" onPress={() => void refreshAccess()} style={styles.notFoundButton}><AppText style={styles.notFoundButtonText}>もう一度読み込む</AppText></Pressable> : null}
-        {knownCase && !isPaid ? <Pressable accessibilityRole="button" onPress={() => router.push({ pathname: '/upgrade', params: { source: 'learning' } })} style={styles.notFoundButton}><AppText style={styles.notFoundButtonText}>完全版を見る</AppText></Pressable> : null}
+        {knownCase && !isPaid ? <>
+          <AppText style={styles.notFoundTitle}>{knownCase.title}</AppText>
+          <Pressable accessibilityRole="button" onPress={() => router.push(upgradeRoute('learning', knownCase.title))} style={[styles.notFoundButton, styles.lockedCaseButton]}>
+            <LockMark /><AppText style={styles.notFoundButtonText}>完全版を見る</AppText>
+          </Pressable>
+        </> : null}
         <Pressable accessibilityRole="button" onPress={() => router.replace('/learn')} style={styles.notFoundButton}>
           <AppText style={styles.notFoundButtonText}>ステージへ戻る</AppText>
         </Pressable>
@@ -180,25 +187,22 @@ export default function LearningCaseScreen() {
             !desktop && styles.resultBandMobile,
             isBestMove ? styles.resultBandGood : styles.resultBandImprove,
           ]}>
-            <View style={[styles.resultMark, !desktop && styles.resultMarkMobile, isBestMove ? styles.resultMarkGood : styles.resultMarkImprove]}>
-              <AppText style={[styles.resultMarkText, !desktop && styles.resultMarkTextMobile, isBestMove ? styles.resultMarkTextGood : styles.resultMarkTextImprove]}>{timedOut ? '⌛' : isBestMove ? '✓' : '×'}</AppText>
-            </View>
-            <View style={[styles.resultHeading, !desktop && styles.resultHeadingMobile]}>
-              <AppText
-                numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.82}
-                style={[styles.resultStatusTitle, !desktop && styles.resultStatusTitleMobile, isBestMove ? styles.goodInk : styles.improveInk]}
-              >
-                {timedOut ? '時間切れ' : isBestMove ? '正解！' : 'おしい！'}
-              </AppText>
-              <AppText style={[styles.resultStatusCopy, !desktop && styles.resultStatusCopyMobile]}>
-                {timedOut ? '未回答です。解説で判断を磨こう。' : isBestMove ? 'いい判断です。' : 'ここで違いを覚えましょう。'}
-              </AppText>
+            <View style={[styles.resultVerdict, !desktop && styles.resultVerdictMobile]}>
+              <View style={[styles.resultMark, !desktop && styles.resultMarkMobile, isBestMove ? styles.resultMarkGood : styles.resultMarkImprove]}>
+                <AppText style={[styles.resultMarkText, !desktop && styles.resultMarkTextMobile, isBestMove ? styles.resultMarkTextGood : styles.resultMarkTextImprove]}>{timedOut ? '⌛' : isBestMove ? '✓' : '×'}</AppText>
+              </View>
+              <View style={[styles.resultHeading, !desktop && styles.resultHeadingMobile]}>
+                <AppText style={[styles.resultStatusTitle, !desktop && styles.resultStatusTitleMobile, isBestMove ? styles.goodInk : styles.improveInk]}>
+                  {timedOut ? '時間切れ' : isBestMove ? '正解！' : 'おしい！'}
+                </AppText>
+                <AppText testID="learning-result-status-copy" style={[styles.resultStatusCopy, !desktop && styles.resultStatusCopyMobile]}>
+                  {timedOut ? '未回答です。解説で判断を磨こう。' : isBestMove ? 'いい判断です。' : 'ここで違いを覚えましょう。'}
+                </AppText>
+              </View>
             </View>
             <View style={[styles.bandMascotGroup, !desktop && styles.bandMascotGroupMobile]}>
-              <View style={[styles.speechBubble, !desktop && styles.speechBubbleMobile, isBestMove ? styles.speechBubbleGood : styles.speechBubbleImprove]}>
-                <AppText style={styles.speechText}>{timedOut ? '焦らなくて大丈夫。\nもう一度、\n挑戦してみよう！' : isBestMove ? 'いい判断です。\nその調子！' : '大丈夫。\nここで覚えれば\n次に活かせます。'}</AppText>
+              <View testID="learning-result-speech" style={[styles.speechBubble, !desktop && styles.speechBubbleMobile]}>
+                <AppText style={styles.speechText}>{timedOut ? '焦らなくて大丈夫。もう一度、挑戦してみよう！' : isBestMove ? 'いい判断です。その調子！' : '大丈夫。ここで覚えれば次に活かせます。'}</AppText>
               </View>
               <Rokumaru mood={isBestMove ? 'happy' : 'encourage'} style={[styles.bandMascot, !desktop && styles.bandMascotMobile]} />
             </View>
@@ -476,10 +480,13 @@ const styles = StyleSheet.create({
   resultCard: { overflow: 'hidden', borderWidth: 1, borderColor: '#DED4C5', borderRadius: 15, backgroundColor: '#FFFEFB', ...bookCardShadow },
   resultCardMobile: { borderRadius: 13 },
   resultBand: { position: 'relative', minHeight: 118, margin: 16, marginBottom: 0, paddingHorizontal: 22, paddingRight: 250, flexDirection: 'row', alignItems: 'center', gap: 24, overflow: 'hidden', borderRadius: 10 },
-  resultBandMobile: { minHeight: 116, margin: 9, marginBottom: 0, paddingHorizontal: 12, paddingRight: 140, gap: 12, borderRadius: 8 },
+  resultBandMobile: { minHeight: 0, margin: 9, marginBottom: 0, paddingHorizontal: 12, paddingVertical: 12, flexDirection: 'column', alignItems: 'stretch', gap: 8, borderRadius: 8 },
+  resultVerdict: { flexDirection: 'row', alignItems: 'center', gap: 24 },
+  resultVerdictMobile: { gap: 12 },
+  lockedCaseButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
   resultBandGood: { backgroundColor: '#EFF9EF' },
   resultBandImprove: { backgroundColor: '#FFF0F0' },
-  resultMark: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', borderWidth: 2 },
+  resultMark: { width: 64, height: 64, flexShrink: 0, borderRadius: 32, alignItems: 'center', justifyContent: 'center', borderWidth: 2 },
   resultMarkMobile: { width: 55, height: 55, borderRadius: 28 },
   resultMarkGood: { borderColor: '#008D43', backgroundColor: '#FCFFFC' },
   resultMarkImprove: { borderColor: '#C8001E', backgroundColor: '#FFFCFC' },
@@ -488,7 +495,7 @@ const styles = StyleSheet.create({
   resultMarkTextGood: { color: '#008D43' },
   resultMarkTextImprove: { color: '#C8001E' },
   resultHeading: { minWidth: 240 },
-  resultHeadingMobile: { minWidth: 0, width: 108, flexShrink: 0 },
+  resultHeadingMobile: { minWidth: 0, flex: 1 },
   resultStatusTitle: { fontFamily: fonts.serif, fontSize: 37, lineHeight: 47, fontWeight: '700', letterSpacing: 1.5 },
   resultStatusTitleMobile: { fontSize: 24, lineHeight: 31, letterSpacing: 0.1 },
   resultStatusCopy: { color: '#17223B', fontFamily: fonts.serif, fontSize: 14, lineHeight: 22, letterSpacing: 0.6 },
@@ -496,13 +503,11 @@ const styles = StyleSheet.create({
   goodInk: { color: '#008D43' },
   improveInk: { color: '#C8001E' },
   bandMascotGroup: { position: 'absolute', right: 8, bottom: 0, width: 285, height: 128 },
-  bandMascotGroupMobile: { right: -10, bottom: 0, width: 175, height: 116 },
+  bandMascotGroupMobile: { position: 'relative', right: 0, width: '100%', height: 'auto', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 6 },
   bandMascot: { position: 'absolute', right: 0, bottom: 0, width: 130, height: 126 },
-  bandMascotMobile: { width: 105, height: 106 },
-  speechBubble: { position: 'absolute', right: 103, top: 8, zIndex: 2, width: 143, minHeight: 72, paddingHorizontal: 13, paddingVertical: 9, alignItems: 'center', justifyContent: 'center', borderRadius: 46, borderWidth: 1, backgroundColor: '#FFFEFB', ...bookCardShadow },
-  speechBubbleMobile: { right: 63, top: 10, width: 118, minHeight: 62, paddingHorizontal: 10, paddingVertical: 7 },
-  speechBubbleGood: { borderColor: '#BEA97F' },
-  speechBubbleImprove: { borderColor: '#BEA97F' },
+  bandMascotMobile: { position: 'relative', width: 68, height: 65, flexShrink: 0 },
+  speechBubble: { position: 'absolute', right: 103, top: 8, zIndex: 2, width: 143, minHeight: 72, paddingHorizontal: 13, paddingVertical: 9, alignItems: 'center', justifyContent: 'center', borderRadius: 46, borderWidth: 1, borderColor: '#BEA97F', backgroundColor: '#FFFEFB', ...bookCardShadow },
+  speechBubbleMobile: { position: 'relative', right: 0, top: 0, width: 'auto', maxWidth: 210, flexShrink: 1, minHeight: 0, paddingHorizontal: 12, paddingVertical: 7 },
   speechText: { color: '#17223B', fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, fontWeight: '600', textAlign: 'left' },
   resultBody: { paddingHorizontal: 20, paddingTop: 13, paddingBottom: 16 },
   resultBodyMobile: { paddingHorizontal: 11, paddingTop: 11, paddingBottom: 10 },
