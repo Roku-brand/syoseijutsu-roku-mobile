@@ -13,7 +13,7 @@ export function RegistrationConsent({ checked, onChange }: { checked: boolean; o
     <Pressable accessibilityRole="checkbox" accessibilityLabel="利用規約とプライバシーポリシーを確認して同意する" accessibilityState={{ checked }} onPress={() => onChange(!checked)} style={styles.check}>
       <AppText style={styles.box}>{checked ? '☑' : '□'}</AppText><AppText style={styles.text}>内容を確認し、登録に同意します。</AppText>
     </Pressable>
-    <AppText style={styles.note}>18歳未満の方は親権者等の同意を得てください。利用状況の送信は別の任意設定で、登録への同意には含みません。</AppText>
+    <AppText style={styles.note}>ログイン中の個人記録をSupabaseに保存し、同じアカウントの端末で自動同期します。利用状況の送信は別の任意設定です。18歳未満の方は親権者等の同意を得てください。</AppText>
   </View>;
 }
 const styles = StyleSheet.create({

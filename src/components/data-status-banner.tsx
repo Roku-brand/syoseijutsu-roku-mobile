@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAppState } from '@/state/app-state';
@@ -5,10 +6,21 @@ import { colors } from '@/constants/theme';
 import { AppText } from './ui';
 
 export function DataStatusBanner() {
-  const { storageError, retrySave, guestImportAvailable, importGuestRecords, dismissGuestImport } = useAppState();
+  const router = useRouter();
+  const { storageError, retrySave, guestImportAvailable, importGuestRecords, dismissGuestImport, syncStatus, acceptSyncNotice } = useAppState();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const act = async (task: () => Promise<unknown>) => { setBusy(true); setMessage(''); try { await task(); } catch { setMessage('操作を完了できませんでした。内容は保持されています。'); } finally { setBusy(false); } };
+  if (syncStatus === 'notice' && !storageError) return <View style={styles.banner} accessibilityLiveRegion="polite">
+    <AppText style={styles.copy}>{message || '利用規約とプライバシーポリシーを更新します。同じアカウントの端末で使えるよう、個人記録をSupabaseに保存します。内容を確認して同期を始められます。'}</AppText>
+    <View style={styles.actions}>
+      <Pressable accessibilityRole="link" onPress={() => router.push('/legal/terms')} style={styles.button}><AppText style={styles.action}>利用規約</AppText></Pressable>
+      <Pressable accessibilityRole="link" onPress={() => router.push('/legal/privacy')} style={styles.button}><AppText style={styles.action}>プライバシーポリシー</AppText></Pressable>
+      <Pressable disabled={busy} accessibilityRole="button" onPress={() => void act(acceptSyncNotice)} style={styles.button}>
+        <AppText style={styles.action}>{busy ? '確認中…' : '確認して同期を始める'}</AppText>
+      </Pressable>
+    </View>
+  </View>;
   if (!storageError && !guestImportAvailable && !message) return null;
   return <View style={[styles.banner, !guestImportAvailable && styles.compact]} accessibilityLiveRegion="polite" testID="data-status-banner">
     <AppText style={[styles.copy, !guestImportAvailable && styles.compactCopy]}>{message || storageError || 'ログイン前の端末内の記録を、このアカウントへ追加できます。'}</AppText>

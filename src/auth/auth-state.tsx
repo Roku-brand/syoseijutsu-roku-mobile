@@ -24,7 +24,7 @@ type AuthContextValue = {
   sendPasswordReset: (email: string) => Promise<string | null>;
   updatePassword: (password: string) => Promise<string | null>;
   updateProfile: (displayName: string, image?: ProfileImageUpload | null) => Promise<string | null>;
-  signOut: () => Promise<void>;
+  signOut: (scope?: 'local' | 'global') => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
 
@@ -133,10 +133,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return { error: error?.message ?? null, hasSession: Boolean(data.session), session: data.session };
   }, []);
 
-  const signOut = useCallback(async () => {
+  const signOut = useCallback(async (scope: 'local' | 'global' = 'global') => {
     await clearSecureContentCache();
     purgeSecureContent();
-    if (supabase) await supabase.auth.signOut();
+    if (supabase) {
+      const { error } = await supabase.auth.signOut({ scope });
+      if (error) throw error;
+    }
     setRole('user');
     setProfile(null);
   }, []);
