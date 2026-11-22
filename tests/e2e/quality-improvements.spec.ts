@@ -1,7 +1,14 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 const guestKey='@shoseijutsu-roku/state/v1';
-async function backup(page:Page){const event=page.waitForEvent('download');await page.getByRole('button',{name:'バックアップをダウンロード',exact:true}).click();const file=await event;return JSON.parse(await readFile((await file.path())!,'utf8'));}
+async function backup(page: Page) {
+ const open = page.getByRole('button', { name: 'ファイルの書き出し・読み込み', exact: true });
+ if (await open.isVisible()) await open.click();
+ const event = page.waitForEvent('download');
+ await page.getByRole('button', { name: 'バックアップをダウンロード', exact: true }).click();
+ const file = await event;
+ return JSON.parse(await readFile((await file.path())!, 'utf8'));
+}
 test.beforeEach(async({page})=>{
  await page.route('**/rest/v1/**',r=>r.request().url().includes('/profiles')?r.fulfill({json:{role:'user',display_name:'検証利用者'}}):r.fulfill({status:503,json:{}}));
  await page.route('**/functions/v1/**',r=>r.fulfill({json:{access:'none',items:[]}}));
@@ -28,10 +35,29 @@ test('JSON backup, merge, replacement and undo preserve actual personal records'
 test('guest import is explicit and account changes cannot expose another account records',async({page})=>{
  test.setTimeout(60000);
  let id='00000000-0000-4000-8000-000000000071';
- const user=()=>({id,aud:'authenticated',role:'authenticated',email:'quality@example.invalid',app_metadata:{},user_metadata:{},created_at:'2026-01-01T00:00:00Z'});
+ const user=()=>({id,aud:'authenticated',role:'authenticated',email:'quality@example.invalid',app_metadata:{},user_metadata:{terms_version:'3.5',privacy_version:'2.2',terms_accepted_at:'2026-11-22T00:00:00Z'},created_at:'2026-01-01T00:00:00Z'});
  const session=()=>({access_token:'eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify({sub:id,role:'authenticated',exp:4102444800})).toString('base64url')+'.test',refresh_token:'test-refresh',token_type:'bearer',expires_at:4102444800,expires_in:3600,user:user()});
- const authKey=`sb-${new URL(process.env.EXPO_PUBLIC_SUPABASE_URL??'https://example.supabase.co').hostname.split('.')[0]}-auth-token`;
+ const fixtureUrl = process.env.PLAYWRIGHT_PERSONAL_SYNC_FIXTURE === '1' ? 'https://roku-sync-test.invalid' : undefined;
+ const authKey=`sb-${new URL(fixtureUrl ?? process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co').hostname.split('.')[0]}-auth-token`;
  await page.route('**/auth/v1/**',r=>r.fulfill({json:user()}));
+ const server = new Map<string, { revision: number; ack: number; items: Map<string, { key: string; revision: number; value: unknown }> }>();
+ await page.route('**/rest/v1/rpc/sync_personal_records', async route => {
+  const request = route.request();
+  const body = request.postDataJSON();
+  const token = request.headers().authorization.split(' ')[1];
+  expect(body.p_user).toBe(JSON.parse(Buffer.from(token.split('.')[1], 'base64url').toString()).sub);
+  const records = server.get(body.p_user) ?? { revision: 0, ack: 0, items: new Map() };
+  server.set(body.p_user, records);
+  if (body.p_epoch === null) return route.fulfill({ json: { epoch: 1, cursor: 0, ack: 0, reset: true, more: records.revision > 0, items: [] } });
+  if (body.p_changes.length && body.p_sequence > records.ack) {
+   for (const change of body.p_changes) {
+    records.items.set(change.key, { key: change.key, revision: ++records.revision, value: change.deleted ? null : change.value });
+   }
+   records.ack = body.p_sequence;
+  }
+  return route.fulfill({ json: { epoch: 1, cursor: records.revision, ack: body.p_changes.length ? records.ack : 0,
+   reset: false, more: false, items: [...records.items.values()].filter(item => item.revision > body.p_cursor).sort((a, b) => a.revision - b.revision) } });
+ });
  await page.addInitScript(({authKey,session,guestKey})=>{if(sessionStorage.getItem('quality-account-ready'))return;sessionStorage.setItem('quality-account-ready','1');localStorage.setItem(authKey,JSON.stringify(session));localStorage.setItem(guestKey,JSON.stringify({personalPrinciple:'ゲストだけの記録',savedIds:['guest-id']}));localStorage.setItem('@shoseijutsu-roku/state/v2/user/'+session.user.id,JSON.stringify({personalPrinciple:'Aだけの記録',savedIds:['account-a-id']}));},{authKey,session:session(),guestKey});
  await page.goto('/settings/data');expect((await backup(page)).data.savedIds).toEqual(['account-a-id']);
  await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toBeVisible();
@@ -48,33 +74,15 @@ test('guest import is explicit and account changes cannot expose another account
  expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).savedIds,'@shoseijutsu-roku/state/v2/user/00000000-0000-4000-8000-000000000071')).toEqual(['account-a-id']);
  expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).savedIds,guestKey)).toEqual(['guest-id']);
  await page.reload();
- await expect(page.getByRole('button',{name:'バックアップをダウンロード',exact:true})).toBeEnabled();
+ expect((await backup(page)).data.savedIds).toEqual(['guest-id']);
  await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toHaveCount(0);
- let cloud:any=null,uploads=0;
- await page.route('**/rest/v1/personal_backups**',async r=>{
-  const method=r.request().method();
-  if(method==='POST'||method==='PATCH'){uploads++;const body=r.request().postDataJSON();expect(body.data.data.savedIds).toEqual(['guest-id']);expect(JSON.stringify(body)).not.toContain('account-a-id');cloud={...body,user_id:id,updated_at:'2026-10-29T10:00:00Z'};return r.fulfill({json:cloud});}
-  if(method==='DELETE'){cloud=null;return r.fulfill({json:[{user_id:id}]});}
-  return r.fulfill({json:cloud});
- });
- await page.getByRole('button',{name:'クラウドへバックアップ',exact:true}).click();
- await page.getByRole('button',{name:'送信して保存する',exact:true}).click();
- await expect(page.getByTestId('personal-backup-message')).toContainText('クラウドにバックアップしました');expect(uploads).toBe(1);
- await page.getByRole('button',{name:'クラウドから読み込む',exact:true}).click();
- await expect(page.getByTestId('personal-backup-input')).toHaveValue(/guest-id/);
- cloud.updated_at='2026-10-29T11:00:00Z';
- await page.getByRole('button',{name:'クラウドへバックアップ',exact:true}).click();
- await page.getByRole('button',{name:'送信して保存する',exact:true}).click();
- await expect(page.getByTestId('personal-backup-message')).toContainText('別の端末で更新されています');expect(uploads).toBe(1);
- await page.getByRole('button',{name:'キャンセル',exact:true}).click();
- await page.getByRole('button',{name:'クラウドのバックアップを削除',exact:true}).click();
- await page.getByRole('button',{name:'削除を確定する',exact:true}).click();
- await expect(page.getByTestId('personal-backup-message')).toContainText('クラウドのバックアップを削除しました');expect(cloud).toBeNull();
+ await expect.poll(() => server.get(id)?.items.get(JSON.stringify(['savedIds','guest-id']))?.value).toBe(true);
+ expect(server.get(id)?.items.has(JSON.stringify(['savedIds','account-a-id']))).toBe(false);
  id='00000000-0000-4000-8000-000000000071';
  await page.evaluate(({authKey,session})=>localStorage.setItem(authKey,JSON.stringify(session)),{authKey,session:session()});await page.reload();
  expect((await backup(page)).data.savedIds).toEqual(['account-a-id']);
  await page.getByRole('button',{name:'引き継がない',exact:true}).click();await page.reload();
- await expect(page.getByRole('button',{name:'バックアップをダウンロード',exact:true})).toBeEnabled();
+ expect((await backup(page)).data.savedIds).toEqual(['account-a-id']);
  await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toHaveCount(0);
 });
 

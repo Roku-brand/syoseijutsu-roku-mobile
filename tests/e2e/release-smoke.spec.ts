@@ -650,10 +650,10 @@ test('PC専用の購入LPは説明と図を横に並べ、幅を変えても購�
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
   await page.goto('/upgrade');
   await page.getByRole('link', { name: '購入条件・返金について' }).click();
-  await expect(page.getByText(/バージョン3\.4/).first()).toBeVisible();
+  await expect(page.getByText(/バージョン3\.5/).first()).toBeVisible();
   await expect(page.getByText(/合理的な目的で、項目を追加・修正・統合・削除/)).toBeVisible();
   await expect(page.getByText(/主要な利用目的を損なう重大な不利益変更は行いません/)).toBeVisible();
-  await expect(page.getByText(/運営者の故意・過失による責任/)).toBeVisible();
+  await expect(page.getByText(/運営者に故意・重大な過失または軽過失がある場合/)).toBeVisible();
 });
 
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {

@@ -71,4 +71,4 @@ grant execute on function public.sync_personal_records(uuid,integer,bigint,text,
 | データベース | `supabase/migrations/20261122025925_personal_sync.sql` |
 | 設定・認証 | `src/app/settings.tsx`、`src/app/settings/data.tsx`、`src/app/settings/delete-account.tsx`、`src/app/auth.tsx`、`src/auth/auth-state.tsx`、`src/components/data-status-banner.tsx`、`src/components/registration-consent.tsx` |
 | 規約・配信文書 | `src/data/legal-documents.ts`、`src/data/generated/terms-history.json`、`PRIVACY_POLICY.md`、`public/privacy/index.html`、`store/privacy/index.html`、`store/metadata-ja.md`、`scripts/sync-privacy-documents.mjs`、`docs/releases/personal-sync.md` |
-| 検証 | `playwright.config.ts`、`tests/e2e/legal-compliance.spec.ts`、`tests/e2e/personal-cloud-sync.spec.ts`、`tests/unit/personal-sync-model.test.mjs`、`tests/unit/personal-sync-database.test.mjs` |
+| 検証 | `playwright.config.ts`、`tests/e2e/legal-compliance.spec.ts`、`tests/e2e/personal-cloud-sync.spec.ts`、`tests/e2e/home-card-deck.spec.ts`、`tests/e2e/release-smoke.spec.ts`、`tests/e2e/quality-improvements.spec.ts`、`tests/e2e/selected-improvements.spec.ts`、`tests/unit/personal-sync-model.test.mjs`、`tests/unit/personal-sync-database.test.mjs` |
