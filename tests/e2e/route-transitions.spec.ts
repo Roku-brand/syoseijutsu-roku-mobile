@@ -161,6 +161,12 @@ test('a touch holds the scrollbar in place, then expands it and lets the finger 
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
   await page.setViewportSize({ width: 390, height: 620 });
   await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'userActivation', {
+      get: () => ({ hasBeenActive: !document.documentElement.hasAttribute('data-activate-on-release') }),
+    });
+    window.addEventListener('touchend', () => {
+      document.documentElement.removeAttribute('data-activate-on-release');
+    }, true);
     navigator.vibrate = (duration) => {
       const root = document.documentElement;
       root.dataset.scrollbarVibrations = [root.dataset.scrollbarVibrations, duration].filter(Boolean).join(',');
@@ -172,8 +178,10 @@ test('a touch holds the scrollbar in place, then expands it and lets the finger 
   const scroll = page.getByTestId('learn-scroll');
   const thumb = scroll.locator('..').getByTestId('vertical-scroll-indicator');
   const paint = thumb.locator(':scope > div');
+  const thumbColor = 'rgba(45, 45, 45, 0.44)';
   await expect(thumb).toHaveCSS('pointer-events', 'none');
   await expect(paint).toHaveCSS('width', '3px');
+  await expect(paint).toHaveCSS('background-color', thumbColor);
   const scrollBox = (await scroll.boundingBox())!;
   const session = await context.newCDPSession(page);
   const root = page.locator('html');
@@ -200,8 +208,8 @@ test('a touch holds the scrollbar in place, then expands it and lets the finger 
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
   try {
     await expect(paint).toHaveCSS('width', '7px');
-    await expect(paint).toHaveCSS('background-color', 'rgb(136, 102, 43)');
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '24');
+    await expect(paint).toHaveCSS('background-color', thumbColor);
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
     expect(await scroll.evaluate(node => node.scrollTop)).toBe(top);
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 14 }] });
     await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(top);
@@ -210,10 +218,23 @@ test('a touch holds the scrollbar in place, then expands it and lets the finger 
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox.y + 2 }] });
     await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(0);
     await expect(thumb).toHaveCSS('opacity', '1');
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '24');
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
   } finally {
     await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   }
+  await expect(paint).toHaveCSS('width', '3px');
+  await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
+
+  await root.evaluate(node => node.setAttribute('data-activate-on-release', ''));
+  const firstGesture = await revealThumb(0.6);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: firstGesture.x, y: firstGesture.y }] });
+  try {
+    await expect(paint).toHaveCSS('width', '7px');
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
+  } finally {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  }
+  await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35,35');
   await expect(paint).toHaveCSS('width', '3px');
   await expect(thumb).toHaveCSS('opacity', '0');
   await expect(thumb).toHaveCSS('pointer-events', 'none');

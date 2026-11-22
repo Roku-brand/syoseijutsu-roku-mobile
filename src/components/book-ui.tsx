@@ -145,7 +145,7 @@ export function BookHeader() {
           adjustsFontSizeToFit
           minimumFontScale={0.85}
           style={[styles.screenTitle, lightHeader && styles.screenTitleLight, primaryTabHeader && styles.brandName, compact && primaryTabHeader && styles.brandNameCompact, spaciousHeader && styles.brandNameSpacious, compact && detailHeader && styles.detailScreenTitleCompact, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
-        >{primaryTabHeader ? '処世術録' : currentTitle}</AppText>
+        >{primaryTabHeader ? '処世術禄' : currentTitle}</AppText>
         {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
       </View>
 
