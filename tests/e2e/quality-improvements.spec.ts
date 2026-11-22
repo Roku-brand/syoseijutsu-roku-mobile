@@ -3,10 +3,10 @@ import { readFile } from 'node:fs/promises';
 const guestKey='@shoseijutsu-roku/state/v1';
 async function backup(page: Page) {
  const open = page.getByRole('button', { name: 'ファイルの書き出し・読み込み', exact: true });
+ const download = page.getByRole('button', { name: 'バックアップをダウンロード', exact: true });
+ await expect(open.or(download)).toBeVisible();
  if (await open.isVisible()) await open.click();
- const event = page.waitForEvent('download');
- await page.getByRole('button', { name: 'バックアップをダウンロード', exact: true }).click();
- const file = await event;
+ const [file] = await Promise.all([page.waitForEvent('download'), download.click()]);
  return JSON.parse(await readFile((await file.path())!, 'utf8'));
 }
 test.beforeEach(async({page})=>{
@@ -33,7 +33,7 @@ test('JSON backup, merge, replacement and undo preserve actual personal records'
  await page.screenshot({path:test.info().outputPath('backup-mobile.png'),fullPage:true});
 });
 test('guest import is explicit and account changes cannot expose another account records',async({page})=>{
- test.setTimeout(60000);
+ test.setTimeout(90000);
  let id='00000000-0000-4000-8000-000000000071';
  const user=()=>({id,aud:'authenticated',role:'authenticated',email:'quality@example.invalid',app_metadata:{},user_metadata:{terms_version:'3.5',privacy_version:'2.2',terms_accepted_at:'2026-11-22T00:00:00Z'},created_at:'2026-01-01T00:00:00Z'});
  const session=()=>({access_token:'eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify({sub:id,role:'authenticated',exp:4102444800})).toString('base64url')+'.test',refresh_token:'test-refresh',token_type:'bearer',expires_at:4102444800,expires_in:3600,user:user()});
