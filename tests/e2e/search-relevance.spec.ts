@@ -53,8 +53,47 @@ test('literal title ranks first and weak full-text associations do not become sy
   await page.getByRole('tab',{name:'特集',exact:true}).click();
   await expect(results.getByTestId('feature-card').first()).toContainText('交渉の準備をする');
   await page.goto('/search?mode=techniques&q='+encodeURIComponent('固有の検索検証語'));
-  await expect(results).toContainText('一致するものはありません');
+  await expect(results).toContainText('処世術に一致する項目はありません');
   await results.getByRole('button',{name:/特集の\d+件を見る/}).click();
   await expect(page.getByRole('tab',{name:'特集',exact:true})).toHaveAttribute('aria-selected','true');
   await expect(results.getByTestId('feature-card')).toHaveCount(features.length-1);
+});
+
+test('最初の検索は該当タブを開き、手動で選んだタブは次の検索にも使う', async ({ page }) => {
+  await page.goto('/search');
+  const input = page.getByRole('textbox', { name: 'キーワードを検索' });
+  const submit = page.getByRole('button', { name: '検索を実行' });
+  const clear = page.getByRole('button', { name: '検索語を消す' });
+  const tab = (name: string) => page.getByRole('tab', { name, exact: true });
+  const results = page.getByTestId('search-page-results');
+
+  for (const query of ['社会的比較理論', '愛着理論']) {
+    await input.fill(query);
+    await submit.click();
+    await expect(tab('理論')).toHaveAttribute('aria-selected', 'true');
+    await expect(results.getByText(query, { exact: true })).toBeVisible();
+    await expect(clear).toHaveText('✕');
+    await clear.click();
+    await expect(input).toHaveValue('');
+  }
+
+  await tab('処世術').click();
+  await input.fill('社会的比較理論');
+  await submit.click();
+  await expect(tab('処世術')).toHaveAttribute('aria-selected', 'true');
+  await results.getByRole('button', { name: /理論の\d+件を見る/ }).click();
+  await expect(tab('理論')).toHaveAttribute('aria-selected', 'true');
+  await expect(results.getByText('社会的比較理論', { exact: true })).toBeVisible();
+});
+
+test('探すから始めた検索でも、入力ごとに該当タブを自動で選ぶ', async ({ page }) => {
+  await page.goto('/discover');
+  await page.getByTestId('discover-search-input').fill('愛着理論');
+  await page.getByTestId('discover-search-submit').click();
+  await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
+  expect(new URL(page.url()).searchParams.has('mode')).toBe(false);
+  await page.getByRole('textbox', { name: 'キーワードを検索' }).fill('清潔感');
+  await page.getByRole('button', { name: '検索を実行' }).click();
+  await expect(page.getByRole('tab', { name: '処世術', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByTestId('search-page-results')).toContainText('清潔感を意識する');
 });

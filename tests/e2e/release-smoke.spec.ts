@@ -165,13 +165,14 @@ test('無料版の関連理論は完全版のタイトルも表示し、未収�
   await expect(supplementaryTheories).toHaveCount(0);
   await expect(relatedTheories).not.toContainText('完全版の理論');
   const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
-  await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');
+  await expect(lockedTheoryLink).toHaveAttribute('href', /\/upgrade\?source=discover_theory&itemTitle=/);
   await expect(lockedTheoryLink.getByTestId('related-content-lock')).toBeVisible();
   const freeTechniqueLink = page.getByTestId('related-techniques').getByRole('link', { name: '会話は内容よりテンポを開く' });
   await expect(freeTechniqueLink).toHaveAttribute('href', '/card/master336-015');
   await expect(freeTechniqueLink.getByTestId('related-content-lock')).toHaveCount(0);
   await lockedTheoryLink.click();
   await expect(page).toHaveURL(/\/upgrade\?source=discover_theory/);
+  await expect(page.getByTestId('upgrade-item-context')).toContainText('行動同調');
 });
 
 test('theory metadata sits beside its identifier and content is never ellipsized', async ({ page }) => {
@@ -433,7 +434,7 @@ test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の�
 test('探すの検索欄は独立検索ページを開く', async ({ page }) => {
   await page.goto('/discover');
   await page.getByRole('button', { name: '処世術・理論・特集を検索' }).click();
-  await expect(page).toHaveURL(/\/search\?mode=techniques/);
+  await expect(page).toHaveURL(/\/search\?preferredMode=techniques/);
   const input = page.getByRole('textbox', { name: 'キーワードを検索' });
   await input.fill('聞き上手');
   await input.press('Enter');
@@ -1101,13 +1102,14 @@ test('人物像詳細は写真を右に置いたコンパクトな紹介を固�
   await expect(page.getByTestId('technique-essence')).toBeVisible();
 });
 
-test('学ぶトップは同じ挑戦ボタンと実進捗を表示し、完全版の購入導線を維持する', async ({ page }) => {
+test('学ぶトップは実進捗と完全版の購入導線を表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/learn');
   await expect(page.getByText('処世術を習得しよう！')).toBeVisible();
   await expect(page.getByTestId('learning-stage-list').getByRole('button', { name: /^ステージ[123]、/ })).toHaveCount(3);
   await expect(page.getByTestId('learning-stage-1')).toContainText('0 / 7');
-  await expect(page.getByTestId('learning-stage-2')).toContainText('挑戦する');
+  await expect(page.getByTestId('learning-challenge-1')).toContainText('挑戦する');
+  await expect(page.getByTestId('learning-challenge-2')).toContainText('完全版');
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
   await page.getByRole('button', { name: /ステージ2、仕事を、どう動かす？/ }).click();

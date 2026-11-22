@@ -9,7 +9,7 @@ export function TheoryListCard({ theory, readable, showClassification = false, o
 }) {
   const title = normalizeDisplayText(theory.title);
   const definition = readable && !isLockedTheoryShell(theory) ? getTheoryCardSupplement(theory) : '';
-  return <CatalogIndexCard kind="theory" code={getTheoryDisplayId(theory)} title={title} definition={definition}
+  return <CatalogIndexCard kind="theory" code={getTheoryDisplayId(theory)} title={title} definition={definition} readable={readable}
     classification={showClassification ? theory.subcategoryTitle || theory.categoryTitle : undefined}
     href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
     label={`${title}を開く`} onOpen={onOpen} testID={testID}

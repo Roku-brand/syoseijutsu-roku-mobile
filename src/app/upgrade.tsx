@@ -12,7 +12,8 @@ import { useGuides } from '@/onboarding/guide-provider';
 
 export default function UpgradeScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ checkout?: string; session_id?: string }>();
+  const params = useLocalSearchParams<{ checkout?: string; session_id?: string; itemTitle?: string }>();
+  const itemTitle = typeof params.itemTitle === 'string' ? params.itemTitle.trim().slice(0, 120) : undefined;
   const { user, loading: authLoading } = useAuth();
   const { isPaid, accessInfo, accessStatus, refreshAccess, restorePurchase } = useAccess();
   const { requestPurchaseGuide } = useGuides();
@@ -116,6 +117,7 @@ export default function UpgradeScreen() {
     <View testID="upgrade-single-screen" style={styles.safe}>
       <UpgradeLanding
         isPaid={isPaid}
+        itemTitle={itemTitle}
         onBack={() => router.canGoBack() ? router.back() : router.replace('/')}
         onPurchase={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
         onTerms={() => router.push('/legal/terms')}

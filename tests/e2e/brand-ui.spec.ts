@@ -81,6 +81,37 @@ test('利用期間終了の表示は既存の期限判定を使う', async ({ pa
   await expect(page.getByRole('button', { name: /^アカウント作成・ログイン/ })).toHaveCount(0);
 });
 
+test('無料版の学習ケースは完全版と分かり、購入ページにも選んだケース名が表示される', async ({ page }) => {
+  await page.goto('/learn');
+  await expect(page.getByTestId('learning-challenge-1')).toHaveText('挑戦する　→');
+  const caseTitle = index.find((item: any) => item.id === 'case-08').title;
+  await expect(page.getByRole('button', { name: caseTitle + 'を開く（完全版）' })).toContainText('完全版');
+  const challenge = page.getByTestId('learning-challenge-2');
+  await expect(challenge).toHaveAccessibleName(/完全版/);
+  await challenge.click();
+  await expect(page.getByTestId('upgrade-item-context')).toContainText(caseTitle);
+  await page.getByTestId('upgrade-header-back').click();
+  await expect(page.getByTestId('learning-stage-2')).toBeVisible();
+});
+
+for (const width of [320, 390]) {
+  test(`学習結果の吹き出しは幅${width}pxで判定文より下に表示される`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/learn/case-01');
+    await page.getByRole('button', { name: /^A 実績や面白い経験/ }).click();
+    const speech = page.getByTestId('learning-result-speech');
+    const copy = page.getByTestId('learning-result-status-copy');
+    await expect(page.getByText('おしい！', { exact: true })).toBeVisible();
+    await expect(copy).toHaveText('ここで違いを覚えましょう。');
+    await expect(copy).toBeVisible();
+    await expect(speech).toBeVisible();
+    const [copyBox, speechBox] = await Promise.all([copy.boundingBox(), speech.boundingBox()]);
+    expect(speechBox!.y).toBeGreaterThanOrEqual(copyBox!.y + copyBox!.height);
+    expect(copyBox!.width).toBeGreaterThan(130);
+    expect(speechBox!.x + speechBox!.width).toBeLessThanOrEqual(width);
+  });
+}
+
 for (const width of [320, 390, 430, 1440]) {
   test(`新UIの共有ヘッダー・ロードマップ・購入バーは幅${width}pxに収まる`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });

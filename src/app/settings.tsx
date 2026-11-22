@@ -33,7 +33,7 @@ export default function SettingsScreen() {
           href={APP_ROUTES.upgrade}
         />
         <SettingLink title="背景テーマ" detail={backgroundTheme.name} preview={<Image source={backgroundTheme.image} contentFit="cover" contentPosition="top" style={styles.themePreview} accessibilityElementsHidden aria-hidden />} href={'/settings/background' as Href} />
-        <SettingLink title="データの管理・削除" detail="保存状況、復旧履歴、個人記録の削除" href={'/settings/data' as Href} last />
+        <SettingLink title="データの管理・削除" detail="保存状況、復旧履歴、データの削除" href={'/settings/data' as Href} last />
       </SettingsGroup>
 
       {role === 'owner' ? <>
@@ -63,7 +63,7 @@ export default function SettingsScreen() {
       </SettingsGroup>
 
       {user ? <SettingsGroup subdued>
-        <SettingLink title="アカウントを削除" detail="アカウント・個人記録・完全版の利用権を削除します" href={'/settings/delete-account' as Href} danger last subdued />
+        <SettingLink title="アカウントを削除" detail="アカウント・個人データ・完全版の利用権を削除します" href={'/settings/delete-account' as Href} danger last subdued />
       </SettingsGroup> : null}
       <AppText style={styles.version}>バージョン {version}</AppText>
     </Screen>

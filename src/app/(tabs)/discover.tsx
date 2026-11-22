@@ -1,7 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { Keyboard, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
 import { BrandSectionHeading } from '@/components/brand-section-heading';
 import { DiscoveryCategoryCard } from '@/components/discovery-category-card';
@@ -10,7 +9,7 @@ import { getTheoryFilterOptions } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
 import { categoryMeta, categoryOrder } from '@/data/catalog';
-import { POPULAR_SEARCHES, getSearchResults, type BrowseMode } from '@/data/search-catalog';
+import { POPULAR_SEARCHES, type BrowseMode } from '@/data/search-catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES } from '@/navigation/app-routes';
 import { useDiscoverSearchEntry, type DiscoverSearchEntry } from '@/navigation/discover-search-entry';
@@ -21,7 +20,6 @@ export default function DiscoverScreen() {
   'use no memo';
   // Category names and ordering can change during a published catalogue sync.
   const router = useRouter();
-  const { isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [query, setQuery] = useState('');
@@ -40,12 +38,10 @@ export default function DiscoverScreen() {
     return () => { unregister(); setEntry(defaultSearchEntry); };
   }, [register, scroll]));
   const theoryCategories = getTheoryFilterOptions().filter(option => option.key !== 'all');
-  const openSearch = (value = query, preferredMode: BrowseMode = 'techniques') => {
+  const openSearch = (value: string, preferredMode: BrowseMode) => {
     const searchQuery = value.trim();
-    const results = getSearchResults(searchQuery, isPaid);
-    const mode = preferredMode === 'techniques' && !results.techniqueMatches.length && results.theoryMatches.length ? 'theories' : preferredMode;
     Keyboard.dismiss();
-    router.push({ pathname: '/search', params: { mode, ...(searchQuery ? { q: searchQuery } : {}) } });
+    router.push({ pathname: '/search', params: { preferredMode, ...(searchQuery ? { q: searchQuery } : {}) } });
   };
   const submit = () => {
     if (entry.techniqueCategory) {

@@ -97,8 +97,8 @@ export function personaRoute(category: string, name: string): Href {
   return { pathname: '/subcategory/[category]/[name]', params: { category, name } };
 }
 
-export function upgradeRoute(source?: string): Href {
+export function upgradeRoute(source?: string, itemTitle?: string): Href {
   return source
-    ? { pathname: '/upgrade', params: { source } }
+    ? { pathname: '/upgrade', params: itemTitle ? { source, itemTitle } : { source } }
     : APP_ROUTES.upgrade;
 }

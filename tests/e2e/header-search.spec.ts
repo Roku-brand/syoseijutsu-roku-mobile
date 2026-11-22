@@ -59,7 +59,7 @@ test('理論一覧のヘッダーからも探すの検索欄に移り、理論�
   await expect(input).toBeFocused();
   await input.fill('神経可塑性');
   await page.getByTestId('discover-search-submit').click();
-  await expect(page).toHaveURL(/mode=theories/);
+  await expect(page).toHaveURL(/preferredMode=theories/);
   await expect(page.getByTestId('search-page-results')).toContainText('脳の可塑性');
 });
 

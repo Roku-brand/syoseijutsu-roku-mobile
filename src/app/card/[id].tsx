@@ -10,10 +10,12 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
+  getTheoryDisplayId,
   techniqueById,
   techniqueCards,
   theoryById,
 } from '@/data/catalog';
+import { getTheoryUpgradeTitle } from '@/data/theory-display';
 import { practiceGuidance } from '@/data/search';
 import { mergedTechniqueIds, resolveTechniqueId } from '@/data/technique-identity';
 import { useAppState } from '@/state/app-state';
@@ -75,7 +77,7 @@ export default function CardDetailScreen() {
   if (card && !canReadTechnique(effectiveAccess, card.id)) {
     return (
       <Screen contentContainerStyle={styles.screenContent}>
-        <LockedPreview title={card.subcategory} description="この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。" count={1} source="discover_technique" />
+        <LockedPreview title={card.title === '完全版の処世術' ? `${getTechniqueDisplayId(card)}・${card.subcategory}` : card.title} source="discover_technique" />
       </Screen>
     );
   }
@@ -109,7 +111,7 @@ export default function CardDetailScreen() {
       key: theory.tagId,
       title: theory.title,
       locked: !readable,
-      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
+      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory', getTheoryUpgradeTitle(theory, getTheoryDisplayId(theory))),
     };
   };
   const explanation = splitExplanation(card.explanation, card.subtitle);

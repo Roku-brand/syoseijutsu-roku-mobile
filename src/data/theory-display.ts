@@ -72,6 +72,14 @@ export function getTheoryCardSupplement(theory: Pick<TheoryCard, 'summary' | 'kn
   return getTheoryCoverSummary(theory.summary);
 }
 
+export function getTheoryUpgradeTitle(theory: TheoryCard, displayId: string): string {
+  if (theory.quotation || theory.knowledgeType === 'aphorism') {
+    const author = normalizeDisplayText(theory.quotationAuthor || theory.quotation?.author);
+    return `${displayId}・${author ? `${author}の格言` : '格言'}`;
+  }
+  return normalizeDisplayText(theory.title);
+}
+
 /**
  * 無料版バンドルには、タイトルだけを公開して本文を含めないシェルが存在する。
  * 完全版利用者には、完全版カタログの同期完了まで読み込み状態として扱う。

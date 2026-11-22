@@ -5,6 +5,7 @@ import { detailStyles } from '@/constants/detail-theme';
 import { colors, fonts, radius } from '@/constants/theme';
 import { normalizeDisplayText } from '@/data/theory-display';
 import { AppText } from './ui';
+import { LockMark } from './lock-mark';
 
 export type RelatedContentItem = {
   key: string;
@@ -12,15 +13,6 @@ export type RelatedContentItem = {
   href: Href;
   locked?: boolean;
 };
-
-function LockMark({ testID }: { testID?: string }) {
-  return (
-    <View testID={testID} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={styles.lock}>
-      <View style={styles.lockShackle} />
-      <View style={styles.lockBody}><View style={styles.lockKeyhole} /></View>
-    </View>
-  );
-}
 
 export function RelatedContentSection({ title, items, testID }: {
   title: string;
@@ -89,8 +81,4 @@ const styles = StyleSheet.create({
   title: { flex: 1, minWidth: 0, color: colors.ink, fontSize: 16, lineHeight: 23, fontWeight: '700', letterSpacing: 0.2 },
   trailing: { flexShrink: 0, marginLeft: 8, flexDirection: 'row', alignItems: 'center', gap: 11 },
   chevron: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 21, lineHeight: 24 },
-  lock: { width: 13, height: 15, alignItems: 'center', justifyContent: 'center' },
-  lockShackle: { width: 8, height: 6, borderWidth: 1.5, borderBottomWidth: 0, borderColor: colors.goldDeep, borderTopLeftRadius: 4, borderTopRightRadius: 4 },
-  lockBody: { width: 12, height: 8, borderRadius: 2, backgroundColor: colors.goldDeep, alignItems: 'center', justifyContent: 'center' },
-  lockKeyhole: { width: 2, height: 3, borderRadius: 1, backgroundColor: colors.surface },
 });

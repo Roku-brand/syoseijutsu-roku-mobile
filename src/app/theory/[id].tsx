@@ -16,7 +16,7 @@ import { AppText, EmptyState, Screen } from '@/components/ui';
 import { detailColors, detailStyles } from '@/constants/detail-theme';
 import { colors, fonts, radius } from '@/constants/theme';
 import { getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
-import { getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
+import { getTheorySeoCopy, getTheoryUpgradeTitle, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import type { TheoryCard } from '@/data/types';
 import { getTheoryPath } from '@/data/theory-taxonomy';
@@ -64,7 +64,7 @@ export default function TheoryDetailScreen() {
     return <Screen style={detailStyles.screen} contentContainerStyle={styles.screenContent}><EmptyState title="理論が見つかりません" description="前の画面へ戻り、別の理論を選んでください。" /></Screen>;
   }
 
-  if (!canReadTheory(effectiveAccess, theory.tagId)) return <LockedPreview source="discover_theory" />;
+  if (!canReadTheory(effectiveAccess, theory.tagId)) return <LockedPreview source="discover_theory" title={getTheoryUpgradeTitle(theory, getTheoryDisplayId(theory))} />;
 
   if (isLockedTheoryShell(theory)) {
     const failed = secureContentStatus === 'error';
