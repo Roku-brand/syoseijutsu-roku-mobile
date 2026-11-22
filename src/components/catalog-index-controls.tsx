@@ -36,6 +36,7 @@ export function CatalogIndexCount({ label, count, testID }: { label: string; cou
 
 export const catalogIndexLayout = StyleSheet.create({
   content: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingTop: 12, paddingBottom: spacing.xl * 3 },
+  resultHeading: { minHeight: 32, marginTop: 12, marginBottom: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   list: { width: '100%', gap: catalogIndexTheme.cardGap },
 });
 
