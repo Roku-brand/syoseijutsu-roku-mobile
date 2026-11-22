@@ -122,7 +122,6 @@ test('switching tabs resumes the last detail, query, and scroll position', async
   await scroll.evaluate(node => { node.scrollTop = 120; });
   const top = await scroll.evaluate(node => node.scrollTop);
   expect(top).toBeGreaterThan(0);
-  await expect(scroll.locator('..').getByTestId('vertical-scroll-indicator')).toHaveCSS('pointer-events', 'auto');
   await myPage.click();
   await expect(page).toHaveURL(/\/my-os$/);
   await learn.click();
@@ -136,106 +135,21 @@ test('switching tabs resumes the last detail, query, and scroll position', async
   await expect(page).toHaveURL(search);
 });
 
-test('the vertical scroll indicator follows the body and fades without shifting the page', async ({ page }) => {
+test('the browser owns the vertical scrollbar and the reading header stays fixed', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 620 });
   await page.goto('/subcategory/interpersonal/' + encodeURIComponent('印象がいい人'));
   const intro = page.getByTestId('persona-page-intro');
   const scroll = page.getByTestId('persona-technique-scroll');
-  const indicator = scroll.locator('..').getByTestId('vertical-scroll-indicator');
   await expect(page.getByTestId('persona-technique-list').getByRole('link').first()).toBeVisible();
-  await expect(indicator).toHaveCSS('opacity', '0');
+  await expect(scroll).toHaveCSS('overflow-y', 'auto');
+  await expect(scroll).toHaveCSS('scrollbar-width', 'auto');
+  await expect(scroll).toHaveCSS('scrollbar-color', 'auto');
+  await expect(page.getByTestId('vertical-scroll-indicator')).toHaveCount(0);
+  expect(await scroll.evaluate(node => getComputedStyle(node, '::-webkit-scrollbar').display)).not.toBe('none');
   const headline = await intro.boundingBox();
   const viewport = await scroll.boundingBox();
-  await scroll.evaluate(node => { node.scrollTop = 180; });
-  await expect(indicator).toHaveCSS('opacity', '1');
-  const first = (await indicator.boundingBox())!;
   await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
-  await expect.poll(async () => (await indicator.boundingBox())!.y).toBeGreaterThan(first.y);
-  await expect(indicator).toHaveCSS('opacity', '0');
+  expect(await scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
   expect(await intro.boundingBox()).toEqual(headline);
   expect(await scroll.boundingBox()).toEqual(viewport);
-  expect(first.x + first.width).toBeGreaterThan(viewport!.x + viewport!.width - 10);
-});
-
-test('a touch holds the scrollbar in place, then expands it and lets the finger drag', async ({ page, context, browserName }) => {
-  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
-  await page.setViewportSize({ width: 390, height: 620 });
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, 'userActivation', {
-      get: () => ({ hasBeenActive: !document.documentElement.hasAttribute('data-activate-on-release') }),
-    });
-    window.addEventListener('touchend', () => {
-      document.documentElement.removeAttribute('data-activate-on-release');
-    }, true);
-    navigator.vibrate = (duration) => {
-      const root = document.documentElement;
-      root.dataset.scrollbarVibrations = [root.dataset.scrollbarVibrations, duration].filter(Boolean).join(',');
-      return true;
-    };
-  });
-  await page.goto('/learn');
-  await expect(page.getByTestId('learning-challenge-1')).toBeVisible();
-  const scroll = page.getByTestId('learn-scroll');
-  const thumb = scroll.locator('..').getByTestId('vertical-scroll-indicator');
-  const paint = thumb.locator(':scope > div');
-  const thumbColor = 'rgba(45, 45, 45, 0.44)';
-  await expect(thumb).toHaveCSS('pointer-events', 'none');
-  await expect(paint).toHaveCSS('width', '3px');
-  await expect(paint).toHaveCSS('background-color', thumbColor);
-  const scrollBox = (await scroll.boundingBox())!;
-  const session = await context.newCDPSession(page);
-  const root = page.locator('html');
-  const revealThumb = async (progress: number) => {
-    const oldPosition = await thumb.evaluate(node => node.style.transform);
-    const top = await scroll.evaluate((node, progress) => {
-      node.scrollTop = (node.scrollHeight - node.clientHeight) * progress;
-      return node.scrollTop;
-    }, progress);
-    await expect.poll(() => thumb.evaluate(node => node.style.transform)).not.toBe(oldPosition);
-    await expect(thumb).toHaveCSS('pointer-events', 'auto');
-    const box = (await thumb.boundingBox())!;
-    return { top, x: box.x + box.width - 6, y: box.y + box.height / 2 };
-  };
-  const tap = await revealThumb(0.3);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: tap.x, y: tap.y }] });
-  await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: tap.x, y: tap.y + 4 }] });
-  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  expect(await scroll.evaluate(node => node.scrollTop)).toBe(tap.top);
-  await expect(paint).toHaveCSS('width', '3px');
-  await expect(root).not.toHaveAttribute('data-scrollbar-vibrations');
-
-  const { top, x, y } = await revealThumb(0.45);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  try {
-    await expect(paint).toHaveCSS('width', '7px');
-    await expect(paint).toHaveCSS('background-color', thumbColor);
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
-    expect(await scroll.evaluate(node => node.scrollTop)).toBe(top);
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 14 }] });
-    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(top);
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox.y + scrollBox.height - 2 }] });
-    await expect.poll(() => scroll.evaluate(node => node.scrollHeight - node.clientHeight - node.scrollTop)).toBeLessThan(2);
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox.y + 2 }] });
-    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(0);
-    await expect(thumb).toHaveCSS('opacity', '1');
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
-  } finally {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  }
-  await expect(paint).toHaveCSS('width', '3px');
-  await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
-
-  await root.evaluate(node => node.setAttribute('data-activate-on-release', ''));
-  const firstGesture = await revealThumb(0.6);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: firstGesture.x, y: firstGesture.y }] });
-  try {
-    await expect(paint).toHaveCSS('width', '7px');
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35');
-  } finally {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  }
-  await expect(root).toHaveAttribute('data-scrollbar-vibrations', '35,35');
-  await expect(paint).toHaveCSS('width', '3px');
-  await expect(thumb).toHaveCSS('opacity', '0');
-  await expect(thumb).toHaveCSS('pointer-events', 'none');
 });

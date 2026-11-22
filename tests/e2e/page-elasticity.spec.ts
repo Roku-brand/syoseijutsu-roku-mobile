@@ -50,10 +50,12 @@ for (const [path, id] of pages) test(`画面下は引っ張ったときだけ伸
 
 test('末尾の手前から下端が伸び、指を置いた要素が外れても戻る', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
+  await page.addInitScript(() => window.addEventListener('roku-home-ready', () => {
+    document.documentElement.dataset.homeReady = 'true';
+  }, { once: true }));
   await page.goto('/');
-  await expect(page.getByTestId('home-deck-cover')).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('data-home-ready', 'true');
   const scroll = page.getByTestId('home-scroll');
-  await expect(scroll.locator('..').getByTestId('vertical-scroll-indicator')).toHaveCSS('pointer-events', 'none');
   const { resting, stretched } = await scroll.evaluate(node => {
     const content = node.firstElementChild!;
     const origin = content.appendChild(document.createElement('span'));
