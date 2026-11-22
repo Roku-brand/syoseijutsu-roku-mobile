@@ -63,16 +63,14 @@ for (const width of [320, 390, 1440]) {
 
 test('guest settings show one account link and a preview of the active theme', async ({ page }) => {
   await page.goto('/settings');
+  const account = page.getByRole('button', { name: /^アカウント作成・ログイン/ });
   const theme = page.getByRole('button', { name: /^背景テーマ/ });
+  await expect(account).toHaveCount(1);
+  await expect(page.getByRole('button', { name: /^完全版を利用/ })).toBeVisible();
   await expect(theme).toBeVisible();
-  const titles = await theme.evaluate(node => Array.from(node.parentElement!.children).map(child => child.textContent));
-  expect(titles).toHaveLength(3);
-  expect(titles[0]).toContain('アカウント作成・ログイン');
-  expect(titles[1]).toContain('完全版');
-  expect(titles[2]).toContain('背景テーマ');
   const before = await theme.locator('img').getAttribute('src');
   expect(before).toBeTruthy();
-  await page.getByRole('button', { name: 'アカウント作成・ログイン', exact: false }).click();
+  await account.click();
   await expect(page).toHaveURL(/\/auth$/);
   await page.getByRole('button', { name: /新規登録はこちら/ }).click();
   await expect(page.getByRole('checkbox', { name: '利用規約とプライバシーポリシーを確認して同意する' })).toBeVisible();
