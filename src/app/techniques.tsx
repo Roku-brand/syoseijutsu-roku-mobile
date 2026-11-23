@@ -38,11 +38,9 @@ export default function TechniqueIndexScreen() {
       <CatalogIndexFilters kind="technique" selected={category}
         options={[{ key: 'all', label: 'すべて' }, ...categoryOrder.map(key => ({ key, label: categoryMeta[key].label }))]}
         onSelect={key => router.setParams({ category: key === 'all' ? undefined : key, page: undefined })} />
-      <View style={styles.heading}>
+      <View style={catalogIndexLayout.resultHeading}>
         <CatalogIndexCount label="収録処世術" count={rows.length} testID="technique-index-count" />
-        {totalPages > 1 ? <View style={styles.pages}>
-          <Pagination framed page={page} totalPages={totalPages} onSelect={selectPage} label="処世術一覧のページ選択" testID="technique-index-pagination" />
-        </View> : null}
+        <Pagination framed page={page} totalPages={totalPages} onSelect={selectPage} label="処世術一覧のページ選択" testID="technique-index-pagination" />
       </View>
       <View testID="technique-index-list" style={catalogIndexLayout.list}>
         {pageRows.map(card => <ShoseijutsuListCard key={card.id} card={card}
@@ -55,7 +53,5 @@ export default function TechniqueIndexScreen() {
 }
 
 const styles = StyleSheet.create({
-  heading: { marginTop: 11, marginBottom: 14, gap: 2 },
-  pages: { alignSelf: 'flex-end' },
   empty: { paddingVertical: 30, color: colors.muted, fontSize: 15 },
 });
