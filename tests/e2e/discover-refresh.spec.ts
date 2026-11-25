@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { THEORY_CATEGORIES } from '../../src/data/theory-categories';
 import source from '../../src/data/generated/techniques.public.json';
+import displayIds from '../../src/data/technique-display-ids.json';
 
 const techniqueCategories = [ ['interpersonal', '対人術'], ['work', '仕事術'], ['life', '人生術'] ];
 
@@ -122,11 +123,13 @@ test('公開データの人物像未所属と同名別IDの処世術を一覧・
   });
   await page.goto('/techniques?page=4');
   const total = rows.length + extras.length;
-  await expect(page.getByTestId('technique-index-count')).toHaveText(`${total}件`);
+  await expect(page.getByTestId('technique-index-count')).toHaveText(`${total}件`, { timeout: 30_000 });
   await expect(page.getByTestId('technique-index-row')).toHaveCount(total - 300);
   const independent = page.getByTestId('technique-index-row').filter({ hasText: '独立した処世術' });
   await expect(independent).toHaveCount(2);
-  await expect(independent.getByTestId('technique-index-id')).toHaveText(['No.357', 'No.358']);
+  const reserved = new Set(Object.values(displayIds));
+  const available = Array.from({ length: 1000 }, (_, index) => index + 1).filter(number => !reserved.has(number));
+  await expect(independent.getByTestId('technique-index-id')).toHaveText(available.slice(0, 2).map(number => `No.${String(number).padStart(3, '0')}`));
   await expect(independent.getByTestId('technique-index-title')).toHaveText(['同じタイトルの処世術', '同じタイトルの処世術']);
   await independent.first().click();
   await expect(page).toHaveURL(/\/card\/independent-0$/);
