@@ -223,7 +223,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.getByTestId('home-deck-filter').click();
   await page.getByTestId('home-deck-filter-work').click();
-  await expect(page.getByTestId('home-discovery-refresh')).toBeDisabled();
+  await expect(page.getByTestId('home-discovery-refresh')).toBeEnabled();
   await ready(page);
   await expect(page.getByTestId('home-deck-filter')).toContainText('仕事術');
   await expect(page.getByTestId('home-recommendation-card').getByText('仕事術', { exact: true })).toBeVisible();
