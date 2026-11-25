@@ -11,7 +11,7 @@ const closePose = (actual, expected) => {
 test('reverse extracts the bottom card while the current front stays in the stack', () => {
   const bottom = deckPose(HOME_DECK_LAST, 100, 320, true);
   const front = deckPose(0, 100, 320, true);
-  assert.ok(bottom.x < -70);
+  assert.ok(bottom.x > 70);
   assert.ok(Math.abs(front.x) < 2);
   assert.ok(bottom.scale < 1);
 });
@@ -34,18 +34,21 @@ test('cancelled reverse returns every card to its original position', () => {
   for (let depth = 0; depth < HOME_DECK_SIZE; depth++) closePose(deckPose(depth, 0, 320, true), deckPose(depth, 0, 320));
 });
 
-test('reverse retraces the same left-hand path for each physical card', () => {
+test('reverse follows the finger to the right while retaining the stack geometry', () => {
   for (const width of [305, 320, 356]) {
     const edge = deckReturnEdge(width);
     for (let depth = 0; depth < HOME_DECK_SIZE; depth++) {
       const forwardDepth = depth === HOME_DECK_LAST ? 0 : depth + 1;
       for (const progress of [0, .2, .5, .8, 1]) {
-        closePose(deckPose(depth, edge * progress, width, true), deckPose(forwardDepth, -edge, width, false, 1 - progress));
-        closePose(deckPose(depth, edge, width, true, progress), deckPose(forwardDepth, -edge * (1 - progress), width));
+        const pulled = deckPose(forwardDepth, -edge, width, false, 1 - progress);
+        const settling = deckPose(forwardDepth, -edge * (1 - progress), width);
+        if (depth === HOME_DECK_LAST) { pulled.x += 2 * edge * progress; settling.x += 2 * edge * (1 - progress); }
+        closePose(deckPose(depth, edge * progress, width, true), pulled);
+        closePose(deckPose(depth, edge, width, true, progress), settling);
       }
     }
     const extracted = deckPose(HOME_DECK_LAST, edge, width, true);
-    assert.ok(extracted.x < -width);
+    assert.ok(extracted.x > width);
     assert.equal(extracted.opacity, 1);
   }
 });

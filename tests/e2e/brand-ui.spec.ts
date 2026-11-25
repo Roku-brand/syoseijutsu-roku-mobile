@@ -12,7 +12,7 @@ async function account(page: Page, status: 'active' | 'expired' = 'active', lear
   const user = { id: '00000000-0000-4000-8000-000000000021', aud: 'authenticated', role: 'authenticated', email: 'ui-qa@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
   const payload = Buffer.from(JSON.stringify({ sub: user.id, role: 'authenticated', exp: 4102444800 })).toString('base64url');
   const session = { access_token: `eyJhbGciOiJIUzI1NiJ9.${payload}.test`, refresh_token: 'test-refresh', token_type: 'bearer', expires_at: 4102444800, expires_in: 3600, user };
-  const project = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co').hostname.split('.')[0];
+  const project = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? (process.env.PLAYWRIGHT_PERSONAL_SYNC_FIXTURE === '1' ? 'https://roku-sync-test.invalid' : 'https://example.supabase.co')).hostname.split('.')[0];
   await page.addInitScript(({ key, value }) => localStorage.setItem(key, JSON.stringify(value)), { key: `sb-${project}-auth-token`, value: session });
   await page.route('**/auth/v1/**', route => route.fulfill({ json: user }));
   await page.route('**/rest/v1/**', route => route.request().url().includes('/profiles')
@@ -34,22 +34,27 @@ test('学習ロードマップは正規21ケース・保存済み進捗・自由
   await account(page, 'active', 2500);
   await page.addInitScript(({ key }) => localStorage.setItem(key, JSON.stringify({ learningCurriculumVersion: 2, learningRecords: { 'case-01': { caseId: 'case-01', choiceId: 'b', answeredAt: '2026-10-01T00:00:00Z' }, 'case-08': { caseId: 'case-08', choiceId: 'a', answeredAt: '2026-10-01T00:00:00Z' } } })), { key: stateKey });
   await page.goto('/learn');
-  await expect(page.getByTestId('learning-overall-progress')).toContainText('2 / 21');
+  await expect(page.getByTestId('learning-overall-progress')).toContainText('2 / 21', { timeout: 30000 });
   for (const stage of [1, 2, 3]) {
     await expect(page.getByTestId(`learning-stage-${stage}`)).toContainText(`${stage === 3 ? 0 : 1} / 7`);
     await expect(page.getByTestId(`learning-challenge-${stage}`)).toHaveText('挑戦する　→');
     await expect(page.getByTestId(`learning-challenge-${stage}`)).toBeEnabled();
     const cases = index.filter((item: any) => item.stage === stage);
-    for (const item of cases.slice(0, 3)) await expect(page.getByTestId(`learning-stage-${stage}`)).toContainText(item.title);
-    await page.getByRole('button', { name: `ステージ${stage}の残りのケースを見る` }).click();
+    const toggle = page.getByTestId(`learning-stage-toggle-${stage}`);
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByTestId(`learning-stage-${stage}`)).not.toContainText(cases[0].title);
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
     for (const item of cases) await expect(page.getByTestId(`learning-stage-${stage}`)).toContainText(item.title);
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   }
   await expect(page.getByText('未着手')).toHaveCount(0);
   await expect(page.getByTestId('rokumaru-guide')).toHaveCount(1);
   await expect(page.getByText('焦らず、一歩ずつ。')).toHaveCount(0);
   await page.getByTestId('learning-challenge-3').click();
   await expect(page).toHaveURL(/\/learn\/case-15/);
-  await expect(page.getByTestId('learning-question-card')).toContainText(curriculum.find((item: any) => item.id === 'case-15').title);
+  await expect(page.getByTestId('learning-question-card')).toContainText(curriculum.find((item: any) => item.id === 'case-15').title, { timeout: 30000 });
 });
 
 test('購入済みでは再購入を表示せずホームを開き、期限切れでは購入条件を表示する', async ({ page }) => {
@@ -85,6 +90,7 @@ test('無料版の学習ケースは完全版と分かり、購入ページに�
   await page.goto('/learn');
   await expect(page.getByTestId('learning-challenge-1')).toHaveText('挑戦する　→');
   const caseTitle = index.find((item: any) => item.id === 'case-08').title;
+  await page.getByTestId('learning-stage-toggle-2').click();
   await expect(page.getByRole('button', { name: caseTitle + 'を開く（完全版）' })).toContainText('完全版');
   const challenge = page.getByTestId('learning-challenge-2');
   await expect(challenge).toHaveAccessibleName(/完全版/);

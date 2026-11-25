@@ -76,9 +76,9 @@ export function useWebDeckMotion(width: number, viewportWidth: number) {
           };
         };
         // Reorder only outside the stack: previous rises, next slips underneath.
-        stage(from, edge, 0, 0, Math.max(50, duration * (returning ? .58 : .42) * (1 - Math.min(1, from / edge))), () => {
+        stage(from, edge, 0, 0, Math.max(50, duration * .5 * (1 - Math.min(1, from / edge))), () => {
           raised.current = true;
-          stage(edge, edge, 0, 1, duration * (returning ? .42 : .58), complete);
+          stage(edge, edge, 0, 1, duration * .5, complete);
         });
       },
       shuffleCards: (exchange: () => void, complete: () => void) => {

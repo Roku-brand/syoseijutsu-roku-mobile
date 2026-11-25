@@ -300,7 +300,8 @@ test('縦スクロールが止まっても、手前のカードの保存マー�
         node.scrollTop = start + (y - start) * frame / 6;
       }
     }, top);
-    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(top);
+    // Some browsers report -0 at the top of a reversed scroll container.
+    await expect.poll(() => scroll.evaluate((node, target) => Math.abs(node.scrollTop - target), top)).toBeLessThan(0.01);
     const rendered = await diamond.screenshot({ scale: 'css' });
     const { data, info: { channels } } = await sharp(rendered).removeAlpha().raw().toBuffer({ resolveWithObject: true });
     let goldPixels = 0;

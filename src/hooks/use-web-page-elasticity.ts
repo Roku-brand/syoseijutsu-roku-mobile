@@ -152,6 +152,7 @@ export function useWebPageElasticity(
       distance = 0;
     };
     const move = (event: TouchEvent) => {
+      if (event.defaultPrevented) { clearTouch(); return; }
       const finger = event.touches[0];
       if (!touch || event.touches.length !== 1 || touch.id !== finger.identifier) return;
       const dy = finger.clientY - touch.y;
