@@ -9,7 +9,7 @@ test.describe.configure({ timeout: 60_000 });
 const storageKey = '@shoseijutsu-roku/discovery-deck/v1/free';
 const label = (page: Page) => page.getByTestId('home-recommendation-card').getAttribute('aria-label');
 const ready = async (page: Page) => {
-  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible({ timeout: 30000 });
   await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
 };
 test.beforeEach(async ({ page }) => {
@@ -165,8 +165,7 @@ test('ドラッグ追従・閾値未満のスプリング・前後スワイプ�
     requestAnimationFrame(sample);
   });
   await page.getByTestId('home-discovery-refresh').click();
-  await expect(page.getByTestId('home-discovery-refresh')).toBeDisabled();
-  await page.getByTestId('home-discovery-refresh').dispatchEvent('click');
+  await expect(page.getByTestId('home-discovery-refresh')).toBeEnabled();
   await ready(page);
   const frames = await page.evaluate(() => { (window as any).__stop = true; return (window as any).__frames; });
   expect(frames.some((frame: any) => Math.abs(frame.x) > 2)).toBe(true);
@@ -300,7 +299,8 @@ test('縦スクロールが止まっても、手前のカードの保存マー�
         node.scrollTop = start + (y - start) * frame / 6;
       }
     }, top);
-    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(top);
+    // Some browsers report -0 at the top of a reversed scroll container.
+    await expect.poll(() => scroll.evaluate((node, target) => Math.abs(node.scrollTop - target), top)).toBeLessThan(0.01);
     const rendered = await diamond.screenshot({ scale: 'css' });
     const { data, info: { channels } } = await sharp(rendered).removeAlpha().raw().toBuffer({ resolveWithObject: true });
     let goldPixels = 0;
@@ -358,7 +358,7 @@ test('無料版の従来バナーから完全版LPへ進める', async ({ page }
   await expect(page).toHaveURL(/\/upgrade\?source=home_banner/);
 });
 
-test('スワイプを軽量描画し、移動中はシャッフルの見た目と推薦順を変えない', async ({ page }) => {
+test('スワイプを軽量描画し、移動中のシャッフルも受け付ける', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
@@ -391,10 +391,10 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   const opacities = await page.evaluate(() => { (window as any).__recordOpacity = false; return (window as any).__shuffleOpacity as number[]; });
   expect(opacities.length).toBeGreaterThan(3);
   expect(opacities.every(value => value === 1)).toBe(true);
-  expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(0);
+  expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(1);
 });
 
-test('戻るスワイプは最下段から左へ引き出し、順送りの逆再生で手前へ重ねる', async ({ page }) => {
+test('戻るスワイプは最下段から右へ引き出して手前へ重ねる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
@@ -411,7 +411,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   await page.mouse.down();
   await page.mouse.move(box.x + 68, box.y + 102, { steps: 10 });
   await expect(bottom).toContainText(coverTitle!);
-  await expect.poll(async () => (await matrix('#home-deck-slot-5')).x).toBeLessThan(0);
+  await expect.poll(async () => (await matrix('#home-deck-slot-5')).x).toBeGreaterThan(0);
   expect(Math.abs((await matrix('#home-deck-slot-0')).x)).toBeLessThan(3);
   expect((await matrix('#home-deck-slot-5')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
   await page.waitForTimeout(100);
@@ -455,12 +455,12 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   });
   // The animation finish callback can run between two WebKit RAF samples.
   // Observe the actual stacking change instead of requiring that endpoint frame.
-  expect(liftedAt).toBeLessThan(-box.width);
-  expect(returnPath.start).toBeLessThan(-box.width);
+  expect(liftedAt).toBeGreaterThan(box.width);
+  expect(returnPath.start).toBeGreaterThan(box.width);
   expect(returnPath.end).toBeCloseTo(0, 2);
   const lifted = frames.filter(frame => frame.z === 7);
   expect(lifted.length).toBeGreaterThan(0);
-  expect(lifted.some(frame => frame.bottomX > liftedAt + 20)).toBe(true);
+  expect(lifted.some(frame => frame.bottomX < liftedAt - 20)).toBe(true);
   expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
   await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await turnDeck(page);

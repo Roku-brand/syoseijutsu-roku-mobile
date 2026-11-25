@@ -12,7 +12,7 @@ import { personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-rout
 import { useHomeDiscovery, type HomeDeckCard, type HomeDeckCover } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
-import type { RequestScrollRefresh, ScrollRefreshTask } from '@/hooks/use-web-page-elasticity';
+import type { ScrollRefreshTask } from '@/hooks/use-web-page-elasticity';
 import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { deckPose, deckReturnEdge, deckShuffleFrames, HOME_DECK_SIZE, HOME_DECK_LAST } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
@@ -55,7 +55,7 @@ function coverSummary({ group }: HomeDeckCover) {
   return getPersonaPresentation(group.name)?.subtitle || 'この人物像につながる、5つの処世術。';
 }
 
-export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard, refreshRef, requestRefresh }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void; refreshRef?: Ref<ScrollRefreshTask>; requestRefresh: RequestScrollRefresh }) {
+export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard, refreshRef }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void; refreshRef?: Ref<ScrollRefreshTask> }) {
   const deck = useHomeDiscovery();
   const { desktop, width: viewportWidth } = useResponsiveLayout();
   const { fontScale } = useWindowDimensions();
@@ -90,6 +90,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     return Math.max(baseCardHeight, otherContent + Math.ceil(tallest * fontScale) + Math.ceil(Math.max(0, fontScale - 1) * 117));
   }, [baseCardHeight, cardWidth, deck.items, desktop, fontScale, fontRevision, night]);
   const root = useRef<View>(null);
+  const stage = useRef<View>(null);
   const router = useRouter();
   const reduced = useReducedMotion();
   const [phase, setPhase] = useState<'idle' | 'moving' | 'shuffle'>('idle');
@@ -110,7 +111,11 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
   const lastDrag = useRef(0);
   const lastMotion = useRef(0);
   const gestureStartX = useRef(0);
+  const gestureAxis = useRef<'undecided' | 'horizontal' | 'vertical'>('undecided');
   const shuffleCompletion = useRef<(() => void) | undefined>(undefined);
+  const queuedShuffle = useRef(false);
+  const phaseRef = useRef(phase);
+  phaseRef.current = phase;
   const animation = useRef<Animated.CompositeAnimation | null>(null);
   const finish = useRef<(() => void) | null>(null);
   const latest = useRef({ deck, reduced, cardWidth });
@@ -125,10 +130,11 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     return () => cancelAnimationFrame(frame);
   }, [deck.loading, !!current]);
   const returning = direction > 0;
-  const reset = () => { webMotion?.reset(); spin.stopAnimation(); spin.setValue(0); x.setValue(0); lift.setValue(0); mix.setValue(0); dragDistance.current = 0; locked.current = false; dragged.current = false; finish.current = null; setPendingFilter(null); setReturnRaised(false); setDirection(-1); setPhase('idle');
+  const reset = () => { webMotion?.reset(); spin.stopAnimation(); spin.setValue(0); x.setValue(0); lift.setValue(0); mix.setValue(0); dragDistance.current = 0; locked.current = false; dragged.current = false; finish.current = null; phaseRef.current = 'idle'; setPendingFilter(null); setReturnRaised(false); setDirection(-1); setPhase('idle');
     shuffleCompletion.current?.();
     shuffleCompletion.current = undefined;
-    if (queuedMoves.current.length) queuedFrame.current = requestAnimationFrame(() => { queuedFrame.current = null; const step = queuedMoves.current.shift(); if (step) navigation.current(step); });
+    if (queuedShuffle.current) { queuedShuffle.current = false; queuedFrame.current = requestAnimationFrame(() => { queuedFrame.current = null; shuffleRef.current(); }); }
+    else if (queuedMoves.current.length) queuedFrame.current = requestAnimationFrame(() => { queuedFrame.current = null; const step = queuedMoves.current.shift(); if (step) navigation.current(step); });
   };
   useLayoutEffect(() => { if (phase === 'moving') reset(); }, [deck.position]);
   useEffect(() => () => { finish.current = null; animation.current?.stop(); spin.stopAnimation(); shuffleCompletion.current?.(); if (queuedFrame.current !== null) cancelAnimationFrame(queuedFrame.current); queuedMoves.current = []; }, []);
@@ -159,50 +165,85 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     dragged.current = true;
     lastDrag.current = Date.now();
     setDirection(step > 0 ? -1 : 1);
+    phaseRef.current = 'moving';
     setPhase('moving');
     const complete = () => info.deck.move(step);
     finish.current = complete;
     if (info.reduced) { complete(); return; }
-    const duration = Math.max(300, 370 - Math.abs(velocity) * 28);
+    const duration = Math.max(260, 330 - Math.abs(velocity) * 28);
     if (webMotion) { webMotion.cycleCard(step < 0, duration, () => { finish.current = null; complete(); }); return; }
     const edge = deckReturnEdge(info.cardWidth) * (step < 0 ? 1 : -1);
-    animation.current = Animated.timing(x, { toValue: edge, duration: Math.max(50, duration * (step < 0 ? .58 : .42) * (1 - Math.min(1, Math.abs(dragDistance.current / edge)))), easing: Easing.out(Easing.cubic), useNativeDriver: true });
+    animation.current = Animated.timing(x, { toValue: edge, duration: Math.max(50, duration * .5 * (1 - Math.min(1, Math.abs(dragDistance.current / edge)))), easing: Easing.out(Easing.cubic), useNativeDriver: true });
     animation.current.start(({ finished }) => {
       if (!finished) return;
       // Only change stacking after the moving card has cleared the deck.
       setReturnRaised(true);
-      animation.current = Animated.timing(lift, { toValue: 1, duration: duration * (step < 0 ? .42 : .58), easing: Easing.out(Easing.cubic), useNativeDriver: true });
+      animation.current = Animated.timing(lift, { toValue: 1, duration: duration * .5, easing: Easing.out(Easing.cubic), useNativeDriver: true });
       animation.current.start(({ finished: done }) => { if (done) { finish.current = null; complete(); } });
     });
   };
   const navigation = useRef(navigate);
   navigation.current = navigate;
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const node = stage.current as unknown as HTMLElement | null;
+    if (!node) return;
+    let touch: { id: number; x: number; y: number } | null = null;
+    const start = (event: TouchEvent) => {
+      if (event.touches.length !== 1) { touch = null; return; }
+      const finger = event.touches[0];
+      touch = { id: finger.identifier, x: finger.clientX, y: finger.clientY };
+      gestureAxis.current = 'undecided';
+    };
+    const move = (event: TouchEvent) => {
+      if (!touch || event.touches.length !== 1 || event.touches[0].identifier !== touch.id) return;
+      const dx = Math.abs(event.touches[0].clientX - touch.x);
+      const dy = Math.abs(event.touches[0].clientY - touch.y);
+      if (gestureAxis.current === 'undecided' && Math.max(dx, dy) >= 8) {
+        if (dx > dy * 1.25) gestureAxis.current = 'horizontal';
+        else if (dy > dx * 1.25) gestureAxis.current = 'vertical';
+      }
+      if (gestureAxis.current === 'horizontal' && event.cancelable) event.preventDefault();
+    };
+    const end = () => { touch = null; };
+    node.addEventListener('touchstart', start, { passive: true, capture: true });
+    node.addEventListener('touchmove', move, { passive: false, capture: true });
+    node.addEventListener('touchend', end, true);
+    node.addEventListener('touchcancel', end, true);
+    return () => { node.removeEventListener('touchstart', start, true); node.removeEventListener('touchmove', move, true); node.removeEventListener('touchend', end, true); node.removeEventListener('touchcancel', end, true); };
+  }, []);
   const responder = useRef(PanResponder.create({
     // x0 is populated on grant, after the responder decision. Record touch-down
     // separately so excluding the browser edge never disables ordinary drags.
     onStartShouldSetPanResponderCapture: event => {
       gestureStartX.current = event.nativeEvent.pageX;
+      gestureAxis.current = 'undecided';
       return false;
     },
     onMoveShouldSetPanResponder: (_, gesture) => {
       if (locked.current || latest.current.deck.loading || latest.current.deck.error || gesture.numberActiveTouches > 1 || gestureStartX.current <= 22) return false;
-      return Math.abs(gesture.dx) > 9 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35;
+      if (gestureAxis.current === 'undecided' && Math.max(Math.abs(gesture.dx), Math.abs(gesture.dy)) >= 8) {
+        if (Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.25) gestureAxis.current = 'horizontal';
+        else if (Math.abs(gesture.dy) > Math.abs(gesture.dx) * 1.25) gestureAxis.current = 'vertical';
+      }
+      return gestureAxis.current === 'horizontal';
     },
     onPanResponderGrant: () => { dragged.current = true; webMotion?.stop(); x.stopAnimation(); },
     onPanResponderMove: (_, gesture) => {
       if (locked.current) return;
       lastMotion.current = Date.now();
-      setDirection(gesture.dx < 0 ? -1 : 1);
-      const displacement = gesture.dx;
+      const displacement = gesture.moveX - gestureStartX.current;
+      setDirection(displacement < 0 ? -1 : 1);
       dragDistance.current = displacement;
-      if (webMotion) webMotion.drag(displacement, gesture.dx > 0); else x.setValue(displacement);
+      if (webMotion) webMotion.drag(displacement, displacement > 0); else x.setValue(displacement);
     },
     onPanResponderRelease: (_, gesture) => {
       lastDrag.current = Date.now();
       // PanResponder retains the last sampled velocity while the finger rests.
       const velocity = Date.now() - lastMotion.current < 80 ? gesture.vx : 0;
-      if (Math.abs(gesture.dx) > latest.current.cardWidth * 0.24 || (Math.abs(velocity) > 0.55 && Math.abs(gesture.dx) > 20)) {
-        const step = gesture.dx < 0 ? 1 : -1;
+      const displacement = dragDistance.current;
+      if (Math.abs(displacement) >= latest.current.cardWidth * 0.18 || (Math.abs(velocity) > 0.5 && Math.abs(displacement) >= 12)) {
+        const step = displacement < 0 ? 1 : -1;
         navigation.current(step, velocity);
         return;
       }
@@ -220,12 +261,22 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     onPanResponderTerminationRequest: () => !locked.current,
   })).current;
   const shuffle = (filter?: DiscoveryFilter) => {
-    if (locked.current || dragged.current || deck.loading || (deck.error && !filter)) return;
+    if (deck.loading || (deck.error && !filter)) return;
+    if (locked.current && phaseRef.current === 'shuffle') { if (!filter) queuedShuffle.current = true; return; }
+    if (locked.current || dragged.current) {
+      queuedMoves.current = [];
+      if (queuedFrame.current !== null) { cancelAnimationFrame(queuedFrame.current); queuedFrame.current = null; }
+      finish.current = null;
+      animation.current?.stop();
+      webMotion?.stop();
+      reset();
+    }
     return new Promise<void>(onComplete => {
       locked.current = true;
       shuffleCompletion.current = onComplete;
       if (filter) setPendingFilter(filter);
       else void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+      phaseRef.current = 'shuffle';
       setPhase('shuffle');
       spin.setValue(0);
       if (!reduced) Animated.timing(spin, { toValue: 1, duration: 1160, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
@@ -244,6 +295,8 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
       });
     });
   };
+  const shuffleRef = useRef(shuffle);
+  shuffleRef.current = shuffle;
   useImperativeHandle(refreshRef, () => shuffle);
   const open = () => {
     if (!current || locked.current || dragged.current || Date.now() - lastDrag.current < 350) return;
@@ -271,12 +324,12 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading, night && styles.nightHeading]}>
       <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text></View>
-      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading} dimWhenDisabled={deck.loading} onChange={filter => requestRefresh(() => shuffle(filter))} />
-      <DiscoveryActionButton testID="home-discovery-refresh" label="シャッフル" disabled={busy || deck.loading || deck.error} dimWhenDisabled={deck.loading || deck.error} onPress={() => requestRefresh()} color={discoveryFilterColor(selectedFilter)}
+      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading} dimWhenDisabled={deck.loading} onChange={filter => { void shuffle(filter); }} />
+      <DiscoveryActionButton testID="home-discovery-refresh" label="シャッフル" disabled={deck.loading || deck.error} dimWhenDisabled={deck.loading || deck.error} onPress={() => { void shuffle(); }} color={discoveryFilterColor(selectedFilter)}
         icon={<Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><DiscoveryControlIcon name="refresh" color={colors.white} /></Animated.View>} />
       </View>
     </View>
-    <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 30 }]}>
+    <View ref={stage} testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 30 }]}>
       {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>この種類のデッキを用意できませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
           const front = depth === 0;

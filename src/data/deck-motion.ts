@@ -17,9 +17,10 @@ const lerp = (a: number, b: number, amount: number) => a + (b - a) * amount;
 export function deckPose(depth: number, x: number, width: number, reverse = false, lift = 0): { x: number; y: number; angle: number; scale: number; opacity: number } {
   if (reverse) {
     const pull = Math.max(0, Math.min(1, x / deckReturnEdge(width)));
-    // Same physical card, same left-hand path, with forward time reversed.
-    // A rightward gesture controls the rewind, rather than mirroring its path.
-    return deckPose(depth === HOME_DECK_LAST ? 0 : depth + 1, -deckReturnEdge(width) * (1 - lift), width, false, 1 - pull);
+    const pose = deckPose(depth === HOME_DECK_LAST ? 0 : depth + 1, -deckReturnEdge(width) * (1 - lift), width, false, 1 - pull);
+    // The returning bottom card follows the finger to the right, then settles
+    // over the front. The other cards retain the existing stack geometry.
+    return depth === HOME_DECK_LAST ? { ...pose, x: pose.x + 2 * deckReturnEdge(width) * pull * (1 - lift) } : pose;
   }
   const pull = Math.max(0, Math.min(1, -x / deckReturnEdge(width)));
   if (!depth) return {

@@ -94,6 +94,7 @@ for(const kind of ['technique','theory'])test(`${kind} footer turns pages, retai
 
 test('small learning rows wrap and settings remains distinct from MyPage',async({page})=>{
  await page.setViewportSize({width:320,height:568});await page.goto('/learn');
+ await page.getByTestId('learning-stage-toggle-1').click();
  // Inspect every visible case row rather than relying on one editorial title.
  const rows=page.getByTestId('learning-stage-1').getByRole('button',{name:/を開く$/});
  await rows.first().scrollIntoViewIfNeeded();

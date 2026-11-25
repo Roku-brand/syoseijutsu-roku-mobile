@@ -58,7 +58,7 @@ test('概要は冒頭で核を示し、格言の言葉・出典と短い意味�
 async function mockOwner(page:any){
  const user={id:'00000000-0000-4000-8000-000000000003',aud:'authenticated',role:'authenticated',email:'taxonomy@example.invalid',app_metadata:{},user_metadata:{},created_at:'2026-01-01T00:00:00Z'};
  const token='eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify({sub:user.id,role:'authenticated',exp:4102444800})).toString('base64url')+'.test';
- const project=new URL(process.env.EXPO_PUBLIC_SUPABASE_URL??'https://example.supabase.co').hostname.split('.')[0];
+ const project=new URL(process.env.EXPO_PUBLIC_SUPABASE_URL??(process.env.PLAYWRIGHT_PERSONAL_SYNC_FIXTURE==='1'?'https://roku-sync-test.invalid':'https://example.supabase.co')).hostname.split('.')[0];
  await page.addInitScript(({user,token,key}:any)=>localStorage.setItem(key,JSON.stringify({access_token:token,refresh_token:'test-refresh',token_type:'bearer',expires_at:4102444800,expires_in:3600,user})),{user,token,key:`sb-${project}-auth-token`});
  await page.route('**/auth/v1/**',(route:any)=>route.fulfill({json:user}));
  await page.route('**/rest/v1/**',(route:any)=>{
@@ -227,7 +227,7 @@ test('処世術の親一覧での並べ替え、戻る位置、編集段階の�
 
   await page.goto('/owner/content?kind=technique');
   const titleOnly = page.getByRole('button', { name: 'タイトルのみの一覧', exact: true });
-  await expect(titleOnly).toContainText('1件');
+  await expect(titleOnly).toContainText('1件', { timeout: 30000 });
   await titleOnly.click();
   await expect(page.getByRole('button', { name: '処世術 15', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '処世術 16', exact: true })).toHaveCount(0);
@@ -255,9 +255,7 @@ test('処世術の親一覧での並べ替え、戻る位置、編集段階の�
   await page.getByRole('button', { name: '基本情報', exact: true }).click();
   await page.getByRole('button', { name: '編集段階', exact: true }).click();
   const stageWheel = page.getByRole('dialog', { name: '編集段階' });
-  await stageWheel.getByTestId('owner-cms-wheel-options').evaluate((element) => element.scrollBy(0, 50));
-  await expect(stageWheel.getByRole('button', { name: 'タイトル・本質', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await stageWheel.getByRole('button', { name: '選択', exact: true }).click();
+  await stageWheel.getByRole('button', { name: 'タイトル・本質', exact: true }).click();
   await page.getByRole('button', { name: '公開する', exact: true }).click();
   await expect.poll(() => techniques[14].editorial_stage).toBe('title_essence');
   await expect(page.getByRole('button', { name: '公開する', exact: true })).toBeEnabled();

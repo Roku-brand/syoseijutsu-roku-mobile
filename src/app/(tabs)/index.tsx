@@ -48,7 +48,7 @@ export default function HomeScreen() {
       <View testID="home-recommendations-section" style={styles.discovery}>
         <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />
         <View style={styles.deckContent}>
-        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} refreshRef={refreshDeck} requestRefresh={requestRefresh} night />
+        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} refreshRef={refreshDeck} night />
         {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
         </View>
       </View>

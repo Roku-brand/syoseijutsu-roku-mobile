@@ -57,7 +57,7 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
   });
 }
 
-test('theme follows selection immediately; shuffle excludes the old hand and rejects repeated input', async ({ page }) => {
+test('theme follows selection immediately; shuffle excludes the old hand', async ({ page }) => {
   test.setTimeout(60_000);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -77,8 +77,8 @@ test('theme follows selection immediately; shuffle excludes the old hand and rej
     await expect(shuffle).toHaveCSS('background-color', color);
     await ready(page);
     const old = await state(page);
-    await shuffle.evaluate((node: HTMLElement) => { node.click(); node.click(); node.click(); });
-    await expect(shuffle).toBeDisabled();
+    await shuffle.click();
+    await expect(shuffle).toBeEnabled();
     await expect(filter).toBeDisabled();
     await ready(page);
     const updated = await state(page);

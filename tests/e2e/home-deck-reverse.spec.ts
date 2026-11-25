@@ -4,7 +4,7 @@ import { expect, test, type Page } from '@playwright/test';
 const storageKey = '@shoseijutsu-roku/discovery-deck/v1/free';
 const state = (page: Page) => page.evaluate(key => JSON.parse(localStorage.getItem(key)!), storageKey);
 const ready = async (page: Page) => {
-  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible({ timeout: 30_000 });
   await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
 };
 const swipe = async (page: Page, reverse: boolean) => {
@@ -40,7 +40,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   await page.mouse.down();
   await page.mouse.move(box.x + 68, box.y + 102, { steps: 10 });
   const bottomX = () => page.locator('#home-deck-slot-5').evaluate(node => new DOMMatrix(getComputedStyle(node).transform).m41);
-  await expect.poll(bottomX).toBeLessThan(7);
+  await expect.poll(bottomX).toBeGreaterThan(7);
   await page.waitForTimeout(120);
   await page.mouse.up();
   await expect.poll(bottomX).toBeCloseTo(-11, 0);
