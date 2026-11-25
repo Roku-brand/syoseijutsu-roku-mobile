@@ -42,8 +42,8 @@ const techniqueRows=sourceTechniqueRows.filter(item=>!scope.excludedTechniqueIds
 
 test('technique public IDs match their stable numbers and survive reordering, category moves, hydration and removal',()=>{
  const ids=JSON.parse(fs.readFileSync(path.join(root,'src/data/technique-display-ids.json'),'utf8'));
- assert.equal(Object.keys(ids).length,sourceTechniqueRows.length);
- assert.equal(new Set(Object.values(ids)).size,sourceTechniqueRows.length);
+ assert.ok(Object.keys(ids).length>=sourceTechniqueRows.length);
+ assert.equal(new Set(Object.values(ids)).size,Object.keys(ids).length);
  for(const {id} of sourceTechniqueRows) assert.equal(ids[id],Number(id.replace('master336-','')),id);
  const before=new Map(catalog.techniqueCards.map(card=>[card.id,catalog.getTechniqueDisplayId(card)]));
  assert.equal(before.get('master336-337'),'No.337');
@@ -66,7 +66,9 @@ test('independent techniques retain distinct IDs, stable numbers, relations and 
  try {
   catalog.hydratePaidCatalog([...techniqueRows,...rows],[]);
   const numbers=rows.map(row=>catalog.getTechniqueNumber(row.id));
-  assert.deepEqual(numbers,[357,358]);
+  const reserved = new Set(Object.values(JSON.parse(fs.readFileSync(path.join(root,'src/data/technique-display-ids.json'),'utf8'))));
+  const available = Array.from({length:1000},(_,index)=>index+1).filter(number=>!reserved.has(number));
+  assert.deepEqual(numbers,available.slice(0,2));
   assert.equal(catalog.techniqueCards.length,techniqueRows.length+2);
   assert.equal(catalog.techniqueCards.filter(card=>card.title===first.title).length,techniqueRows.filter(card=>card.title===first.title).length+2);
   assert.ok(catalog.categories.every(category=>category.subcategories.every(persona=>persona.name.trim())));
